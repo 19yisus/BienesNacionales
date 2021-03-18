@@ -203,8 +203,8 @@ $(document).ready(() => {
       },
       Tel: {
         required: true,
-        minlength: 14,
-        maxlength: 14,
+        minlength: 13,
+        maxlength: 13,
       },
       Cargo: {
         required: true,
@@ -297,8 +297,8 @@ $(document).ready(() => {
       },
       Tel: {
         required: true,
-        minlength: 15,
-        maxlength: 15,
+        minlength: 13,
+        maxlength: 13,
         valida_telefono: true,
       },
       Cargo: {

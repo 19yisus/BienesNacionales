@@ -57,18 +57,21 @@
 
     private function validaFailsPassword(){
       if(isset($_COOKIE["failPassword"])){
-        error_log("Hay cookie ".$_COOKIE['failPassword']);
+        
         if($_COOKIE['failPassword'] <= 2){
           $fail = $_COOKIE["failPassword"]; 
-          $n = (1 - $fail);  
           setcookie("failPassword",$fail+1, time() + 3600);
-          error_log("Nueva cookie ".$_COOKIE['failPassword']);
+          $fail = $_COOKIE["failPassword"]; 
+          error_log("Cookie => $fail");
+          $n = (1 - $fail);  
+          
         }        
         
         if($_COOKIE["failPassword"] == 2){
           error_log("Es iguala 3 ".$_COOKIE['failPassword']);
           setcookie("failPassword", '', time() - 3600);
-          $this->Query("UPDATE usuarios SET user_estado = false where user_cedula = $this->user_cedula AND user_role_id != 4;");
+          $this->Query("UPDATE usuarios SET user_estado = false where user_cedula = $this->user_cedula ;");
+          /*AND user_role_id != 4*/
           $this->view->Redirect("Login?m=5");
         }else{
           error_log("No es iguala 3 ".$_COOKIE['failPassword']);

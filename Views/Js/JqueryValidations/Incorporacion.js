@@ -112,9 +112,13 @@ $(document).ready( ()=>{
       orden:{
       	number: true,
       	required: true,
+        minlength: 8,
+        maxlength: 10,
       },
       Obser:{
       	required: true,
+        minlength: 10,
+        maxlength: 150,
       	validarBienes: true,
       },
     },
@@ -133,10 +137,14 @@ $(document).ready( ()=>{
       },
       orden:{
       	number: "Solo se aceptan numeros",
+        minlength: "Minimo 8 caracteres numericos",
+        maxlength: "Maximo 10 caracteres numericos",
       	required: "Este campo es requerido",
       },
       Obser:{
       	required: "Debe de ingresar una obervacion",
+        minlength: "Debe de ingresar minimo 10 caracteres",
+        maxlength: "Maximo de 150 caracteres",
       },
     },
   });
@@ -149,7 +157,6 @@ $(document).ready( ()=>{
         if (response1) {
           POST(response1[0], response1[1]).then((res) => {
             if (res.status == 200) {
-              // $('#formulario').reset();
               reloadCatalogo();
             }
           });

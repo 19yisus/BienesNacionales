@@ -57,8 +57,9 @@ $(document).ready( ()=>{
       $('#tabla').show('slow');
       $('#listar').attr('disabled',false);
       let catalogo = $('#CatalogoBienes').DataTable();
+      $('#Transaccion_bienes').DataTable().ajax.reload(null,false);
       catalogo.ajax.url(`${host_url}/TransaccionController/BienesIncorporados/${e.target.value}`).load();
-      // $('#Dep').attr('readonly',true);
+      
       $('#origen').attr('disabled',false);
       $('#orden').attr('disabled',false);
       $('#Obser').attr('readonly',false);
@@ -127,12 +128,16 @@ $(document).ready( ()=>{
       	required: true
       },
       orden:{
-      	number: true,
-      	required: true,
+        number: true,
+        required: true,
+        minlength: 8,
+        maxlength: 10,
       },
       Obser:{
-      	required: true,
-      	validarBienes: true,
+        required: true,
+        minlength: 10,
+        maxlength: 150,
+        validarBienes: true,
       },
     },
     messages: {
@@ -146,14 +151,18 @@ $(document).ready( ()=>{
       	maxlength: "Maximo 10 caracteres numericos",
       },
       Dep:{
-      	required: "Debe de seleccionar la dependencia destino"
+      	required: "Debe de seleccionar la dependencia donde se encuentran los bienes"
       },
       orden:{
-      	number: "Solo se aceptan numeros",
-      	required: "Este campo es requerido",
+        number: "Solo se aceptan numeros",
+        minlength: "Minimo 8 caracteres numericos",
+        maxlength: "Maximo 10 caracteres numericos",
+        required: "Este campo es requerido",
       },
       Obser:{
-      	required: "Debe de ingresar una obervacion",
+        required: "Debe de ingresar una obervacion",
+        minlength: "Debe de ingresar minimo 10 caracteres",
+        maxlength: "Maximo de 150 caracteres",
       },
     },
   });

@@ -47,7 +47,7 @@
                     </div>
                     <div class="form-group col">
                       <label for="">Observacion </label>
-                      <textarea name="Obser" id="Obser" cols="30" rows="1" maxlength="150" minlength="10" class="form-control" placeholder="Direccion" style="text-transform: uppercase;" required></textarea>
+                      <textarea name="Obser" id="Obser" cols="30" rows="1" maxlength="150" minlength="10" class="form-control" placeholder="Observacion" style="text-transform: uppercase;" required></textarea>
                     </div>
                     <span id="inputs"></span>
                   </div>
@@ -107,7 +107,7 @@
       </div>
       <div class="card-body">
         <div class="table-responsive mx-auto">
-          <table id="CatalogoBienes" class="table table-bordered display rowrap table-sm table-hover table-striped rounded-sm" cellspacing="0" style="width: 100%;">
+          <table id="CatalogoBienes" class="table table-bordered display rowrap table-sm table-hover table-striped rounded-sm catalogo-table" cellspacing="0" style="width: 100%;">
             <thead class="thead-dark">
               <tr>
                 <th scope="col">#</th>

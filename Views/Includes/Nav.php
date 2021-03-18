@@ -157,17 +157,17 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="Reasignacion" class="nav-link active">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Reasignacion</p>
-                  </a>
-  			        </li>
-                <li class="nav-item">
                   <a href="<?php echo constant('URL');?>Transaccion/Desincorporacion/Vis_Index" class="nav-link active">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Desincorporacion</p>
                   </a>
                 </li>
+                <li class="nav-item">
+                  <a href="Reasignacion" class="nav-link active">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Reasignacion</p>
+                  </a>
+  			        </li>
               </ul>
             </li>
           <?php }?>

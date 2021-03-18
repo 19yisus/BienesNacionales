@@ -25,9 +25,6 @@
 			foreach($bien as $key){
 				error_log("BIENE INCORPORADO: $key");
 			}
-
-			error_log("Factura => $this->Factura");
-			error_log("Orden => $this->orden");
 		}
 
 		public function Incorporar(){

@@ -41,7 +41,7 @@
                   <div class="row">
                     <div class="form-group col">
                       <label for="">Observacion </label>
-                      <textarea name="Obser" id="Obser" cols="30" rows="1" maxlength="150" minlength="10" class="form-control" placeholder="Direccion" style="text-transform: uppercase;" required readonly></textarea>
+                      <textarea name="Obser" id="Obser" cols="30" rows="1" maxlength="150" minlength="10" class="form-control" placeholder="Observacion" style="text-transform: uppercase;" required readonly></textarea>
                     </div>
                     <span id="inputs"></span>
                   </div>
@@ -70,7 +70,7 @@
                     <div class="col-md-12 text-center">
                       <div class="btn-group ">
                         <button type="button" id="Desincorporar" data-formulario="formulario" value="Insert" class="btn btn-success" title="Guardar">
-                          <i class="fas fa-save"></i> Registrar
+                          <i class="fas fa-save"></i> Desincorporar
                         </button>
                         <button type="reset" class="btn btn-danger">Limpiar</button>
                         <button type="button" class="btn btn-primary" id="listar" data-toggle="modal" data-target="#ModalBienes" title="Primero debe de seleccionar la Dependencia" disabled>

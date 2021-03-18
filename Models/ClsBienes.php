@@ -210,31 +210,40 @@
 				 * @return array si hay datos
 				 * @return boolean si no hay datos
 				 */
-				$con1 = $this->Query("SELECT * FROM movimientos WHERE mov_bien_cod = '$cod' ;")->fetch();
+				$con1 = $this->Query("SELECT mov_com_desincorporacion FROM movimientos WHERE mov_bien_cod = '$cod' ;")->fetch();
 				//OBSERVACION : MODIFICAR ESTO LUEGO
-				if(!$con1){
-					$con = $this->Query("SELECT bien_estado FROM bien WHERE bien_cod = '$cod' ;")->fetch();
+				
+				if(!$con1[0]){
 
-					if($con['bien_estado'] == 1){
-						$con2 = $this->Prepare("UPDATE bien SET bien_estado = '0' WHERE bien_cod = :cod;");
+					$con2 = $this->Query("SELECT mov_com_incorporacion FROM movimientos WHERE mov_bien_cod = '$cod';")->fetch();
+					
+					if(!$con2[0]){
+
+						$con = $this->Query("SELECT bien_estado FROM bien WHERE bien_cod = '$cod' ;")->fetch();
+
+						if($con['bien_estado'] == 1){
+							$con2 = $this->Prepare("UPDATE bien SET bien_estado = '0' WHERE bien_cod = :cod;");
+						}else{
+							$con2 = $this->Prepare("UPDATE bien SET bien_estado = '1' WHERE bien_cod = :cod;");
+						}
+
+						$con2 -> bindParam(":cod",   $cod);
+						$con2->execute();
+
+						if ($con2->rowCount() > 0){
+							return $this->MakeResponse(200, "Operacion Exitosa!");
+						}else{
+							return $this->MakeResponse(400, "Operacion Fallida!");
+						}
 					}else{
-						$con2 = $this->Prepare("UPDATE bien SET bien_estado = '1' WHERE bien_cod = :cod;");
-					}
-
-					$con2 -> bindParam(":cod",   $cod);
-					$con2->execute();
-
-					if ($con2->rowCount() > 0){
-						return $this->MakeResponse(200, "Operacion Exitosa!");
-					}else{
-						return $this->MakeResponse(400, "Operacion Fallida!");
+						return $this->MakeResponse(400, "Operacion Fallida!, El bien esta Incorporado!");
 					}
 				}else{
-					return $this->MakeResponse(400, "Operacion Fallida!, El bien ya esta en uso!");
+					return $this->MakeResponse(400, "Operacion Fallida!, El bien ya esta Desincorporado!");
 				}
 
 			}catch(PDOException $e){
-				error_log("Error en la consulta::models/ClsDependencias->Delete(), ERROR = ".$e->getMessage());
+				error_log("Error en la consulta::models/ClsBienes->Delete(), ERROR = ".$e->getMessage());
 				return $this->MakeResponse(400, "Error desconocido, Revisar php-error.log");
 			}
 		}
@@ -758,7 +767,7 @@
 													<th>Color</th>
 													<th>Serial</th>
 													<th>Catalogo</th>
-													<th>Materiales</th>
+													<th>Componentes</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -879,7 +888,7 @@
 													<th>Marca</th>
 													<th>Modelo</th>
 													<th>Anio</th>
-													<th>Materiales</th>
+													<th>Componentes</th>
 												</tr>
 											</thead>
 											<tbody>

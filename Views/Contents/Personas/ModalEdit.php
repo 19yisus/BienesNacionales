@@ -30,7 +30,7 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fas fa-phone"></i></span>
                 </div>
-                <input type="text" name="Tel" list="codigos_telefonicos" id="Tel_edit" maxlength="14" minlength="14" class="form-control" data-inputmask="&quot;mask&quot;: &quot;(999) 999-9999&quot;" title="Ingresar numero de telefono omitiendo el cero inicial" data-mask="" required>
+                <input type="text" name="Tel" list="codigos_telefonicos" pattern="[0-9-]{13}" id="Tel_edit" maxlength="13" minlength="13" class="form-control" data-inputmask="&quot;mask&quot;: &quot;999-999-9999&quot;" data-mask="" required>
                 <datalist id="codigos_telefonicos">
                   <option value="0424">0424</option>
                   <option value="0412">0412</option>
