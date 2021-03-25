@@ -101,7 +101,7 @@
 		 * Funcion Delete Para "eliminar" (cambiar el estado de activo a innactivo) en los registros
 		 * @return array
 		 */
-		public function Delete($cod){
+		public function Delete($cod, $fecha){
 
 			try{
 
@@ -117,9 +117,9 @@
 					$con1 = $this->Query("SELECT mar_estado FROM marcas WHERE mar_cod = '$cod';")->fetch();
 
 					if($con1['mar_estado'] == 1){
-						$con = $this->Prepare("UPDATE marcas SET mar_estado = '0' WHERE mar_cod = :cod;");
+						$con = $this->Prepare("UPDATE marcas SET mar_estado = '0', mar_fecha_desactivacion = '$fecha' WHERE mar_cod = :cod;");
 					}else{
-						$con = $this->Prepare("UPDATE marcas SET mar_estado = '1' WHERE mar_cod = :cod;");
+						$con = $this->Prepare("UPDATE marcas SET mar_estado = '1', mar_fecha_desactivacion = null WHERE mar_cod = :cod;");
 					}
 
 					$con -> bindParam(":cod",$cod);
@@ -150,7 +150,8 @@
 				$con1 = $this->Query("SELECT * FROM modelos WHERE mod_marca_cod = '$cod' ;")->fetch();
 
 				if(!$con1){
-					$con = $this->Prepare("DELETE FROM modelos WHERE mod_cod = :codigo ;");
+					
+					$con = $this->Prepare("DELETE FROM marcas WHERE mar_cod = :codigo ;");
 					$con -> bindParam(":codigo",$cod);
 					$con -> execute();
 
@@ -252,6 +253,7 @@
 
 				$con2 = $this->Query("SELECT COUNT(bien_cod) AS total FROM bien $InnerJoinBien WHERE marcas.mar_cod = '$cod' ;")
 					->fetch(PDO::FETCH_ASSOC);
+				$con3 = $this->Query("SELECT COUNT(mod_marca_cod) AS total FROM modelos WHERE modelos.mod_marca_cod = '$cod';")->fetch(PDO::FETCH_ASSOC);
 
 				if(sizeof($con) > 0){
 					$estado = ($con['mar_estado'] == 1) ? 'Activo' : 'Innactivo';
@@ -267,6 +269,7 @@
 													<th>ID</th>
 													<th>Nombre de la Especie</th>
 													<th>Nº bienes de esta Especie</th>
+													<th>Nº Razas de esta Especie</th>
 													<th>Estado</th>
 												</tr>
 											</thead>
@@ -275,6 +278,7 @@
 													<td>'.$con["mar_cod"].'</td>
 													<td>'.$con["mar_des"].'</td>
 													<td>'.$con2["total"].'</td>
+													<td>'.$con3["total"].'</td>
 													<td class="text-'.(($estado == "Activo") ? "success" : "danger").'" >'.$estado.'</td>
 												</tr>
 											</tbody>

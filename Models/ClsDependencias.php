@@ -115,7 +115,7 @@
 		 * Funcion Delete Para "eliminar" (cambiar el estado de activo a innactivo) en los registros
 		 * @return array
 		 */
-		public function Delete($cod){
+		public function Delete($cod, $fecha){
 
 			try{
 
@@ -147,7 +147,8 @@
 					
 						if($var3["nuc_estado"] == 1){
 							
-              $con3 = $this->Prepare("UPDATE dependencia SET dep_estado = '0' WHERE dep_cod = :cod");
+              $con3 = $this->Prepare("UPDATE dependencia SET dep_estado = '0', 
+			  dep_fecha_desactivacion = '$fecha' WHERE dep_cod = :cod");
 
 							$con3 -> bindParam(":cod",   $cod);
 							$con3 -> execute();
@@ -164,7 +165,8 @@
 					}else if($con2['dep_estado'] == 0){
 						
 						if($var3['nuc_estado'] == 1){
-              $con3 = $this->Prepare("UPDATE dependencia SET dep_estado = '1' WHERE dep_cod = :cod;");
+              $con3 = $this->Prepare("UPDATE dependencia SET dep_estado = '1',
+			  dep_fecha_desactivacion = null WHERE dep_cod = :cod;");
 							$con3 -> bindParam(":cod",   $cod);
 							$con3 -> execute();
 
@@ -195,7 +197,7 @@
 
 			try{
 				$con1 = $this->Query("SELECT * FROM personas WHERE per_dep_cod = '$cod' ;")->fetch();
-				$con2 = $this->Query("SELECT * FROM comprobante WHERE com_dep_user = '$cod' OR com_dep_ant = '$cod';")->fetch();
+				$con2 = $this->Query("SELECT * FROM comprobantes WHERE com_dep_user = '$cod' OR com_dep_ant = '$cod';")->fetch();
 
 				if(!$con1 && !$con2){
 					$con = $this->Prepare("DELETE FROM dependencia WHERE dep_cod = :codigo ;");

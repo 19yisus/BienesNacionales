@@ -191,7 +191,7 @@
 						return $this->MakeResponse(400, "Operacion Fallida!");
 					}
 				}else{
-					return $this->MakeResponse(400, "Operacion Fallida!, El bien ya esta en uso!");
+					return $this->MakeResponse(400, "Operacion Fallida!","El bien ya esta en uso!");
 				}
 
 			}catch(PDOException $e){
@@ -203,7 +203,7 @@
 		 * Funcion Delete Para "eliminar" (cambiar el estado de activo a innactivo) en los registros
 		 * @return array
 		 */
-		public function Delete($cod){
+		public function Delete($cod, $fecha){
 			try{
 				/**
 				 * Primero se comprueba si el bien esta en uso
@@ -222,9 +222,9 @@
 						$con = $this->Query("SELECT bien_estado FROM bien WHERE bien_cod = '$cod' ;")->fetch();
 
 						if($con['bien_estado'] == 1){
-							$con2 = $this->Prepare("UPDATE bien SET bien_estado = '0' WHERE bien_cod = :cod;");
+							$con2 = $this->Prepare("UPDATE bien SET bien_estado = '0', bien_fecha_desactivacion = '$fecha' WHERE bien_cod = :cod;");
 						}else{
-							$con2 = $this->Prepare("UPDATE bien SET bien_estado = '1' WHERE bien_cod = :cod;");
+							$con2 = $this->Prepare("UPDATE bien SET bien_estado = '1', bien_fecha_desactivacion = null WHERE bien_cod = :cod;");
 						}
 
 						$con2 -> bindParam(":cod",   $cod);
@@ -236,10 +236,10 @@
 							return $this->MakeResponse(400, "Operacion Fallida!");
 						}
 					}else{
-						return $this->MakeResponse(400, "Operacion Fallida!, El bien esta Incorporado!");
+						return $this->MakeResponse(400, "Operacion Fallida!","El bien esta Incorporado!");
 					}
 				}else{
-					return $this->MakeResponse(400, "Operacion Fallida!, El bien ya esta Desincorporado!");
+					return $this->MakeResponse(400, "Operacion Fallida!","El bien ya esta Desincorporado!");
 				}
 
 			}catch(PDOException $e){
@@ -335,7 +335,7 @@
 					);
 					return $this->MakeResponse(200, "Operacion Exitosa!", $Bien);
 				}else{
-					return $this->MakeResponse(400, "El codigo de la dependencia es invalido");
+					return $this->MakeResponse(400, "El codigo del bien es invalido");
 				}
 
 			}catch(PDOException $e){
@@ -540,46 +540,6 @@
 				return $this->MakeResponse(400, "Error desconocido, Revisar php-error.log");
 			}
 		}
-		/**
-		 * Funcion Pag para retornar el paginador creado a partir del modelo principal
-		 * (Esta funcion solo requiere un array con la informacion para realizar dichas consultas)
-		 * @return string html
-		 */
-		public function Pag($pagina){
-
-			$encabezados = ['Codigo','Descripcion','Categoria','Fecha de ingreso','Precio','Estado','Opciones'];
-			$columnas = [
-				'bien_cod',
-				'bien_estado',
-				'bien_des',
-				'cat_des',
-				'bien_fecha_ingreso',
-				'bien_precio'
-			];
-
-			$arreglo = [
-        'table' => 'bien',
-        'control' => 'BienesController',
-        'actual' => $pagina,
-        'columns' => $columnas,
-        'cantColumns' => 6,
-        'encabezado' => $encabezados,
-        'btnEdLegend' => 'Este Bien no puede ser modificado',
-        'extraQuery' => 'INNER JOIN clasificacion ON bien.bien_clasificacion_cod'.' = clasificacion.cla_cod
-						INNER JOIN categoria ON clasificacion.cla_cat_cod = categoria.cat_cod
-						LEFT JOIN movimientos ON movimientos.mov_bien_cod = bien.bien_cod',
-				'extraSelect' => '
-					bien.bien_cod,
-					bien.bien_des,
-					bien.bien_precio,
-					bien.bien_fecha_ingreso,
-					categoria.cat_des,
-					bien.bien_estado',
-        'sin' => ['']
-				];
-
-			return $this->paginador($arreglo);
-		}
 		public function All(){
 
 			try{
@@ -651,306 +611,7 @@
 				$con2 = $con2 -> fetch(PDO::FETCH_ASSOC);
 				// ./EXECUCION DE LA SEGUNDA CONSULTA
 
-				if($con){
-
-					// TERCERA CONSULTA
-					$con3 -> bindParam(":modelo",$con['bien_mod_cod']);
-					$con3 -> execute();
-					$con3 = $con3 -> fetch(PDO::FETCH_ASSOC);
-					// ./EXECUCION DE LA TERCERA CONSULTA
-
-
-					// CUARTA CONSULTA
-					$con4 -> bindParam(":cod_bien", $cod);
-					$con4 -> execute();
-					$con4 = $con4 -> fetch(PDO::FETCH_ASSOC);
-					// ./EXECUCION DE LA CUARTA CONSULTA
-
-
-					//VALIACION DE LA CANTIDAD DE BIENES MATERIALES ASIGNADOS A UN BIEN ELECTRONICO
-					if($con4['cantidad'] > 0){
-						$con5 -> bindParam("link",$cod);
-						$con5 -> execute();
-
-
-						$extra = '
-								<div class="card card-primary card-outline">
-									<div class="card-header">
-										<h3 class="card-title">Datos de los materiales asignados a este bien</h3>
-									</div>
-									<div class="card-body table-responsive p-0">
-										<table class="table table-sm">
-											<thead>
-												<tr>
-													<th>Codigo</th>
-													<th>descripcion</th>
-													<th>precio</th>
-													<th>categoria</th>
-													<th>serial</th>
-												</tr>
-											</thead>
-											<tbody>';
-
-
-						while($row = $con5 -> fetch(PDO::FETCH_ASSOC)){
-							$extra .= '
-												<tr>
-													<td>'.$row["bien_cod"].'</td>
-													<td>'.$row["bien_des"].'</td>
-													<td>'.$row["bien_precio"].'</td>
-													<td>'.$row["cat_des"].'</td>
-													<td>'.$row["bien_serial"].'</td>
-												</tr>
-											';
-						}
-
-						$extra .= '			</tbody>
-										</table>
-									</div>
-								</div>';
-
-					}else{
-						$extra = '';
-					}
-
-					//VALIDACIONES DE ESTADOS
-          $estado = ($con['bien_estado'] == 1) ? 'Activo' : 'Innactivo';
-
-					//VALIDACIONES DE MOVIMIENTOS DEL BIEN
-          $movimientos = (!$con2) ? 'No incorporado' : 'Incorporado';
-
-					$encabezados2 = '';
-
-					if($con['cat_cod'] == 'BS'){
-
-						$encabezados2 = '
-								<div class="card card-primary card-outline">
-									<div class="card-header">
-										<h3 class="card-title">Datos del Semoviente</h3>
-									</div>
-									<div class="card-body table-responsive p-0">
-										<table class="table table-sm">
-											<thead>
-												<tr>
-													<th>Especie</th>
-													<th>Raza</th>
-													<th>Sexo</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>'.$con3["mar_des"].'</td>
-													<td>'.$con3["mod_des"].'</td>
-													<td>'.$con["bien_sexo"].'</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>';
-
-					}else if($con['cat_cod'] == "EL"){
-						$con6 -> bindParam("codBien",$cod);
-						$con6 -> execute();
-						$con6 = $con6 -> fetch(PDO::FETCH_ASSOC);
-
-						$encabezados2 = '
-								<div class="card card-primary card-outline">
-									<div class="card-header">
-										<h3 class="card-title">Datos del bien</h3>
-									</div>
-									<div class="card-body table-responsive p-0">
-										<table class="table table-sm">
-											<thead>
-												<tr>
-													<th>Marca</th>
-													<th>Modelo</th>
-													<th>Color</th>
-													<th>Serial</th>
-													<th>Catalogo</th>
-													<th>Componentes</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>'.$con3["mar_des"].'</td>
-													<td>'.$con3["mod_des"].'</td>
-													<td>'.$con6["color_des"].'</td>
-													<td>'.$con["bien_serial"].'</td>
-													<td>'.$con["bien_catalogo"].'</td>
-													<td>'.$con4["cantidad"].'</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>'.$extra;
-
-					}else if($con['cat_cod'] == "IN"){
-
-						$encabezados2 = '
-								<div class="card card-primary card-outline">
-									<div class="card-header">
-										<h3 class="card-title">Datos del bien</h3>
-									</div>
-									<div class="card-body table-responsive p-0">
-										<table class="table table-sm">
-											<thead>
-												<tr>
-													<th>Descripcion del terreno</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>'.$con["bien_terreno"].'</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>';
-
-					}else if($con['cat_cod'] == "MA"){
-
-						$con6 -> bindParam("codBien",$cod);
-						$con6 -> execute();
-						$con6 = $con6 -> fetch(PDO::FETCH_ASSOC);
-
-						$encabezados2 = '
-								<div class="card card-primary card-outline">
-									<div class="card-header">
-										<h3 class="card-title">Datos del bien</h3>
-									</div>
-									<div class="card-body table-responsive p-0">
-										<table class="table table-sm">
-											<thead>
-												<tr>
-													<th>Marca</th>
-													<th>Modelo</th>
-													<th>Color</th>
-													<th>Serial</th>
-													<th>Catalogo</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>'.$con3["mar_des"].'</td>
-													<td>'.$con3["mod_des"].'</td>
-													<td>'.$con6["color_des"].'</td>
-													<td>'.$con["bien_serial"].'</td>
-													<td>'.$con["bien_catalogo"].'</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>';
-					}else if($con['cat_cod'] == "OF"){
-
-						$con6 -> bindParam("codBien",$cod);
-						$con6 -> execute();
-						$con6 = $con6 -> fetch(PDO::FETCH_ASSOC);
-
-						$encabezados2 = '
-								<div class="card card-primary card-outline">
-									<div class="card-header">
-										<h3 class="card-title">Datos del bien</h3>
-									</div>
-									<div class="card-body table-responsive p-0">
-										<table class="table table-sm">
-											<thead>
-												<tr>
-													<th>Marca</th>
-													<th>Modelo</th>
-													<th>Color</th>
-													<th>Catalogo</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>'.$con3["mar_des"].'</td>
-													<td>'.$con3["mod_des"].'</td>
-													<td>'.$con6["color_des"].'</td>
-													<td>'.$con["bien_catalogo"].'</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>';
-					}else if($con['cat_cod'] == "TP"){
-
-						$encabezados2 = '
-								<div class="card card-primary card-outline">
-									<div class="card-header">
-										<h3 class="card-title">Datos del bien</h3>
-									</div>
-									<div class="card-body table-responsive p-0">
-										<table class="table table-sm">
-											<thead>
-												<tr>
-													<th>Placa</th>
-													<th>Marca</th>
-													<th>Modelo</th>
-													<th>Anio</th>
-													<th>Componentes</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>'.$con["bien_placa"].'</td>
-													<td>'.$con3["mar_des"].'</td>
-													<td>'.$con3["mod_des"].'</td>
-													<td>'.$con["bien_anio"].'</td>
-													<td>'.$con4["cantidad"].'</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>'.$extra;
-					}
-
-
-					$card = '
-								<div class="card card-primary card-outline">
-									<div class="card-header">
-										<h3 class="card-title">Catalogo de bienes</h3>
-									</div>
-									<div class="card-body table-responsive p-0">
-										<table class="table table-sm">
-											<thead>
-												<tr>
-													<th>Codigo</th>
-													<th>Descripcion</th>
-													<th>Fecha de ingreso</th>
-													<th>Precio</th>
-													<th>Categoria</th>
-													<th>Movimientos</th>
-													<th>Estado</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>'.$con["bien_cod"].'</td>
-													<td>'.$con["bien_des"].'</td>
-													<td>'.$con["bien_fecha_ingreso"].'</td>
-													<td>'.$con["bien_precio"].'</td>
-													<td>'.$con["cat_des"].'</td>
-													<td class="text-'.(($movimientos == "No incorporado") ? "danger" : "success").'" >'.$movimientos.'</td>
-													<td class="text-'.(($estado == "Activo") ? "success" : "danger").'" >'.$estado.'</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>';
-
-					$card .= $encabezados2;
-
-
-				}else{
-
-					$card = '
-					<div class="card">
-						<div class="card-body table-responsive p-2">
-							<h4 class="text-center text-danger">Sin Clasificaciones Registradas</h4>
-						</div>
-					</div>';
-				}
+				require "Templates/ListarBienes.php";
 				return $card;
 
 			}catch(PDOException $e){

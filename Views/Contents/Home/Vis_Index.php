@@ -29,7 +29,6 @@
     </div>
   </div>
   <!-- /.content-wrapper -->
-</div>
 <!-- ./wrapper -->
 <?php $this->Footer();?>
 </body>

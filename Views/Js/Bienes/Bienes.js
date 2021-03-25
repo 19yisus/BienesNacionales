@@ -1,5 +1,5 @@
 const controller = 'BienesController';
-
+$("#formulario").on("reset", ()=> FormDinamic("") );
 // const ConsultaClasificacion = (valor) =>{
 //   fetch(`${host_url}/${controller}/ConsultaClasificacion/${valor}`)
 //     .then( response =>{ return response.text(); })

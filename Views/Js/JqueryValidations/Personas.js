@@ -53,7 +53,7 @@ $(document).ready(() => {
           if (row.per_estado == 0) {
             btnDestroy = `
 					<button class="btn btn-sm btn-warning b-destroy" onclick="bDelet(this);" data-function="Destroy" id="bDestroy"
-					data-form="form-del-${row.per_cod}"
+					data-form="form-del-${row.per_cedula}"
 						data-dismiss="modal" title="Eliminar regitro">
 							<i class="fas fa-trash"></i>
 						</button>`;

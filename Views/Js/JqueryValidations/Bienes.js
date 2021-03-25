@@ -8,7 +8,7 @@ $(document).ready(() => {
       url: `${host_url}/${controller}/PaginadorController`,
       dataSrc: "data",
     },
-    dom: 'Bftlp',
+    dom: 'Bftp',
     buttons:{
       buttons:[
         {
@@ -87,6 +87,7 @@ $(document).ready(() => {
   });
 
   let table = $(`.catalogo-table`).DataTable();
+  table.page.len(5).draw();
   table.on("processing", async () => {
     let res = await permisosUser();
     if (res.eliminar == 0) $(".b-destroy").remove();
@@ -570,6 +571,7 @@ $(document).ready(() => {
             POST(response1[0], response1[1]).then((res) => {
               FormDinamic("");
               reloadCatalogo();
+              $('#ModalEdit').modal('hide');
               return true;
             });
           }
@@ -584,9 +586,11 @@ $(document).ready(() => {
     rebootForm();
 
     $('#Clbien option').each( (index,element)=>{
-      if(element.dataset.categoria != undefined && element.value == e.target.value){
+      if(element.dataset.categoria != undefined && element.value == e.target.value && e.target.value != ""){
         categoria = element.dataset.categoria;
         FormDinamic(categoria);
+      }else{
+        FormDinamic("");
       }
     });
 
@@ -600,7 +604,6 @@ $(document).ready(() => {
 
   $("#Desbien").on("keyup", () => {
     if ($("#Desbien").valid()) {
-      $("#Valbien").val("");
       $("#Valbien").attr("disabled", false);
     } else {
       $("#Valbien").attr("disabled", true);
@@ -609,7 +612,6 @@ $(document).ready(() => {
 
   $("#Valbien").on("keyup", () => {
     if ($("#Valbien").valid()) {
-      $("#Fecbien").val("");
       $("#Fecbien").attr("disabled", false);
     } else {
       $("#Fecbien").attr("disabled", true);
@@ -618,7 +620,6 @@ $(document).ready(() => {
 
   $("#Fecbien").on("keyup", () => {
     if ($("#Fecbien").valid()) {
-      $("#Cantbien").val("");
       $("#Cantbien").attr("disabled", false);
     } else {
       $("#Cantbien").attr("disabled", true);

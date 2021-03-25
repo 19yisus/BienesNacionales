@@ -12,14 +12,9 @@ const Consulta = (e)=>{
 
 				$('#Cod_edit').val(res.datos.Cod);
 				$('#Des_edit').val(res.datos.Des);
+				$('#Marca_edit').val(`${res.datos.Marca}`);
+        		$('#Marca_edit').trigger('change');
 
-				for(var i = 0; i < $('#Marca_edit')[0].options.length; i++){
-
-					if ($('#Marca_edit')[0].options[i].value == res.datos.Marca){
-						$('#Marca_edit')[0].selectedIndex = i;
-						break;
-					}
-				}
 			}else{
 
 				alerta(res.respuesta);

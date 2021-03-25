@@ -120,7 +120,7 @@
 		 * Funcion Delete Para "eliminar" (cambiar el estado de activo a innactivo) en los registros
 		 * @return array
 		 */
-		public function Delete($cod){
+		public function Delete($cod, $fecha){
 
 			try{
 
@@ -138,7 +138,7 @@
           WHERE modelos.mod_cod = '$cod';")->fetch();
 
 					if($con1['mod_estado'] == 1){
-						$con = $this->Prepare("UPDATE modelos SET mod_estado = '0' WHERE mod_cod = :cod;");
+						$con = $this->Prepare("UPDATE modelos SET mod_estado = '0', mod_fecha_desactivacion = '$fecha' WHERE mod_cod = :cod;");
 						$con -> bindParam(":cod",   $cod);
 						$con->execute();
 
@@ -150,7 +150,7 @@
 					}else{
 
 						if($confirm2['mar_estado'] == 1){
-							$con = $this->Prepare("UPDATE modelos SET mod_estado = '1' WHERE mod_cod = :cod;");
+							$con = $this->Prepare("UPDATE modelos SET mod_estado = '1', mod_fecha_desactivacion = null WHERE mod_cod = :cod;");
 							$con -> bindParam(":cod",   $cod);
 							$con->execute();
 

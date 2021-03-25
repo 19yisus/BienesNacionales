@@ -180,11 +180,13 @@
 
 		private function changeStatus($cod,$status,$fecha){
 			if($status == 0){
-				$con = $this->Prepare("UPDATE personas SET per_estado = '$status', per_hasta = :fecha WHERE per_cedula = :cod;");
+				$con = $this->Prepare("UPDATE personas SET per_estado = '$status', 
+				per_hasta = :fecha, per_fecha_desactivacion = '$fecha' WHERE per_cedula = :cod;");
 				$con -> bindParam(":cod",   $cod);
 				$con -> bindParam(":fecha", $fecha);
 			}else{
-				$con = $this->Prepare("UPDATE personas SET per_estado = '$status', per_hasta = null WHERE per_cedula = :cod;");
+				$con = $this->Prepare("UPDATE personas SET per_estado = '$status', 
+				per_hasta = null, per_fecha_desactivacion = null WHERE per_cedula = :cod;");
 				$con -> bindParam(":cod",   $cod);
 			}
 

@@ -13,13 +13,8 @@ const Consulta = (e) =>{
 				$('#Cod_edit').val(res.datos.Cod);
 				$('#Des_edit').val(res.datos.Des);
 
-				for(var i = 0; i < $('#Esp_edit')[0].options.length; i++){
-
-					if ($('#Esp_edit')[0].options[i].value == res.datos.Raza){
-						$('#Esp_edit')[0].selectedIndex = i;
-						break;
-					}
-				}
+				$('#Esp_edit').val(`${res.datos.Raza}`);
+        		$('#Esp_edit').trigger('change');
 			}
 		})
 		.catch( Error =>{
