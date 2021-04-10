@@ -336,19 +336,33 @@
 		 * @return string html
 		 */
 		Public function Select_Dependencias($condition = ''){
-
-      		try{
-
-      			if($condition != '' && $condition == 1){
-      				$con = $this->Query("SELECT DISTINCT  dependencia.dep_cod,dependencia.dep_des,nucleo.nuc_des FROM dependencia
+			// 1 -> Dependencias con encargados asignados
+			// 2 -> Dependencias con encargados asignados y bienes desincorporados
+			// 3 -> Dependencias con encargados asignados y bienes incorporados
+			// else -> Todas las dependencias activas
+			try{
+				if($condition != '' && $condition == 1){
+					$con = $this->Query("SELECT DISTINCT  dependencia.dep_cod,dependencia.dep_des,nucleo.nuc_des FROM dependencia
 					INNER JOIN nucleo ON nucleo.nuc_cod = dependencia.dep_nucleo_cod
 					INNER JOIN personas ON personas.per_dep_cod = dependencia.dep_cod
 					WHERE dependencia.dep_estado = '1';");
-      			}else{
-      				$con = $this->Query("SELECT dependencia.dep_cod,dependencia.dep_des,nucleo.nuc_des FROM dependencia
+				}elseif($condition != '' && $condition == 2){
+					$con = $this->Query("SELECT DISTINCT  dependencia.dep_cod,dependencia.dep_des,nucleo.nuc_des FROM dependencia
+					INNER JOIN nucleo ON nucleo.nuc_cod = dependencia.dep_nucleo_cod
+					INNER JOIN personas ON personas.per_dep_cod = dependencia.dep_cod
+					INNER JOIN comprobantes ON dependencia.dep_cod = comprobantes.com_dep_user
+					WHERE comprobantes.com_tipo = 'D' AND dependencia.dep_estado = '1';");					
+      	}elseif($condition != '' && $condition == 3){
+					$con = $this->Query("SELECT DISTINCT  dependencia.dep_cod,dependencia.dep_des,nucleo.nuc_des FROM dependencia
+					INNER JOIN nucleo ON nucleo.nuc_cod = dependencia.dep_nucleo_cod
+					INNER JOIN personas ON personas.per_dep_cod = dependencia.dep_cod
+					INNER JOIN comprobantes ON dependencia.dep_cod = comprobantes.com_dep_user
+					WHERE comprobantes.com_tipo = 'I' AND dependencia.dep_estado = '1';");					
+      	}else{
+      		$con = $this->Query("SELECT dependencia.dep_cod,dependencia.dep_des,nucleo.nuc_des FROM dependencia
 					INNER JOIN nucleo ON nucleo.nuc_cod = dependencia.dep_nucleo_cod
 					WHERE dependencia.dep_estado = '1';");
-      			}
+      	}
 
 				$select = "<option value=''>Seleccione un valor</option>";
 

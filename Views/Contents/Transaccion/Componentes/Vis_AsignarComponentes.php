@@ -12,44 +12,11 @@
           <div class="col-md-12">
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Transaccion</h3>
+                <h3 class="card-title">Componentes</h3>
               </div>
-              <form role="form" name="formulario" id="formulario" method="POST" action="#" autocomplete="off" class="needs-validation" novalidate>
+              <!-- <form role="form" name="formulario" id="formulario" method="POST" action="#" autocomplete="off" class="needs-validation" novalidate>
                 <div class="card-body">
-                  <div class="row">
-                    <div class="form-group col-3">
-                      <label for="">Origen</label><label for="" id="ob">*</label>
-                      <select name="origen" id="origen" class="custom-select" required>
-                        <option value="">Seleccione un valor</option>
-                        <option value="Compra">Compra</option>
-                        <option value="Donacion">Donación</option>
-                      </select>
-                    </div>
-                    <div class="form-group col-3">
-                      <label for="">N° de factura</label><label for="" id="ob">*</label>
-                      <input type="text" name="Factura" id="Factura" pattern="[0-9]{4,10}" class="form-control" placeholder="Factura" minlength="4" maxlength="10" required>
-                    </div>
-                    <div class="form-group col-3">
-                      <label for="">Dependencia</label><label for="" id="ob">*</label>
-                      <select name="Dep" id="Dep" class="form-control select2 js-example-responsive" width="40%" required>
-                      <?php echo $this->Control('PersonasController')->SelectDeps(1); ?>
-                      </select>
-                    </div>
-                    <div class="form-group col-3">
-                      <label for="">Responsable</label>
-                      <input type="text" id="Encargado" class="form-control" placeholder="Encargado" disabled>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="form-group col-3">
-                      <label for="">Justificacion</label><label for="" id="ob">*</label>
-                      <input type="text" name="orden" id="orden" class="form-control" pattern="[0-9]{8,10}" minlength="8" maxlength="10" placeholder="Justificacion" required>
-                    </div>
-                    <div class="form-group col">
-                      <label for="">Observacion </label>
-                      <textarea name="Obser" id="Obser" cols="30" rows="1" maxlength="150" minlength="10" class="form-control" placeholder="Direccion" style="text-transform: uppercase;" required></textarea>
-                    </div>
-                  </div>
+                  
                   <div class="row">
                     <div class="row">
                     <div class="col-md-6">
@@ -152,8 +119,64 @@
                     </div>
                   </div>
                 </div>  
-              </form>
-              
+              </form> -->
+              <div class="card-body">
+              <?php
+                $result = $this->Control('TransaccionController')->Componentes();
+                if(isset($result[0])){
+                  
+                  ?>
+                  <div class="d-flex justify-content-between ml-1 col-12">
+                    <label for="">Datos del componente</label>
+                    <!-- <label for="">Datos del bien</label> -->
+                    <div class="btn-group col-2">
+                      <button class="btn btn-info mr-2">Ediar</button>
+                    </div>
+                  </div>
+                  <?php
+                  foreach($result as $comp){
+                    ?>
+                    <!-- <div class="card"> -->
+                      <form method="post" id="form-<?php echo $comp['bien_cod'];?>" class="formulario d-inline-flex flex-row align-items-center col-12 needs-validation" novalidate>
+                        <div class="form-group col-2 my-auto py-2">
+                          <input type="text" name="componente_cod" placeholder="Codigo" id="" class="form-control" value="<?php echo $comp['bien_cod'];?>" readonly>
+                        </div>
+                        <div class="form-group col-2 my-auto py-2">
+                          <input type="text" name="" placeholder="Descripcion" id="" class="form-control" value="<?php echo $comp['bien_des'];?>" readonly>
+                        </div>
+                        <div class="form-group col-2 my-auto py-2">
+                          <input type="text" name="" placeholder="Precio" id="" class="form-control" value="<?php echo $comp['bien_precio'];?>" readonly>
+                        </div>
+                        <div class="form-group col-4 my-auto py-2">
+                          <select name="bien_cod" id="" class="custom-select select-option-special w-100" title="Bienes electronicos que requieren un componente">
+                            <option value="">Seleccionar un bien</option>
+                            <?php 
+                            $var = $this->Control('TransaccionController')->Bienes($comp['bien_cod']);
+                            foreach($var as $bien){
+                              ?>
+                              <option value="<?php echo $bien['bien_cod'];?>"><?php echo $bien['bien_cod'].' - '.$bien['bien_des'];?></option>
+                              <?php
+                            }
+                            ?>
+                          </select>
+                        </div>
+                        <div class="btn-group col-2 my-auto py-2">
+                          <button type="button" class="btn btn-success Asignar" value="#form-<?php echo $comp['bien_cod'];?>">
+                            <i class="fas fa-save"></i> Asignar
+                          </button>
+                        </div>
+                      </form>
+                    <!-- </div> -->
+                    <?php
+                  }
+                }else{
+                  ?>
+                  <h1 class="text-danger text-center">Sin registros disponibles</h1>
+                  <a href="../../" class="text-center">Regresar al Home Page</a>
+                  <?php
+                }
+              ?>
+              </div>
             </div>
           </div>
         </div>

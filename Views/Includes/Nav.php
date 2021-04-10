@@ -67,7 +67,10 @@
                 </p>
               </a>
             </li>
-            <?php if($this->GetDatos('permisos')['roles_name'] != 'Invitado'){?>
+            <?php 
+              if($this->IfSession()){
+                if($this->GetDatos('permisos')['roles_name'] != 'Invitado'){
+            ?>
             <li class="nav-item nas-treeview menu-close">
               <a href="#" class="nav-link active">
                   <i class="nav-icon fas fa-pen"></i>
@@ -144,12 +147,6 @@
                 </p>
               </a>
               <ul class="nav nav-treeview">
-                <!-- <li class="nav-item">
-                  <a href="<?php //echo constant('URL');?>Transaccion/Vis_Componentes" class="nav-link active">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Componentes</p>
-                  </a>
-                </li> -->
                 <li class="nav-item">
                   <a href="<?php echo constant('URL');?>Transaccion/Incorporacion/Vis_Index" class="nav-link active">
                     <i class="far fa-circle nav-icon"></i>
@@ -163,7 +160,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="Reasignacion" class="nav-link active">
+                  <a href="<?php echo constant('URL');?>Transaccion/Reasignacion/Vis_Index" class="nav-link active">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Reasignacion</p>
                   </a>
@@ -179,7 +176,7 @@
                 </p>
               </a>
             </li>
-            <?php if($this->GetDatos('permisos')['roles_name'] == 'Super Admin' || $this->GetDatos('permisos')['roles_name'] == 'Admin'){?>
+          <?php if($this->GetDatos('permisos')['roles_name'] == 'Super Admin' || $this->GetDatos('permisos')['roles_name'] == 'Admin'){?>
             <li class="nav-item has-treeview menu-close">
               <a href="#" class="nav-link active">
                   <i class="nav-icon fas fa-cogs"></i>
@@ -197,7 +194,10 @@
                   </li>
                 </ul>
             </li>
-            <?php }?>
+            <?php 
+                } 
+              }
+            ?>
             <li class="nav-item">
               <a href="<?php echo constant('URL');?>Login/Logout" class="nav-link active">
                 <i class="nav-icon fas fa-sign-out-alt"></i>

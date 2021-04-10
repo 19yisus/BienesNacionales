@@ -1,11 +1,10 @@
 $(document).ready( ()=>{
-  // `comprobantes.com_cod,comprobantes.com_origen,comprobantes.com_fecha_comprobante,dependencia.dep_des`
-  $('#Catalogo_comprobantes_Desincorporacion').DataTable({
+  $('#Catalogo_comprobantes_Reasignacion').DataTable({
     responsive: true,
       lengthChange: true,
       autoWidth: true,
       ajax: {
-        url: `${host_url}/TransaccionController/CatalogoComprobantes/D`,
+        url: `${host_url}/TransaccionController/CatalogoComprobantes/R`,
         dataSrc: "data",
       },
       columns:[
@@ -50,19 +49,19 @@ $(document).ready( ()=>{
     },
   });
 
-
-  $('#Dep').on('change', (e)=>{
-
+  $('#Dep_origen').on('change', (e)=>{
     if(e.target.value != ''){
-      // $('#tabla').show('slow');
-      $('#listar').attr('disabled',false);
-      let catalogo = $('#CatalogoBienes').DataTable();
-      $('#Transaccion_bienes').DataTable().ajax.reload(null,false);
-      catalogo.ajax.url(`${host_url}/TransaccionController/BienesIncorporados/${e.target.value}`).load();
-      
-      $('#origen').attr('disabled',false);
-      $('#orden').attr('disabled',false);
-      $('#Obser').attr('readonly',false);
+      if($('#Dep_destino').val() != e.target.value){
+        // $('#tabla').show('slow');
+        $('#listar').attr('disabled',false);
+        let catalogo = $('#CatalogoBienes').DataTable();
+        $('#Transaccion_bienes').DataTable().ajax.reload(null,false);
+        catalogo.ajax.url(`${host_url}/TransaccionController/BienesDesincorporados/${e.target.value}`).load();
+        
+        $('#origen').attr('disabled',false);
+        $('#orden').attr('disabled',false);
+        $('#Obser').attr('readonly',false);
+      }
 
     }else{
       // $('#tabla').hide('slow');
@@ -72,7 +71,18 @@ $(document).ready( ()=>{
     }
   });
 
-	$.validator.setDefaults({
+  $('#Dep_destino').on('change', (e)=>{
+    // console.log(`Destino: ${e.target.value} | Origen: ${$('#Dep_origen').val()}`)
+
+    if(e.target.value != '' && $('#Dep_origen').val() == e.target.value){
+      $('#Dep_destino').val('');
+      $('#Dep_destino').trigger('change');
+      
+      alerta("La dependencia destino no puede ser la misma dependencia de origen");
+    }
+  });
+
+  $.validator.setDefaults({
     onsubmit: true,
     debug: true,
     errorClass: "invalid-feedback",
@@ -124,7 +134,10 @@ $(document).ready( ()=>{
       	minlength: 4,
       	maxlength: 10,
       },
-      Dep:{
+      Dep_origen:{
+      	required: true
+      },
+      Dep_destino:{
       	required: true
       },
       orden:{
@@ -150,8 +163,11 @@ $(document).ready( ()=>{
       	minlength: "Minimo 4 caracteres numericos",
       	maxlength: "Maximo 10 caracteres numericos",
       },
-      Dep:{
+      Dep_origen:{
       	required: "Debe de seleccionar la dependencia donde se encuentran los bienes"
+      },
+      Dep_destino:{
+      	required: "Debe de seleccionar la dependencia destino para los bienes"
       },
       orden:{
         number: "Solo se aceptan numeros",
@@ -166,10 +182,10 @@ $(document).ready( ()=>{
       },
     },
   });
-  	$("#Desincorporar").click(() => {
+  	$("#Reasignar").click(() => {
     if ($("#formulario").valid()) {
       confirmacion(
-        `${host_url}/${controller}/Desincorporar`,
+        `${host_url}/${controller}/Reasignacion`,
         $("#formulario")[0]
       ).then((response1) => {
         if (response1) {
@@ -182,4 +198,5 @@ $(document).ready( ()=>{
       });
     }
   });
+  
 });

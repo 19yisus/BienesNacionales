@@ -1,4 +1,4 @@
-const controller = "ComponentesController";
+const controller = "TransaccionController";
 
 const AddForm = (valor) =>{
 	let form = valor.dataset.form;

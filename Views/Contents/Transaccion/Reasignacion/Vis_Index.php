@@ -4,7 +4,7 @@
   <?php $this->Nav();?>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <?php $this->Wraper('Asignar','Transaccion/Incorporacion/Vis_Incorporacion','Catalogo de Incorporaciones');?>
+    <?php $this->Wraper('Reasignar','Transaccion/Reasignacion/Vis_Reasignacion','Catalogo de Reasignaciones');?>
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
@@ -15,21 +15,21 @@
                 <h3 class="card-title">Catalogo</h3>
               </div>
               <div class="card-body">
-                <!-- <div class="table-responsive mx-auto">
-                  <table id="catalogo_table" class="table table-bordered display rowrap table-sm table-hover table-striped rounded-sm" cellspacing="0" style="width: 100%;">
+                <div class="table-responsive mx-auto">
+                  <table id="Catalogo_comprobantes_Reasignacion" class="table table-bordered display rowrap table-sm table-hover table-striped rounded-sm" cellspacing="0" style="width: 100%;">
                     <thead class="thead-dark">
                       <tr>
                         <th scope="col">#</th>
                         <th scope="col">Descripcion</th>
                         <th scope="col">Registrado en</th>
-                        <th scope="col">Estado</th>
-                        <th scope="col">Optiones</th>
+                        <th scope="col">Fecha</th>
+                        <!-- <th scope="col">Optiones</th> -->
                       </tr>
                     </thead>
                     <tbody>
                     </tbody>
                   </table>
-                </div> -->
+                </div>
               </div>
             </div>
           </div>
@@ -38,7 +38,7 @@
     </div>
   <!-- /.content-wrapper -->
 </div>
-<?php $this->Footer(''); ?>
+<?php $this->Footer('Reasignacion'); ?>
 <script src="<?php echo constant('URL');?>Views/Js/GLOBAL.js"></script>
 </body>
 </html>

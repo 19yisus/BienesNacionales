@@ -20,7 +20,7 @@
                     <div class="form-group col-4">
                       <label for="">Dependencia</label><label for="" id="ob">*</label>
                       <select name="Dep" id="Dep" class="form-control select-option-special" width="40%" required>
-                      <?php echo $this->Control('PersonasController')->SelectDeps(1); ?>
+                      <?php echo $this->Control('PersonasController')->SelectDeps(3); ?>
                       </select>
                     </div>
                     <div class="form-group col-4">
@@ -43,9 +43,8 @@
                       <label for="">Observacion </label>
                       <textarea name="Obser" id="Obser" cols="30" rows="1" maxlength="150" minlength="10" class="form-control" placeholder="Observacion" style="text-transform: uppercase;" required readonly></textarea>
                     </div>
-                    <span id="inputs"></span>
                   </div>
-                  <div class="row" id="tabla" style="display:none;">
+                  <div class="row">
                     <div class="card w-100 bg-green">
                       <div class="card-body">
                         <div class="table-responsive mx-auto">

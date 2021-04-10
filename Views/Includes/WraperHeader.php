@@ -5,15 +5,33 @@
       <div class="col-sm-6">
         <h1 class="ml-1 text-info"><?php echo $controlador; ?></h1>
       </div><!-- /.col -->
-      <?php if($this->GetDatos('permisos')['crear'] == 1 && $ruta != ''){?>
+      <?php 
+      if($this->IfSession()){
+        if($this->GetDatos('permisos')['crear'] == 1 && $ruta != ''){
+        ?>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-        <li class="breadcrumb-item">
-          <a class="btn btn-outline-primary" href="<?php echo constant('URL').$ruta;?>"><?php echo $vista;?></a>
-        </li>
+          <?php 
+            $result = $this->Control('TransaccionController')->Componentes();
+            if(isset($result[0])){
+              if(strpos($ruta,'Transaccion') !== false){
+                ?>
+                  <li class="breadcrumb-item">
+                    <a href="<?php echo constant('URL')?>Transaccion/Componentes/Vis_AsignarComponentes" class="btn btn-outline-success">Asignar Componentes</a>
+                  </li>
+                <?php
+              } 
+            }
+          ?>
+          <li class="breadcrumb-item">
+            <a class="btn btn-outline-primary" href="<?php echo constant('URL').$ruta;?>"><?php echo $vista;?></a>
+          </li>
         </ol>
       </div><!-- /.col -->
-    <?php }?>
+    <?php 
+        }
+      }
+    ?>
     </div><!-- /.row -->
   </div><!-- /.container-fluid -->
 </div>

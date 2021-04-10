@@ -18,7 +18,7 @@
                 <h4 class="card-title">Titulo </h4>
 
                 <p class="card-text">
-                  <?php var_dump($this->GetDatos('permisos'));?>
+                  <!-- <?php //var_dump($this->GetDatos('permisos'));?> -->
                 </p>
                 <a href="" class="card-link">Enlace 1</a>
               </div>
