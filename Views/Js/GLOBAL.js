@@ -99,11 +99,20 @@ const POST = async (metodo, form) =>{
 		var texto = res.respuesta;
 		var tipo = (res.status == 200) ? 'success' : 'error';
 
-		Swal.fire({
-			text: (res.datos != "") ? res.datos : '',
-			title: texto,
-			icon: tipo
-		});
+		if(!res.transaction){
+			Swal.fire({
+				text: (res.datos != "") ? res.datos : '',
+				title: texto,
+				icon: tipo
+			});
+		}else{
+			Swal.fire({
+				text: (res.datos != "") ? res.datos : '',
+				html: `<a href='${res.comprobante_url}' target="_blank">Ver Comprobante</a>`,
+				title: texto,
+				icon: tipo
+			});
+		}
 
 		return res;
 
@@ -114,5 +123,14 @@ function alerta(texto){
 	Toast.fire({
 		icon: 'warning',
 		title: texto
+	});
+}
+
+const pb = () =>{
+	Swal.fire({
+		text: 'probando',
+		html: '<a href="algunsitio" >Link</a>',
+		title: 'titulo',
+		icon: 'success'
 	});
 }

@@ -17,7 +17,15 @@
               <form role="form" name="formulario" id="formulario" method="POST" action="#" autocomplete="off" class="needs-validation" novalidate>
                 <div class="card-body">
                   <div class="row">
-                    <div class="form-group col-3">
+                    <div class="form-group col-2">
+                      <label for="">N° de comprobante</label>
+                      <input type="text" id="comprobante" class="form-control" readonly title="Codigo del comprobante">
+                    </div>
+                    <div class="form-group col-2">
+                      <label for="">Fecha</label>
+                      <input type="date" id="Fecha" class="form-control" readonly title="Fecha de la incorporacion">
+                    </div>
+                    <div class="form-group col-2">
                       <label for="">Origen</label><label for="" id="ob">*</label>
                       <select name="origen" id="origen" class="custom-select" required>
                         <option value="">Seleccione un valor</option>
@@ -27,9 +35,15 @@
                     </div>
                     <div class="form-group col-3">
                       <label for="">N° de factura</label><label for="" id="ob">*</label>
-                      <input type="text" name="Factura" id="Factura" pattern="[0-9]{4,10}" class="form-control" placeholder="Factura" minlength="4" maxlength="10" required>
+                      <input type="text" name="Factura" id="Factura" pattern="[0-9]{4,10}" class="form-control" placeholder="Factura" minlength="4" title="Solo se permiten numeros " maxlength="10" required>
                     </div>
                     <div class="form-group col-3">
+                      <label for="">Justificacion</label><label for="" id="ob">*</label>
+                      <input type="text" name="orden" id="orden" class="form-control" pattern="[0-9]{8,10}" minlength="8" maxlength="10" placeholder="Justificacion" title="Solo se permiten numeros" required>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group col-4">
                       <label for="">Dependencia</label><label for="" id="ob">*</label>
                       <select name="Dep" id="Dep" class="form-control select-option-special" width="40%" required>
                       <?php echo $this->Control('PersonasController')->SelectDeps(1); ?>
@@ -37,19 +51,13 @@
                     </div>
                     <div class="form-group col-3">
                       <label for="">Responsable</label>
-                      <input type="text" id="Encargado" class="form-control" placeholder="Encargado" disabled>
+                      <input type="text" id="Encargado" name="encargado" class="form-control" placeholder="Encargado" readonly>
                     </div>
-                  </div>
-                  <div class="row">
-                    <div class="form-group col-3">
-                      <label for="">Justificacion</label><label for="" id="ob">*</label>
-                      <input type="text" name="orden" id="orden" class="form-control" pattern="[0-9]{8,10}" minlength="8" maxlength="10" placeholder="Justificacion" required>
-                    </div>
+                    
                     <div class="form-group col">
-                      <label for="">Observacion </label>
+                      <label for="">Observacion </label><label for="" id="ob">*</label>
                       <textarea name="Obser" id="Obser" cols="30" rows="1" maxlength="150" minlength="10" class="form-control" placeholder="Observacion" style="text-transform: uppercase;" required></textarea>
                     </div>
-                    <span id="inputs"></span>
                   </div>
                   <div class="row">
                     <div class="card w-100 bg-green">
@@ -76,7 +84,7 @@
                     <div class="col-md-12 text-center">
                       <div class="btn-group ">
                         <button type="button" id="Registro" data-formulario="formulario" value="Insert" class="btn btn-success" title="Guardar">
-                          <i class="fas fa-save"></i> Registrar
+                          <i class="fas fa-save"></i> Incorporar
                         </button>
                         <button type="reset" class="btn btn-danger">Limpiar</button>
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalBienes">

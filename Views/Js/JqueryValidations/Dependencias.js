@@ -176,6 +176,7 @@ $(document).ready(() => {
       },
     },
   });
+  
 
   $("#btnAdd").click(() => {
     if ($("#formulario").valid()) {

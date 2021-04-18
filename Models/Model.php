@@ -30,7 +30,13 @@
       }
     }
 
-    public function MakeResponse($status, $respuesta, $datos = ''){
+    public function MakeResponse($status, $respuesta, $datos = '', $transaction = []){
+      if(isset($transaction)){
+        if($transaction['valid']){
+          return ['status' => $status, 'respuesta' => $respuesta, 'datos' => $datos, 'transaction' => true, 'comprobante_url' => $transaction['url']];  
+        }
+        
+      }
       return ['status' => $status, 'respuesta' => $respuesta, 'datos' => $datos];
     }
 
@@ -49,7 +55,7 @@
       return $result;
     }
 
-    protected function CheckCodeComprobante($code){
+    public function CheckCodeComprobante($code){
       $result = $this->GenerateCodeComprobante($code);
       $valor = $this->ComprobanteLastCode();
       if($result <= $valor){

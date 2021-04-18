@@ -11,7 +11,7 @@
   ini_set('display_errors',FALSE);
   ini_set('log_errors',TRUE);
   ini_set("error_log","./php-error.log");
-  error_log("Inicio de la aplicacion");
+  // error_log("Inicio de la aplicacion");
   
   class App extends Model{
     

@@ -579,27 +579,29 @@ $(document).ready(() => {
       );
     }
   });
-  let categoria = '';
+  let categoria = null;
 
   $("#Clbien").change((e) => {
 
     rebootForm();
+    
+    if(e.target.value != ""){
+      $('#Clbien option').each( (index,element)=>{
+        if(element.dataset.categoria != undefined && element.value == e.target.value && e.target.value != ""){
+          categoria = element.dataset.categoria;
+          FormDinamic(categoria);
+        }
+      });
 
-    $('#Clbien option').each( (index,element)=>{
-      if(element.dataset.categoria != undefined && element.value == e.target.value && e.target.value != ""){
-        categoria = element.dataset.categoria;
-        FormDinamic(categoria);
-      }else{
-        FormDinamic("");
-      }
-    });
+      if ($("#Clbien").valid()) CodificacionBien(e.target.value);
+      else $("#Cod").attr("disabled", true);
+      $("#Cod").val("");
 
-    if ($("#Clbien").valid()) CodificacionBien(e.target.value);
-    else $("#Cod").attr("disabled", true);
-    $("#Cod").val("");
-
-    $("#Desbien").attr("disabled", true);
-    $("#Desbien").val("");
+      $("#Desbien").attr("disabled", true);
+      $("#Desbien").val("");
+    }else{
+      FormDinamic("");
+    }
   });
 
   $("#Desbien").on("keyup", () => {

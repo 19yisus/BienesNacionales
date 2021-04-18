@@ -215,7 +215,7 @@
 				
 				if(!$con1[0]){
 
-					$con2 = $this->Query("SELECT mov_com_incorporacion FROM movimientos WHERE mov_bien_cod = '$cod';")->fetch();
+					$con2 = $this->Query("SELECT mov_com_cod FROM movimientos WHERE mov_bien_cod = '$cod';")->fetch();
 					
 					if(!$con2[0]){
 
@@ -543,11 +543,11 @@
 		public function All(){
 
 			try{
-				$data = $this->Query("SELECT bien.bien_cod,bien.bien_des,bien.bien_precio,bien.bien_fecha_ingreso,categoria.cat_des,
+				$data = $this->Query("SELECT DISTINCT bien.bien_cod,bien.bien_des,bien.bien_precio,bien.bien_fecha_ingreso,categoria.cat_des,
 					bien.bien_estado FROM bien
 				INNER JOIN clasificacion ON bien.bien_clasificacion_cod = clasificacion.cla_cod
-				INNER JOIN categoria ON clasificacion.cla_cat_cod = categoria.cat_cod
-				LEFT JOIN movimientos ON movimientos.mov_bien_cod = bien.bien_cod;")->fetchAll(PDO::FETCH_ASSOC);
+				INNER JOIN categoria ON clasificacion.cla_cat_cod = categoria.cat_cod WHERE
+				bien_cod NOT IN(SELECT mov_bien_cod FROM movimientos);")->fetchAll(PDO::FETCH_ASSOC);
 
 				return ['data' => $data];
 

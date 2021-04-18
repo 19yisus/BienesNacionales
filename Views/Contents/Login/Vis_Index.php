@@ -115,18 +115,21 @@
         <script>
           Toast.fire({
             icon: 'warning',
-            title: ' usuario innactivo o bloqueado!.',
+            title: 'usuario innactivo o bloqueado!.',
           });
         </script>
         <?php
       break;
 
       case '4':
+        if(isset($_COOKIE['failPassword'])){
+          $fail = (3 - $_COOKIE['failPassword']);
+        }
         ?>
         <script>
           Toast.fire({
             icon: 'warning',
-            title: "La clave es incorrecta! Te quedan <?php echo $_GET['msg']; ?> intentos antes de que tu usuario sea suspendido.",
+            title: "La clave es incorrecta! Te quedan <?php echo $fail; ?> intentos antes de que tu usuario sea suspendido.",
           });
         </script>
         <?php

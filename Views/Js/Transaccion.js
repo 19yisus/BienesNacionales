@@ -1,5 +1,6 @@
 let BienesEnTransaccion = [];
 $(document).ready( ()=>{
+  print_info();
   $.fn.dataTable.ext.errMode = 'none';
   $('#aceptar').on('click', ()=>{
 		$('#formulario').valid();
@@ -41,8 +42,20 @@ $(document).ready( ()=>{
     $('#CatalogoBienes tbody').children().each( (indice, element) => {
       if(!$(element).is('visible')) $(element).show();
     });
+
+    print_info();
   });
 });
+
+const ConsultaEncargado = (idDep) =>{
+	fetch(`${host_url}/${controller}/ConsultarEncargado/${idDep}`)
+		.then( response =>{ return response.json(); })
+		.then( res =>{
+			$('#Encargado').val(res);
+		}).catch( Error =>{
+			console.log(Error)
+		});
+}
 
 const delete_row = (e) => {
   let input = e.dataset.codigo;
@@ -52,4 +65,14 @@ const delete_row = (e) => {
 
   let i = BienesEnTransaccion.indexOf(input);
   if(i !== -1) BienesEnTransaccion.splice(i,1);
+}
+
+const print_info = () =>{
+  fetch(`${host_url}/${controller}/print_info`)
+    .then( response => response.json())
+    .then( res =>{
+      $("#comprobante").val(res.code);
+      $("#Fecha").val(res.fecha);
+    })
+    .catch( Error => console.error(Error))  
 }

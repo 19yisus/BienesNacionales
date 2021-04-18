@@ -17,6 +17,14 @@
               <form role="form" name="formulario" id="formulario" method="POST" action="#" autocomplete="off" class="needs-validation" novalidate>
                 <div class="card-body">
                   <div class="row">
+                    <div class="form-group col-2">
+                      <label for="">N° de comprobante</label>
+                      <input type="text" id="comprobante" class="form-control" readonly title="Codigo del comprobante">
+                    </div>
+                    <div class="form-group col-2">
+                      <label for="">Fecha</label>
+                      <input type="date" id="Fecha" class="form-control" readonly title="Fecha de la incorporacion">
+                    </div>
                     <div class="form-group col-4">
                       <label for="">Dependencia de origen </label><label for="" id="ob">*</label>
                       <select name="Dep_origen" id="Dep_origen" class="form-control select-option-special" width="40%" required>
@@ -29,13 +37,13 @@
                       <?php echo $this->Control('PersonasController')->SelectDeps(1); ?>
                       </select>
                     </div>
-                    <div class="form-group col-3">
+                  </div>
+                  <div class="row">
+                    <div class="form-group col-4">
                       <label for="">Responsable</label>
                       <input type="text" id="Encargado" class="form-control" placeholder="Encargado" disabled>
                     </div>
-                  </div>
-                  <div class="row">
-                    <div class="form-group col-3">
+                    <div class="form-group col-4">
                       <label for="">Origen</label><label for="" id="ob">*</label>
                       <select name="origen" id="origen" class="custom-select" required>
                         <option value="">Seleccione un valor</option>
@@ -43,12 +51,12 @@
                         <option value="Donacion">Donación</option>
                       </select>
                     </div>
-                    <div class="form-group col-3">
+                    <div class="form-group col-4">
                       <label for="">Justificacion</label><label for="" id="ob">*</label>
                       <input type="text" name="orden" id="orden" class="form-control" pattern="[0-9]{8,10}" minlength="8" maxlength="10" placeholder="Justificacion" required>
                     </div>
                     <div class="form-group col">
-                      <label for="">Observacion </label>
+                      <label for="">Observacion </label><label for="" id="ob">*</label>
                       <textarea name="Obser" id="Obser" cols="30" rows="1" maxlength="150" minlength="10" class="form-control" placeholder="Direccion" style="text-transform: uppercase;" required></textarea>
                     </div>
                   </div>

@@ -341,25 +341,27 @@
 			// 3 -> Dependencias con encargados asignados y bienes incorporados
 			// else -> Todas las dependencias activas
 			try{
+				$select = "dependencia.dep_cod,dependencia.dep_des,nucleo.nuc_des,nucleo.nuc_tipo_nucleo";
+
 				if($condition != '' && $condition == 1){
-					$con = $this->Query("SELECT DISTINCT  dependencia.dep_cod,dependencia.dep_des,nucleo.nuc_des FROM dependencia
+					$con = $this->Query("SELECT DISTINCT  $select FROM dependencia
 					INNER JOIN nucleo ON nucleo.nuc_cod = dependencia.dep_nucleo_cod
 					INNER JOIN personas ON personas.per_dep_cod = dependencia.dep_cod
 					WHERE dependencia.dep_estado = '1';");
 				}elseif($condition != '' && $condition == 2){
-					$con = $this->Query("SELECT DISTINCT  dependencia.dep_cod,dependencia.dep_des,nucleo.nuc_des FROM dependencia
+					$con = $this->Query("SELECT DISTINCT  $select FROM dependencia
 					INNER JOIN nucleo ON nucleo.nuc_cod = dependencia.dep_nucleo_cod
 					INNER JOIN personas ON personas.per_dep_cod = dependencia.dep_cod
 					INNER JOIN comprobantes ON dependencia.dep_cod = comprobantes.com_dep_user
 					WHERE comprobantes.com_tipo = 'D' AND dependencia.dep_estado = '1';");					
       	}elseif($condition != '' && $condition == 3){
-					$con = $this->Query("SELECT DISTINCT  dependencia.dep_cod,dependencia.dep_des,nucleo.nuc_des FROM dependencia
+					$con = $this->Query("SELECT DISTINCT  $select FROM dependencia
 					INNER JOIN nucleo ON nucleo.nuc_cod = dependencia.dep_nucleo_cod
 					INNER JOIN personas ON personas.per_dep_cod = dependencia.dep_cod
 					INNER JOIN comprobantes ON dependencia.dep_cod = comprobantes.com_dep_user
 					WHERE comprobantes.com_tipo = 'I' AND dependencia.dep_estado = '1';");					
       	}else{
-      		$con = $this->Query("SELECT dependencia.dep_cod,dependencia.dep_des,nucleo.nuc_des FROM dependencia
+      		$con = $this->Query("SELECT $select FROM dependencia
 					INNER JOIN nucleo ON nucleo.nuc_cod = dependencia.dep_nucleo_cod
 					WHERE dependencia.dep_estado = '1';");
       	}
@@ -367,7 +369,7 @@
 				$select = "<option value=''>Seleccione un valor</option>";
 
 				while($res = $con->fetch(PDO::FETCH_ASSOC)){
-					$select .= "<option value='".$res['dep_cod']."'>".$res['dep_des']." - ".$res['nuc_des']."</option>";
+					$select .= "<option value='".$res['dep_cod']."'>".$res['dep_des']." - ".$res['nuc_des']." - ".$res['nuc_tipo_nucleo']."</option>";
         		}
 
 			return $select;

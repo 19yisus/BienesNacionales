@@ -1,27 +1,51 @@
 <?php
 	class clsTransaccion extends model{
-		private $bien,$Obser,$Dep,$newDep,$origen,$Factura,$fecha,$orden;
+		private $bien,$Obser,$Dep_anterior,$Dep_actual,$origen,$Factura,$fecha,$orden,$encargado;
 
 		public function __construct(){
 			parent::__construct();
 			$this->bien = null;
 			$this->Obser = null;
-			$this->Dep = null;
+			$this->Dep_actual = null;
+			$this->Dep_anterior = null;
 			$this->origen = null;
 			$this->Factura = null;
 			$this->fecha = null;
 			$this->orden = null;
+			$this->encargado = null;
 		}
 
-		public function setDatos($origen,$Factura,$Dep,$newdep,$Obser,$bien,$fecha,$orden){
-			$this->Obser = isset($this->origen) ? $this->Limpiar($Obser) : null;
-			$this->Dep = isset($Dep) ? $this->Limpiar($Dep) : null;
-			$this->newDep = isset($newdep) ? $this->Limpiar($newdep) : null;
+		public function setDatos($origen,$Factura,$Dep_actual,$Dep_anterior,$Obser,$bien,$fecha,$orden,$encargado){
+			$this->Obser = isset($Obser) ? $this->Limpiar($Obser) : null;
+			$this->Dep_anterior = isset($Dep_anterior) ? $this->Limpiar($Dep_anterior) : null;
+			$this->Dep_actual = isset($Dep_actual) ? $this->Limpiar($Dep_actual) : null;
 			$this->origen = isset($origen) ? $this->Limpiar($origen) : null;
 			$this->Factura = isset($Factura) ? $this->Limpiar($Factura) : null;
 			$this->bien = (is_array($bien)) ? $bien : $this->Limpiar($bien);
 			$this->fecha = $fecha;
 			$this->orden = isset($orden) ? $this->Limpiar($orden) : null;
+			$this->encargado = isset($encargado) ? $this->Limpiar($encargado) : null;
+		}
+
+		private function CreateComprobante($conexion,$tipo){
+			$usuario = $this->session->GetDatos("user_id"). "-".$this->session->GetDatos("user_name");
+			$code_comprobante = $this->CheckCodeComprobante('1');
+			$comprobantes = $conexion->Prepare("INSERT INTO comprobantes(com_cod,com_tipo,com_estado,com_dep_user,com_dep_ant,
+			com_fecha_comprobante,com_num_factura,com_justificacion,com_observacion,com_origen,com_info_encargado,com_info_usuario)
+				VALUES(:codigo,'$tipo','1',:dependencia,:dependencia_ant,:fecha,:num_factura,:orden,:observacion,:origen,:encargado,:usuario);");
+
+			$comprobantes->bindParam(":codigo", $code_comprobante);
+			$comprobantes->bindParam(":dependencia", $this->Dep_actual);
+			$comprobantes->bindParam(":dependencia_ant", $this->Dep_anterior);
+			$comprobantes->bindParam(":fecha", $this->fecha);
+			$comprobantes->bindParam(":num_factura", $this->Factura);
+			$comprobantes->bindParam(":orden", $this->orden);
+			$comprobantes->bindParam(":observacion", $this->Obser);
+			$comprobantes->bindParam(":origen", $this->origen);
+			$comprobantes->bindParam(":encargado", $this->encargado);
+			$comprobantes->bindParam(":usuario", $usuario);
+
+			return [ $comprobantes, $code_comprobante ];
 		}
 
 		public function Incorporar(){
@@ -29,48 +53,49 @@
 			try{
 				$con = $this->conectar();
 				$con->beginTransaction();
-				$code_comprobante = $this->CheckCodeComprobante('1');
+				$res = $this->CreateComprobante($con, 'I');
+				// $code_comprobante = $this->CheckCodeComprobante('1');
 
-				$comprobantes = $con->Prepare("INSERT INTO comprobantes(
-					com_cod,com_tipo,com_estado,com_dep_user,com_dep_ant,com_fecha_comprobante,com_num_factura,com_orden_compra,com_observacion,com_origen)
-					VALUES(:codigo,'I','1',:dependencia,null,:fecha,:num_factura,:orden,:observacion,:origen);");
+				// $comprobantes = $con->Prepare("INSERT INTO comprobantes(
+				// 	com_cod,com_tipo,com_estado,com_dep_user,com_dep_ant,com_fecha_comprobante,com_num_factura,mov_justificacion,com_observacion,com_origen)
+				// 	VALUES(:codigo,'I','1',:dependencia,null,:fecha,:num_factura,:orden,:observacion,:origen);");
 
-                $comprobantes->bindParam(":codigo", $code_comprobante);
-                $comprobantes->bindParam(":dependencia", $this->Dep);
-                $comprobantes->bindParam(":fecha", $this->fecha);
-                $comprobantes->bindParam(":num_factura", $this->Factura);
-                $comprobantes->bindParam(":orden", $this->orden);
-                $comprobantes->bindParam(":observacion", $this->Obser);
-                $comprobantes->bindParam(":origen", $this->origen);
+				// $comprobantes->bindParam(":codigo", $code_comprobante);
+				// $comprobantes->bindParam(":dependencia", $this->Dep);
+				// $comprobantes->bindParam(":fecha", $this->fecha);
+				// $comprobantes->bindParam(":num_factura", $this->Factura);
+				// $comprobantes->bindParam(":orden", $this->orden);
+				// $comprobantes->bindParam(":observacion", $this->Obser);
+				// $comprobantes->bindParam(":origen", $this->origen);
+				$mov = $con->Prepare("INSERT INTO movimientos(mov_com_cod,mov_com_desincorporacion,mov_bien_cod) VALUES(:com_I,null,:cod_bien);");
+				if($res[0]->execute()){
+					$response = true;
 
-                $mov = $con->Prepare("INSERT INTO movimientos(mov_com_incorporacion,mov_com_reasignacion,mov_com_desincorporacion,mov_bien_cod)
-                	VALUES(:com_I,null,null,:cod_bien);");
+					foreach($this->bien as $key){
+						$mov->bindParam(":com_I", $res[1]);
+						$mov->bindParam(":cod_bien", $key);
 
-                if($comprobantes->execute()){
-                	$response = true;
+						if(!$mov->execute()){
+							$con->rollback();
+							$response = false;
+							break;
+						}
+					}
 
-                	foreach($this->bien as $key){
-                		$mov->bindParam(":com_I", $code_comprobante);
-	                	$mov->bindParam(":cod_bien", $key);
-
-	                	if(!$mov->execute()){
-	                		$con->rollback();
-	                		$response = false;
-	                		break;
-	                	}
-                	}
-
-            		if($response){
-                		$con->commit();
-                		return $this->MakeResponse(200, "Operacion exitosa", `Comprobante: <a href='#' >$code_comprobante</a>`);
-                	}else{
-                		$con->rollback();
-                		return $this->MakeResponse(400, "Operacion Fallida");
-                	}
-                }else{
-                	$con->rollback();
-                	return $this->MakeResponse(400, "Operacion Fallida");
-                }
+				if($response){
+						$con->commit();
+						return $this->MakeResponse(200, "Operacion exitosa","", [
+							'valid' => true,
+							'url' => $res[1]
+						]);
+					}else{
+						$con->rollback();
+						return $this->MakeResponse(400, "Operacion Fallida");
+					}
+				}else{
+					$con->rollback();
+					return $this->MakeResponse(400, "Operacion Fallida");
+				}
 
 			}catch(PDOException $e){
 				error_log("Error en la consulta::models/ClsTransaccion->Incorporar(), ERROR = ".$e->getMessage());
@@ -83,56 +108,60 @@
 			try{
 				$con = $this->conectar();
 				$con->beginTransaction();
-				$code_comprobante = $this->CheckCodeComprobante('1');
+				$res = $this->CreateComprobante($con, 'D');
+				
+				// $code_comprobante = $this->CheckCodeComprobante('1');
+				// $comprobantes = $con->Prepare("INSERT INTO comprobantes(
+				// 	com_cod,com_tipo,com_estado,com_dep_user,com_dep_ant,com_fecha_comprobante,com_num_factura,mov_justificacion,com_observacion,com_origen)
+				// 	VALUES(:codigo,'D','1',:dependencia,null,:fecha,null,:orden,:observacion,:origen);");
 
-				$comprobantes = $con->Prepare("INSERT INTO comprobantes(
-					com_cod,com_tipo,com_estado,com_dep_user,com_dep_ant,com_fecha_comprobante,com_num_factura,com_orden_compra,com_observacion,com_origen)
-					VALUES(:codigo,'D','1',:dependencia,null,:fecha,null,:orden,:observacion,:origen);");
+				// $comprobantes->bindParam(":codigo", $code_comprobante);
+				// $comprobantes->bindParam(":dependencia", $this->Dep);
+				// $comprobantes->bindParam(":fecha", $this->fecha);
+				// // $comprobantes->bindParam(":num_factura", $this->Factura);
+				// $comprobantes->bindParam(":orden", $this->orden);
+				// $comprobantes->bindParam(":observacion", $this->Obser);
+				// $comprobantes->bindParam(":origen", $this->origen);
 
-                $comprobantes->bindParam(":codigo", $code_comprobante);
-                $comprobantes->bindParam(":dependencia", $this->Dep);
-                $comprobantes->bindParam(":fecha", $this->fecha);
-                // $comprobantes->bindParam(":num_factura", $this->Factura);
-                $comprobantes->bindParam(":orden", $this->orden);
-                $comprobantes->bindParam(":observacion", $this->Obser);
-                $comprobantes->bindParam(":origen", $this->origen);
+				$mov = $con->Prepare("UPDATE movimientos SET mov_com_desincorporacion = :com_D WHERE mov_bien_cod = :cod_bien;");
+				$bien = $con->Prepare("UPDATE bien SET bien_estado = '0' WHERE bien_cod = :cod;");
 
-                $mov = $con->Prepare("UPDATE movimientos SET mov_com_desincorporacion = :com_D WHERE mov_bien_cod = :cod_bien;");
-								$bien = $con->Prepare("UPDATE bien SET bien_estado = '0' WHERE bien_cod = :cod;");
+				if($res[0]->execute()){
+					$response = true;
 
-                if($comprobantes->execute()){
-                	$response = true;
+					foreach($this->bien as $key){
+						$mov->bindParam(":com_D", $res[1]);
+						$mov->bindParam(":cod_bien", $key);
 
-                	foreach($this->bien as $key){
-                		$mov->bindParam(":com_D", $code_comprobante);
-	                	$mov->bindParam(":cod_bien", $key);
+						$bien->bindParam(":cod", $key);
 
-										$bien->bindParam(":cod", $key);
+						if(!$mov->execute()){
+							$con->rollback();
+							$response = false;
+							break;
+						}
 
-	                	if(!$mov->execute()){
-	                		$con->rollback();
-	                		$response = false;
-	                		break;
-	                	}
+						if(!$bien->execute()){
+							$con->rollback();
+							$response = false;
+							break;
+						}
+					}
 
-										if(!$bien->execute()){
-	                		$con->rollback();
-	                		$response = false;
-	                		break;
-	                	}
-                	}
-
-            		if($response){
-                		$con->commit();
-                		return $this->MakeResponse(200, "Operacion exitosa", `Comprobante: <a href='#' >$code_comprobante</a>`);
-                	}else{
-                		$con->rollback();
-                		return $this->MakeResponse(400, "Operacion Fallida");
-                	}
-                }else{
-                	$con->rollback();
-                	return $this->MakeResponse(400, "Operacion Fallida");
-                }
+				if($response){
+						$con->commit();
+						return $this->MakeResponse(200, "Operacion exitosa","", [
+							'valid' => true,
+							'url' => $res[1]
+						]);
+					}else{
+						$con->rollback();
+						return $this->MakeResponse(400, "Operacion Fallida");
+					}
+				}else{
+					$con->rollback();
+					return $this->MakeResponse(400, "Operacion Fallida");
+				}
 
 			}catch(PDOException $e){
 				error_log("Error en la consulta::models/ClsTransaccion->Desincorporar(), ERROR = ".$e->getMessage());
@@ -145,57 +174,61 @@
 			try{
 				$con = $this->conectar();
 				$con->beginTransaction();
-				$code_comprobante = $this->CheckCodeComprobante('1');
+				$res = $this->CreateComprobante($con, 'R');
+				// $code_comprobante = $this->CheckCodeComprobante('1');
 
-				$comprobantes = $con->Prepare("INSERT INTO comprobantes(
-					com_cod,com_tipo,com_estado,com_dep_user,com_dep_ant,com_fecha_comprobante,com_num_factura,com_orden_compra,com_observacion,com_origen)
-					VALUES(:codigo,'R','1',:new_dependencia,:dependencia,:fecha,null,:orden,:observacion,:origen);");
+				// $comprobantes = $con->Prepare("INSERT INTO comprobantes(
+				// 	com_cod,com_tipo,com_estado,com_dep_user,com_dep_ant,com_fecha_comprobante,com_num_factura,mov_justificacion,com_observacion,com_origen)
+				// 	VALUES(:codigo,'R','1',:new_dependencia,:dependencia,:fecha,null,:orden,:observacion,:origen);");
 
-                $comprobantes->bindParam(":codigo", $code_comprobante);
-                $comprobantes->bindParam(":dependencia", $this->Dep);
-								$comprobantes->bindParam(":new_dependencia", $this->newDep);
-                $comprobantes->bindParam(":fecha", $this->fecha);
-                // $comprobantes->bindParam(":num_factura", $this->Factura);
-                $comprobantes->bindParam(":orden", $this->orden);
-                $comprobantes->bindParam(":observacion", $this->Obser);
-                $comprobantes->bindParam(":origen", $this->origen);
+				// $comprobantes->bindParam(":codigo", $code_comprobante);
+				// $comprobantes->bindParam(":dependencia", $this->Dep);
+				// $comprobantes->bindParam(":new_dependencia", $this->newDep);
+				// $comprobantes->bindParam(":fecha", $this->fecha);
+				// // $comprobantes->bindParam(":num_factura", $this->Factura);
+				// $comprobantes->bindParam(":orden", $this->orden);
+				// $comprobantes->bindParam(":observacion", $this->Obser);
+				// $comprobantes->bindParam(":origen", $this->origen);
 
-                $mov = $con->Prepare("UPDATE movimientos SET mov_com_reasignacion = :com_R WHERE mov_bien_cod = :cod_bien;");
-								$bien = $con->Prepare("UPDATE bien SET bien_estado = '1' WHERE bien_cod = :cod;");
+				$mov = $con->Prepare("UPDATE movimientos SET mov_com_cod = :com_R WHERE mov_bien_cod = :cod_bien;");
+				$bien = $con->Prepare("UPDATE bien SET bien_estado = '1' WHERE bien_cod = :cod;");
 
-                if($comprobantes->execute()){
-                	$response = true;
+				if($res[0]->execute()){
+					$response = true;
 
-                	foreach($this->bien as $key){
-                		$mov->bindParam(":com_R", $code_comprobante);
-	                	$mov->bindParam(":cod_bien", $key);
+					foreach($this->bien as $key){
+						$mov->bindParam(":com_R", $res[1]);
+						$mov->bindParam(":cod_bien", $key);
 
-										$bien->bindParam(":cod", $key);
+						$bien->bindParam(":cod", $key);
 
-	                	if(!$mov->execute()){
-	                		$con->rollback();
-	                		$response = false;
-	                		break;
-	                	}
+						if(!$mov->execute()){
+							$con->rollback();
+							$response = false;
+							break;
+						}
 
-										if(!$bien->execute()){
-	                		$con->rollback();
-	                		$response = false;
-	                		break;
-	                	}
-                	}
+						if(!$bien->execute()){
+							$con->rollback();
+							$response = false;
+							break;
+						}
+					}
 
-            			if($response){
-                		$con->commit();
-                		return $this->MakeResponse(200, "Operacion exitosa", `Comprobante: <a href='#' >$code_comprobante</a>`);
-                	}else{
-                		$con->rollback();
-                		return $this->MakeResponse(400, "Operacion Fallida");
-                	}
-                }else{
-                	$con->rollback();
-                	return $this->MakeResponse(400, "Operacion Fallida");
-                }
+					if($response){
+						$con->commit();
+						return $this->MakeResponse(200, "Operacion exitosa","", [
+							'valid' => true,
+							'url' => $res[1]
+						]);
+					}else{
+						$con->rollback();
+						return $this->MakeResponse(400, "Operacion Fallida");
+					}
+				}else{
+					$con->rollback();
+					return $this->MakeResponse(400, "Operacion Fallida");
+				}
 
 			}catch(PDOException $e){
 				error_log("Error en la consulta::models/ClsTransaccion->Reasignar(), ERROR = ".$e->getMessage());
@@ -220,8 +253,8 @@
 
 		public function ConsultarEncargado($id){
 			try{
-				$con = $this->Query("SELECT per_cedula,per_nombre FROM personas WHERE per_car_cod = '1' AND per_dep_cod = $id ;")->fetch(PDO::FETCH_ASSOC);
-				$res = "V-".$con['per_cedula']." ".$con['per_nombre'];
+				$con = $this->Query("SELECT per_cedula,per_nombre,per_apellido FROM personas WHERE per_car_cod = '1' AND per_dep_cod = $id ;")->fetch(PDO::FETCH_ASSOC);
+				$res = "V-".$con['per_cedula']." ".$con['per_nombre']." ".$con["per_apellido"];
 				return $res;
 			}catch(PDOException $e){
 				error_log("Error en la consulta::models/ClsTransaccion->ConsultarEncargado(), ERROR = ".$e->getMessage());
@@ -241,10 +274,10 @@
 						INNER JOIN clasificacion ON clasificacion.cla_cod = bien.bien_clasificacion_cod
 						INNER JOIN categoria ON categoria.cat_cod = clasificacion.cla_cat_cod
 						INNER JOIN movimientos ON movimientos.mov_bien_cod = bien.bien_cod
-						INNER JOIN comprobantes ON comprobantes.com_cod = movimientos.mov_com_incorporacion WHERE
+						INNER JOIN comprobantes ON comprobantes.com_cod = movimientos.mov_com_cod WHERE
 						clasificacion.cla_cat_cod = 'EL' AND bien.bien_estado = '1' AND comprobantes.com_dep_user =(
 						SELECT comprobantes.com_dep_user FROM movimientos
-						INNER JOIN comprobantes ON comprobantes.com_cod = movimientos.mov_com_incorporacion
+						INNER JOIN comprobantes ON comprobantes.com_cod = movimientos.mov_com_cod
 						WHERE movimientos.mov_bien_cod = $codigo );")->fetchAll(PDO::FETCH_ASSOC);
 				}				
 
@@ -263,16 +296,16 @@
 				$estado = ($conditions == 'Incorporado' ? 1 : 0);
 				
 				if($estado == 1){
-					$extraJoin = "INNER JOIN comprobantes ON comprobantes.com_cod = movimientos.mov_com_incorporacion";
+					$extraJoin = "INNER JOIN comprobantes ON comprobantes.com_cod = movimientos.mov_com_cod";
 				}else{
 					$extraJoin = "INNER JOIN comprobantes ON comprobantes.com_cod = movimientos.mov_com_desincorporacion";
 				}
 				
 				if($conditions != ''){
-
+					// OR comprobantes.com_cod = movimientos.mov_com_reasignacion
 					$Bienes = $this->Query("SELECT bien.bien_cod,bien.bien_des,bien.bien_catalogo,dependencia.dep_des FROM bien
 						INNER JOIN movimientos ON movimientos.mov_bien_cod = bien.bien_cod $extraJoin
-						OR comprobantes.com_cod = movimientos.mov_com_reasignacion
+						
 						INNER JOIN dependencia ON dependencia.dep_cod = comprobantes.com_dep_user
 						WHERE bien.bien_estado = $estado
 						AND bien.bien_cod IN(SELECT mov_bien_cod FROM movimientos)

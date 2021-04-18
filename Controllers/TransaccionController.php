@@ -20,7 +20,8 @@
 				$Obser = $this->GetPost('Obser');
 				$bien = $this->GetPost('bien_cod');
 				$orden = $this->GetPost('orden');
-				$this->modelo->setDatos($origen,$Factura,$Dep,null,$Obser,$bien,$this->fecha(),$orden);
+				$encargado = $this->GetPost("encargado");
+				$this->modelo->setDatos($origen,$Factura,$Dep,null,$Obser,$bien,$this->fecha(),$orden,$encargado);
 				return $this->PJSON($this->modelo->Incorporar());
 			}else{
 				return $this->PJSON($this->modelo->MakeResponse(400, 'No hay Post'));
@@ -42,7 +43,8 @@
 				$Obser = $this->GetPost('Obser');
 				$Dep = $this->GetPost('Dep');
 				$bien = $this->GetPost('bien_cod');
-				$this->modelo->setDatos($origen,null,$Dep,null,$Obser,$bien,$this->fecha(),$orden);
+				$encargado = $this->GetPost("encargado");
+				$this->modelo->setDatos($origen,null,$Dep,null,$Obser,$bien,$this->fecha(),$orden,$encargado);
 				return $this->PJSON($this->modelo->Desincorporar());
 			}else{
 				return $this->PJSON($this->modelo->MakeResponse(400, 'No hay Post'));
@@ -65,7 +67,8 @@
 				$Dep = $this->GetPost('Dep_origen');
 				$newdep = $this->GetPost('Dep_destino');
 				$bien = $this->GetPost('bien_cod');
-				$this->modelo->setDatos($origen,null,$Dep,$newdep,$Obser,$bien,$this->fecha(),$orden);
+				$encargado = $this->GetPost("encargado");
+				$this->modelo->setDatos($origen,null,$newdep,$Dep,$Obser,$bien,$this->fecha(),$orden,$encargado);
 				return $this->PJSON($this->modelo->Reasignar());
 			}else{
 				return $this->PJSON($this->modelo->MakeResponse(400, 'No hay Post'));
@@ -92,6 +95,13 @@
 			}else{
 				return $this->PJSON($this->modelo->MakeResponse(400,'No hay Post'));
 			}
+		}
+
+		public function print_info(){
+			echo json_encode([
+				"code" => $this->modelo->CheckCodeComprobante("1"),
+				"fecha" => $this->fecha()
+			]);
 		}
 
 		/**

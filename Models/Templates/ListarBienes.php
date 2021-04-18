@@ -61,7 +61,7 @@ if($con){
     $estado = ($con['bien_estado'] == 1) ? 'Activo' : 'Innactivo';
 
     //VALIDACIONES DE MOVIMIENTOS DEL BIEN
-    if($con2['mov_com_incorporacion']){
+    if($con2['mov_com_cod']){
         if($con2['mov_com_desincorporacion']){
             $movimientos = "Desincoporado";
         }else{

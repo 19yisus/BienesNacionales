@@ -166,6 +166,14 @@ $(document).ready( ()=>{
       },
     },
   });
+
+  $('#Dep').on('change', () => {
+    if ($('#Dep').valid()) {
+      ConsultaEncargado($('#Dep').val());
+    } else {
+      $('#Encargado').val("");
+    }
+  });
   	$("#Desincorporar").click(() => {
     if ($("#formulario").valid()) {
       confirmacion(

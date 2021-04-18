@@ -34,7 +34,8 @@ const Isthereprincipal = () =>{
   let alerta_warning = `
   <div class="alert alert-warning alert-dismissible fade show" role="alert" id="alert-waring">
     <strong>Atencion!</strong> No hay Dependencias registradas, por lo tanto deberas de registrar 
-    la dependencia de Bienes Nacionales en la sede principal primero.
+    la dependencia de Bienes Nacionales en la sede principal primero.</br>
+    Adicionalmente se registrara automaticamente la dependencia de almacen en la misma sede principal
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>

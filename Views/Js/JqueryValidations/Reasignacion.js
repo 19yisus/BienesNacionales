@@ -52,7 +52,6 @@ $(document).ready( ()=>{
   $('#Dep_origen').on('change', (e)=>{
     if(e.target.value != ''){
       if($('#Dep_destino').val() != e.target.value){
-        // $('#tabla').show('slow');
         $('#listar').attr('disabled',false);
         let catalogo = $('#CatalogoBienes').DataTable();
         $('#Transaccion_bienes').DataTable().ajax.reload(null,false);
@@ -63,6 +62,8 @@ $(document).ready( ()=>{
         $('#Obser').attr('readonly',false);
       }
 
+      validarSelects();
+
     }else{
       // $('#tabla').hide('slow');
       $('#origen').attr('disabled',true);
@@ -71,16 +72,16 @@ $(document).ready( ()=>{
     }
   });
 
-  $('#Dep_destino').on('change', (e)=>{
-    // console.log(`Destino: ${e.target.value} | Origen: ${$('#Dep_origen').val()}`)
-
-    if(e.target.value != '' && $('#Dep_origen').val() == e.target.value){
+  const validarSelects = ()=>{
+    if($('#Dep_origen').val() == $('#Dep_destino').val()){
       $('#Dep_destino').val('');
       $('#Dep_destino').trigger('change');
       
       alerta("La dependencia destino no puede ser la misma dependencia de origen");
     }
-  });
+  }
+
+  $('#Dep_destino').on('change', (e) => validarSelects() );
 
   $.validator.setDefaults({
     onsubmit: true,
@@ -198,5 +199,10 @@ $(document).ready( ()=>{
       });
     }
   });
-  
+
+  $('#Dep_destino').on('change', ()=>{
+		if($('#Dep_destino').valid()){
+			ConsultaEncargado($('#Dep_destino').val());
+		}
+	});  
 });
