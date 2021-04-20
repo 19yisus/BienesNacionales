@@ -63,11 +63,11 @@
       <!-- /.social-auth-links -->
 
       <p class="mb-1">
-        <a href="<?php echo constant('URL');?>Login/Vis_ForgotPassword">I forgot my password</a>
+        <a href="<?php echo constant('URL');?>Login/Vis_ForgotPassword">olvidé mi contraseña</a>
       </p>
-      <p class="mb-0">
-        <a href="<?php echo constant('URL');?>Login/Vis_Register" class="text-center">Register a new membership</a>
-      </p>
+      <!-- <p class="mb-0">
+        <a href="<?php //echo constant('URL');?>Login/Vis_Register" class="text-center">Register a new membership</a>
+      </p> -->
     </div>
     <!-- /.card-body -->
   </div>

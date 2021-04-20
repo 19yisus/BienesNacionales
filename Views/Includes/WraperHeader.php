@@ -12,15 +12,26 @@
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
           <?php 
-            $result = $this->Control('TransaccionController')->Componentes();
+            $result = $this->Control('TransaccionController')->Componentes('');
+            
             if(isset($result[0])){
               if(strpos($ruta,'Transaccion') !== false){
                 ?>
                   <li class="breadcrumb-item">
-                    <a href="<?php echo constant('URL')?>Transaccion/Componentes/Vis_AsignarComponentes" class="btn btn-outline-success">Asignar Componentes</a>
+                    <a href="<?php echo constant('URL')?>Transaccion/Componentes/Vis_AsignarComponentes" class="btn btn-outline-danger">Reemplazar Componentes</a>
                   </li>
                 <?php
               } 
+            }            
+            if(strpos($ruta,'Bienes') !== false){
+              $incorporado = $this->Control('BienesController')->Incorporados('any');
+              if(isset($incorporado[0])){
+              ?>
+              <li class="breadcrumb-item">
+                  <a href="<?php echo constant('URL')?>Bienes/Vis_Incorporados" class="btn btn-outline-success">Bienes Incorporados</a>
+                </li>
+              <?php
+              }
             }
           ?>
           <li class="breadcrumb-item">

@@ -139,7 +139,39 @@
           <?php }?>
           <?php if($this->GetDatos('permisos')['roles_name'] != 'Invitado'){?>
             <li class="nav-item has-treeview menu-close">
-              <a href="#" class="nav-link active">
+              <?php 
+                // $ifTransaction1 = $this->Control('TransaccionController')->IfTransaccion('I'); 
+                // $ifTransaction2 = $this->Control('TransaccionController')->IfTransaccion('D'); 
+                // $ifTransaction3 = $this->Control('TransaccionController')->IfTransaccion('R');
+                // $encargado_bienes = $this->Control('TransaccionController')->ConsultarEncargado(1);
+                // $encargado_almacen = $this->Control('TransaccionController')->ConsultarEncargado(2);
+                
+                // $title_transaction = '';
+                // if(!$ifTransaction1 && !$ifTransaction2 && !$ifTransaction3){
+                //   $title_transaction = "En este momento no es posible realizar ninguna transaction";      
+                // }else{
+                //   if(!$ifTransaction1){
+                //     $title_transaction = "En este momento no es posible realizar alguna incorporacion, no hay ningun bien registrado";
+                //     if(!$ifTransaction2){
+                //       $title_transaction = "En este momento no es posible realizar alguna reasignacion, no hay ningun bien desincorporado";
+                //       if(!$ifTransaction3){
+                //         $title_transaction = "En este momento no es posible realizar alguna desincorporacion, no hay ningun bienes incorporados";        
+                //       }
+                //     }
+                //   }else{
+                //     if($encargado_bienes == 'Sin-encargado'){
+                //       $title_transaction = "No hay un encargado en bienes nacionales";
+                //     }elseif($encargado_bienes == 'No-dependencia'){
+                //       $title_transaction = "No existe bienes nacionales";
+                //     }elseif($encargado_almacen == 'Sin-encargado'){
+                //       $title_transaction = "No hay un encargado en almacen";
+                //     }elseif($encargado_almacen == 'No-dependencia'){
+                //       $title_transaction = "No existe almacen";
+                //     }
+                //   }
+                // }
+              ?>
+              <a href="#" class="nav-link active" title="<?php //echo $title_transaction;?>">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
                 <p>
                   Movimientos
@@ -147,24 +179,32 @@
                 </p>
               </a>
               <ul class="nav nav-treeview">
+                <?php //if($this->Control('TransaccionController')->IfTransaccion('I') && $encargado_almacen != ''){ ?>
                 <li class="nav-item">
                   <a href="<?php echo constant('URL');?>Transaccion/Incorporacion/Vis_Index" class="nav-link active">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Incorporacion</p>
                   </a>
                 </li>
+                <?php
+                  //}elseif($this->Control('TransaccionController')->IfTransaccion('D') && $encargado_almacen != ''){
+                ?>
                 <li class="nav-item">
                   <a href="<?php echo constant('URL');?>Transaccion/Desincorporacion/Vis_Index" class="nav-link active">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Desincorporacion</p>
                   </a>
                 </li>
+                <?php
+                  //}elseif($this->Control('TransaccionController')->IfTransaccion('R') && $encargado_almacen != ''){
+                ?>
                 <li class="nav-item">
                   <a href="<?php echo constant('URL');?>Transaccion/Reasignacion/Vis_Index" class="nav-link active">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Reasignacion</p>
                   </a>
   			        </li>
+                <?php //}?>
               </ul>
             </li>
           <?php }?>

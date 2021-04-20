@@ -40,7 +40,7 @@
         'Dependencias/Vis_Index','Dependencias/Vis_Registro',
         'Clasificacion/Vis_Index','Clasificacion/Vis_Registro',
         'Especies/Vis_Index','Especies/Vis_Registro',
-        'Bienes/Vis_Index','Bienes/Vis_Registro',
+        'Bienes/Vis_Index','Bienes/Vis_Registro','Bienes/Vis_Incorporados',
         'Marcas/Vis_Index','Marcas/Vis_Registro',
         'Modelos/Vis_Index','Modelos/Vis_Registro',
         'Personas/Vis_Index','Personas/Vis_Registro',

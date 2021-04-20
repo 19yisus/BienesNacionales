@@ -20,7 +20,7 @@
                     <thead class="thead-dark">
                       <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Descripcion</th>
+                        <th scope="col">Origen</th>
                         <th scope="col">Registrado en</th>
                         <th scope="col">Fecha</th>
                         <!-- <th scope="col">Optiones</th> -->

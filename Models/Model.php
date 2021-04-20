@@ -31,7 +31,7 @@
     }
 
     public function MakeResponse($status, $respuesta, $datos = '', $transaction = []){
-      if(isset($transaction)){
+      if(isset($transaction) && isset($transaction['valid'])){
         if($transaction['valid']){
           return ['status' => $status, 'respuesta' => $respuesta, 'datos' => $datos, 'transaction' => true, 'comprobante_url' => $transaction['url']];  
         }

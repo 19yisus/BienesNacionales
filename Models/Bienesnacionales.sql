@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 18-03-2021 a las 04:02:21
+-- Tiempo de generación: 20-04-2021 a las 03:31:52
 -- Versión del servidor: 5.7.24
 -- Versión de PHP: 7.4.7
 
@@ -56,19 +56,26 @@ CREATE TABLE `bien` (
 --
 
 INSERT INTO `bien` (`bien_cod`, `bien_des`, `bien_catalogo`, `bien_fecha_ingreso`, `bien_precio`, `bien_depreciacion`, `bien_estado`, `bien_fecha_desactivacion`, `bien_color_cod`, `bien_serial`, `bien_clasificacion_cod`, `bien_link_bien`, `bien_mod_cod`, `bien_sexo`, `bien_peso`, `bien_anio`, `bien_placa`, `bien_terreno`, `ifcomponente`) VALUES
-('0100000', 'COMPUTADOR', '465465465465', '2020-10-10', '10000.00', '1000.00', 0, NULL, 9, '654654FASDFA', '01', NULL, 1, NULL, NULL, NULL, NULL, NULL, 0),
-('0100001', 'COMPUTADOR', '465465465465', '2020-10-10', '10000.00', '1000.00', 0, NULL, 9, '654654FASDFA', '01', NULL, 1, NULL, NULL, NULL, NULL, NULL, 0),
-('0100002', 'LAPTOP', '465465456456', '2020-10-10', '1000.00', '130000.00', 1, NULL, 9, '65465465446546546546', '01', NULL, 1, NULL, NULL, NULL, NULL, NULL, 0),
-('0100003', 'LAPTOP', '465465456456', '2020-10-10', '1000.00', '130000.00', 1, NULL, 9, '65465465446546546546', '01', NULL, 1, NULL, NULL, NULL, NULL, NULL, 0),
-('0100004', 'FADFADSFASD', '456456456456', '2020-10-10', '100000.00', '100000.00', 1, NULL, 8, '65465FADSFAD46545454', '01', NULL, 1, NULL, NULL, NULL, NULL, NULL, 0),
-('0100005', 'FADFADSFASD', '456456456456', '2020-10-10', '100000.00', '100000.00', 1, NULL, 8, '65465FADSFAD46545454', '01', NULL, 1, NULL, NULL, NULL, NULL, NULL, 0),
-('0100006', 'FADFADSFASD', '456456456456', '2020-10-10', '100000.00', '100000.00', 1, NULL, 8, '65465FADSFAD46545454', '01', NULL, 1, NULL, NULL, NULL, NULL, NULL, 0),
-('0100007', 'FADFADSFASD', '456456456456', '2020-10-10', '100000.00', '100000.00', 1, NULL, 8, '65465FADSFAD46545454', '01', NULL, 1, NULL, NULL, NULL, NULL, NULL, 0),
-('0100008', 'FADFADSFASD', '456456456456', '2020-10-10', '100000.00', '100000.00', 1, NULL, 8, '65465FADSFAD46545454', '01', NULL, 1, NULL, NULL, NULL, NULL, NULL, 0),
-('0300000', 'FASDFASD', '156456465446', '2020-10-10', '100000.00', '10000.00', 1, NULL, 5, '6465465465464564646', '03', '0100000', 3, NULL, NULL, NULL, NULL, NULL, 1),
-('0300001', 'FASDFASD', '156456465446', '2020-10-10', '100000.00', '10000.00', 1, NULL, 5, '6465465465464564646', '03', NULL, 3, NULL, NULL, NULL, NULL, NULL, 1),
-('0300002', 'FASDFASD', '156456465446', '2020-10-10', '100000.00', '10000.00', 1, NULL, 5, '6465465465464564646', '03', '0100001', 3, NULL, NULL, NULL, NULL, NULL, 1),
-('0300003', 'FASDFASD', '156456465446', '2020-10-10', '100000.00', '10000.00', 1, NULL, 5, '6465465465464564646', '03', NULL, 3, NULL, NULL, NULL, NULL, NULL, 1);
+('2400000', 'COMPUTADOR DE MESA', '465465465465', '2020-10-10', '100000000.00', '100000.00', 1, NULL, 3, '65465DSDS', '24', NULL, 3, NULL, NULL, NULL, NULL, NULL, 0),
+('2400001', 'COMPUTADOR DE MESA', '465465465465', '2020-10-10', '100000000.00', '100000.00', 1, NULL, 3, '65465DSDS', '24', NULL, 3, NULL, NULL, NULL, NULL, NULL, 0),
+('2400002', 'COMPUTADOR DE MESA', '465465465465', '2020-10-10', '100000000.00', '100000.00', 1, NULL, 3, '65465DSDS', '24', NULL, 3, NULL, NULL, NULL, NULL, NULL, 0),
+('2400003', 'COMPUTADOR DE MESA', '465465465465', '2020-10-10', '100000000.00', '100000.00', 1, NULL, 3, '65465DSDS', '24', NULL, 3, NULL, NULL, NULL, NULL, NULL, 0),
+('2400004', 'COMPUTADOR DE MESA', '465465465465', '2020-10-10', '100000000.00', '100000.00', 1, NULL, 3, '65465DSDS', '24', NULL, 3, NULL, NULL, NULL, NULL, NULL, 0),
+('2400005', 'COMPUTADOR DE MESA', '465465465465', '2020-10-10', '100000000.00', '100000.00', 1, NULL, 3, '65465DSDS', '24', NULL, 3, NULL, NULL, NULL, NULL, NULL, 0),
+('2400006', 'COMPUTADOR DE MESA', '465465465465', '2020-10-10', '100000000.00', '100000.00', 1, NULL, 3, '65465DSDS', '24', NULL, 3, NULL, NULL, NULL, NULL, NULL, 0),
+('2400007', 'COMPUTADOR DE MESA', '465465465465', '2020-10-10', '100000000.00', '100000.00', 1, NULL, 3, '65465DSDS', '24', NULL, 3, NULL, NULL, NULL, NULL, NULL, 0),
+('2400008', 'COMPUTADOR DE MESA', '465465465465', '2020-10-10', '100000000.00', '100000.00', 1, NULL, 3, '65465DSDS', '24', NULL, 3, NULL, NULL, NULL, NULL, NULL, 0),
+('2400009', 'COMPUTADOR DE MESA', '465465465465', '2020-10-10', '100000000.00', '100000.00', 1, NULL, 3, '65465DSDS', '24', NULL, 3, NULL, NULL, NULL, NULL, NULL, 0),
+('2600000', 'DISCO DURO', '465465465465', '2020-10-10', '100000000.00', '100000000.00', 1, NULL, 5, '654ASD564564', '26', NULL, 2, NULL, NULL, NULL, NULL, NULL, 1),
+('2600001', 'DISCO DURO', '465465465465', '2020-10-10', '100000000.00', '100000000.00', 1, NULL, 5, '654ASD564564', '26', NULL, 2, NULL, NULL, NULL, NULL, NULL, 1),
+('2600002', 'DISCO DURO', '465465465465', '2020-10-10', '100000000.00', '100000000.00', 1, NULL, 5, '654ASD564564', '26', NULL, 2, NULL, NULL, NULL, NULL, NULL, 1),
+('2600003', 'DISCO DURO', '465465465465', '2020-10-10', '100000000.00', '100000000.00', 1, NULL, 5, '654ASD564564', '26', NULL, 2, NULL, NULL, NULL, NULL, NULL, 1),
+('2600004', 'DISCO DURO', '465465465465', '2020-10-10', '100000000.00', '100000000.00', 1, NULL, 5, '654ASD564564', '26', NULL, 2, NULL, NULL, NULL, NULL, NULL, 1),
+('2600005', 'DISCO DURO', '465465465465', '2020-10-10', '100000000.00', '100000000.00', 1, NULL, 5, '654ASD564564', '26', NULL, 2, NULL, NULL, NULL, NULL, NULL, 1),
+('2600006', 'DISCO DURO', '465465465465', '2020-10-10', '100000000.00', '100000000.00', 1, NULL, 5, '654ASD564564', '26', NULL, 2, NULL, NULL, NULL, NULL, NULL, 1),
+('2600007', 'DISCO DURO', '465465465465', '2020-10-10', '100000000.00', '100000000.00', 1, NULL, 5, '654ASD564564', '26', NULL, 2, NULL, NULL, NULL, NULL, NULL, 1),
+('2600008', 'DISCO DURO', '465465465465', '2020-10-10', '100000000.00', '100000000.00', 1, NULL, 5, '654ASD564564', '26', NULL, 2, NULL, NULL, NULL, NULL, NULL, 1),
+('2600009', 'DISCO DURO', '465465465465', '2020-10-10', '100000000.00', '100000000.00', 1, NULL, 5, '654ASD564564', '26', NULL, 2, NULL, NULL, NULL, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -129,9 +136,13 @@ CREATE TABLE `clasificacion` (
 --
 
 INSERT INTO `clasificacion` (`cla_cod`, `cla_des`, `cla_cat_cod`) VALUES
-('01', 'COMPUTADOR', 'EL'),
-('02', 'MATERIAL', 'MA'),
-('03', 'DISCO DURO', 'EL');
+('12', 'PALA', 'MA'),
+('20', 'SILLA', 'OF'),
+('24', 'COMPUTADOR', 'EL'),
+('26', 'DISCO DURO', 'EL'),
+('55', 'TRANSPORTE', 'TP'),
+('60', 'TERRENO', 'IN'),
+('80', 'SEMOVIENTE', 'BS');
 
 -- --------------------------------------------------------
 
@@ -175,27 +186,12 @@ CREATE TABLE `comprobantes` (
   `com_dep_ant` int(11) DEFAULT NULL,
   `com_fecha_comprobante` date NOT NULL,
   `com_num_factura` varchar(11) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `com_orden_compra` varchar(11) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `com_justificacion` varchar(11) COLLATE utf8_spanish_ci DEFAULT NULL,
   `com_observacion` varchar(150) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `com_origen` varchar(12) COLLATE utf8_spanish_ci DEFAULT NULL
+  `com_origen` varchar(12) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `com_info_encargado` varchar(120) COLLATE utf8_spanish_ci NOT NULL,
+  `com_info_usuario` varchar(120) COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
---
--- Volcado de datos para la tabla `comprobantes`
---
-
-INSERT INTO `comprobantes` (`com_cod`, `com_tipo`, `com_estado`, `com_dep_user`, `com_dep_ant`, `com_fecha_comprobante`, `com_num_factura`, `com_orden_compra`, `com_observacion`, `com_origen`) VALUES
-('0000000001', 'I', 1, 1, NULL, '2021-03-12', '1234567891', '1234567891', 'FSFSFSFDFDSFFSDFSDFSDFSDF', 'COMPRA'),
-('0000000002', 'I', 1, 1, NULL, '2021-03-16', '1231212545', '1111111111', 'FASDFASDFASDFASDFA', 'DONACION'),
-('0000000003', 'I', 1, 1, NULL, '2021-03-17', '4646545646', '6546546546', 'FASDFASDFASDFASDFASDFF', 'DONACION'),
-('0000000004', 'I', 1, 1, NULL, '2021-03-17', '4654564546', '4654564545', 'FASDFASDFASDFASDFASD', 'COMPRA'),
-('0000000005', 'I', 1, 1, NULL, '2021-03-17', '4654654654', '4654564654', 'FASDFASDFASDFADSFASD', 'COMPRA'),
-('0000000006', 'I', 1, 1, NULL, '2021-03-17', '4654654546', '4654564564', 'FASDFASDFASDFASD', 'COMPRA'),
-('0000000007', 'I', 1, 1, NULL, '2021-03-17', '6546545646', '4654654654', 'FASDFASDFASDFASD', 'COMPRA'),
-('0000000008', 'I', 1, 1, NULL, '2021-03-17', '46546545', '4654654564', 'FADSFASDFASDFASDF', 'COMPRA'),
-('0000000009', 'I', 1, 1, NULL, '2021-03-17', '6546546546', '45646545', 'FADFASDFASDFASDFASD', 'COMPRA'),
-('0000000010', 'I', 1, 1, NULL, '2021-03-17', '654654564', '4654654544', 'FADSFASDFASDFASD', 'DONACION'),
-('0000000011', 'D', 1, 1, NULL, '2021-03-17', NULL, '6465465555', 'FASDFASDFASDFASD', 'HURTO');
 
 -- --------------------------------------------------------
 
@@ -218,8 +214,8 @@ CREATE TABLE `dependencia` (
 
 INSERT INTO `dependencia` (`dep_cod`, `dep_des`, `dep_nucleo_cod`, `dep_estado`, `dep_ifprincipal`, `dep_fecha_desactivacion`) VALUES
 (1, 'BIENES NACIONALES', 1, 1, 1, NULL),
-(2, 'INFORMATICA', 1, 1, 0, NULL),
-(3, 'BIENES NACIONALES', 2, 1, 0, NULL);
+(2, 'AlMACEN', 1, 1, 0, NULL),
+(3, 'DEPARTAMENTO DE INFORMATICA', 1, 1, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -241,8 +237,12 @@ CREATE TABLE `marcas` (
 
 INSERT INTO `marcas` (`mar_cod`, `mar_des`, `mar_categoria_cod`, `mar_estado`, `mar_fecha_desactivacion`) VALUES
 (1, 'HP', 'EL', 1, NULL),
-(2, 'VACA', 'BS', 1, NULL),
-(3, 'CABALLO', 'BS', 1, NULL);
+(2, 'FORD', 'TP', 1, NULL),
+(3, 'SAMSUNG', 'EL', 1, NULL),
+(4, 'CATERPILAR', 'MA', 1, NULL),
+(5, 'VACA', 'BS', 1, NULL),
+(6, 'CERDO', 'BS', 1, NULL),
+(7, 'STEELCASE', 'OF', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -263,9 +263,15 @@ CREATE TABLE `modelos` (
 --
 
 INSERT INTO `modelos` (`mod_cod`, `mod_des`, `mod_marca_cod`, `mod_estado`, `mod_fecha_desactivacion`) VALUES
-(1, 'LAPTOP LA QUE SEA', 1, 1, NULL),
-(2, 'LO QUE SEA', 2, 1, NULL),
-(3, 'DISCO DURO', 1, 1, NULL);
+(1, 'AUTOBUS 320', 2, 1, NULL),
+(2, 'DISCO DURO 1TB', 3, 1, NULL),
+(3, 'COMPUTADOR 245', 1, 1, NULL),
+(4, 'PALA DE MADERA 222', 4, 1, NULL),
+(5, 'HOLSTEIN', 5, 1, NULL),
+(6, 'ANGUS', 5, 1, NULL),
+(7, 'DUROC', 6, 1, NULL),
+(8, 'LARGE WHITE', 6, 1, NULL),
+(9, 'SILLA PLEASE V2', 7, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -274,29 +280,10 @@ INSERT INTO `modelos` (`mod_cod`, `mod_des`, `mod_marca_cod`, `mod_estado`, `mod
 --
 
 CREATE TABLE `movimientos` (
-  `mov_com_incorporacion` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `mov_com_reasignacion` char(10) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `mov_com_cod` char(10) COLLATE utf8_spanish_ci NOT NULL,
   `mov_com_desincorporacion` char(10) COLLATE utf8_spanish_ci DEFAULT NULL,
   `mov_bien_cod` char(7) COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
---
--- Volcado de datos para la tabla `movimientos`
---
-
-INSERT INTO `movimientos` (`mov_com_incorporacion`, `mov_com_reasignacion`, `mov_com_desincorporacion`, `mov_bien_cod`) VALUES
-('0000000001', NULL, '0000000011', '0100001'),
-('0000000001', NULL, NULL, '0300002'),
-('0000000002', NULL, '0000000011', '0100000'),
-('0000000002', NULL, NULL, '0100002'),
-('0000000003', NULL, NULL, '0100003'),
-('0000000004', NULL, NULL, '0300003'),
-('0000000005', NULL, NULL, '0300000'),
-('0000000006', NULL, NULL, '0300001'),
-('0000000007', NULL, NULL, '0100004'),
-('0000000008', NULL, NULL, '0100005'),
-('0000000009', NULL, NULL, '0100006'),
-('0000000010', NULL, NULL, '0100007');
 
 -- --------------------------------------------------------
 
@@ -320,10 +307,8 @@ CREATE TABLE `nucleo` (
 --
 
 INSERT INTO `nucleo` (`nuc_cod`, `nuc_des`, `nuc_direccion`, `nuc_codigo_postal`, `nuc_estado`, `nuc_tipo_nucleo`, `nuc_nucleo_principal`, `nuc_fecha_desactivacion`) VALUES
-(1, 'ACARIGUA', 'NUEVA DIRECCI', '3301', 1, 'SP', 1, NULL),
-(2, 'TUREN', 'FASDFASDFASDFASD', '3555', 1, 'NU', 1, NULL),
-(3, 'GUANARE', 'ASDFASDFASDFASDF', '4564', 1, 'NU', 1, NULL),
-(4, 'SANTA ROSALIA', 'FASFASDFASDFASD', '4564', 1, 'PR', 1, NULL);
+(1, '\"UPTP JJ MONTILLA\" ACARIGUA', 'DIRECCION DE LA SEDE PRINCIPAL', '3301', 1, 'SP', NULL, NULL),
+(2, '\"UPTP JJ MONTILLA\" TUREN', 'DIRECCION DE TUREN', '3304', 1, 'NU', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -352,8 +337,9 @@ CREATE TABLE `personas` (
 --
 
 INSERT INTO `personas` (`per_cedula`, `per_nombre`, `per_apellido`, `per_estado`, `per_car_cod`, `per_dep_cod`, `per_telefono`, `per_correo`, `per_direccion`, `per_desde`, `per_hasta`, `per_user_id`, `per_fecha_desactivacion`) VALUES
-('14887566', 'JESUS', 'ALFNOS', 1, 1, 1, '04245198398', 'FASDFADS@GMAIL.COM', 'FASDFASDFASDFA', '2021-03-10', NULL, NULL, NULL),
-('14887567', 'JOSE', 'FASDFASD', 1, 2, 1, '0414456465', 'FASDFASDF@GMAIL.COM', 'FASDFASDFASD', '2020-10-10', NULL, NULL, NULL);
+('14887885', 'JOSE ', 'TORRES', 1, 1, 1, '04145522562', 'JJOSE@GMAIL.COM', 'DIRECCION DE LA PERSONA JOSE', '2020-10-10', NULL, NULL, NULL),
+('20254465', 'RONALDO', 'REYES', 1, 1, 3, '04245225446', 'FASDFASDFA@GMAIL.COM', 'FASDFASDFASDFAS', '2020-10-10', NULL, NULL, NULL),
+('22520004', 'ALBERTO', 'TORRES', 1, 1, 2, '04145225220', 'ALBERTO@GMAIL.COM', 'DIRECCION DE ALBERTO', '2020-10-10', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -481,8 +467,7 @@ ALTER TABLE `modelos`
 -- Indices de la tabla `movimientos`
 --
 ALTER TABLE `movimientos`
-  ADD KEY `mov_com_incorporacion` (`mov_com_incorporacion`),
-  ADD KEY `mov_com_reasignacion` (`mov_com_reasignacion`),
+  ADD KEY `mov_com_incorporacion` (`mov_com_cod`),
   ADD KEY `mov_com_desincorporacion` (`mov_com_desincorporacion`),
   ADD KEY `mov_bien_cod` (`mov_bien_cod`);
 
@@ -543,19 +528,19 @@ ALTER TABLE `dependencia`
 -- AUTO_INCREMENT de la tabla `marcas`
 --
 ALTER TABLE `marcas`
-  MODIFY `mar_cod` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `mar_cod` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `modelos`
 --
 ALTER TABLE `modelos`
-  MODIFY `mod_cod` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `mod_cod` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `nucleo`
 --
 ALTER TABLE `nucleo`
-  MODIFY `nuc_cod` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `nuc_cod` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
@@ -616,8 +601,7 @@ ALTER TABLE `modelos`
 -- Filtros para la tabla `movimientos`
 --
 ALTER TABLE `movimientos`
-  ADD CONSTRAINT `movimientos_ibfk_1` FOREIGN KEY (`mov_com_incorporacion`) REFERENCES `comprobantes` (`com_cod`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `movimientos_ibfk_2` FOREIGN KEY (`mov_com_reasignacion`) REFERENCES `comprobantes` (`com_cod`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `movimientos_ibfk_1` FOREIGN KEY (`mov_com_cod`) REFERENCES `comprobantes` (`com_cod`) ON UPDATE CASCADE,
   ADD CONSTRAINT `movimientos_ibfk_3` FOREIGN KEY (`mov_com_desincorporacion`) REFERENCES `comprobantes` (`com_cod`) ON UPDATE CASCADE,
   ADD CONSTRAINT `movimientos_ibfk_4` FOREIGN KEY (`mov_bien_cod`) REFERENCES `bien` (`bien_cod`) ON UPDATE CASCADE;
 

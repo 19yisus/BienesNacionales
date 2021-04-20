@@ -1,4 +1,5 @@
 $(document).ready(() => {
+  // $("#Valbien").inputmask();
 
   $(`.catalogo-table`).DataTable({
     responsive: true,
@@ -86,7 +87,93 @@ $(document).ready(() => {
     },
   });
 
-  let table = $(`.catalogo-table`).DataTable();
+  $(`#catalogo_table_incorporados`).DataTable({
+    responsive: true,
+    lengthChange: true,
+    autoWidth: true,
+    ajax: {
+      url: `${host_url}/${controller}/Incorporados/1`,
+      dataSrc: "data",
+    },
+    dom: 'Bftp',
+    buttons:{
+      buttons:[
+        {
+          extend: 'excelHtml5',
+          text: '<i class="fas fa-file-excel"></i>',
+          titleAttr: 'Exportar a Excel',
+          className: 'btn btn-success',
+        },
+        {
+          extend: 'pdfHtml5',
+          text: '<i class="fas fa-file-pdf"></i>',
+          titleAttr: 'Exportar a PDF',
+          className: 'btn btn-danger',
+        },
+      ],
+    },
+    columns: [
+      { data: "bien_cod" },
+      { data: "bien_des" },
+      { data: "cat_des" },
+      { data: "bien_fecha_ingreso" },
+      { data: "bien_precio" },
+      {
+        data: "bien_estado",
+        render: function (data) {
+          return data == 1 ? "Activo" : "Innactivo";
+        },
+      },
+      {
+        defaultContent: "",
+        render: function (data, type, row, meta) {
+          let estado = row.bien_estado == 0 ? "disabled" : "";
+          let title_edit =
+            row.bien_estado == 0
+              ? "Este Bien no puede ser modificado"
+              : "Modificar";
+          let title_desac = row.bien_estado == 0 ? "Activar" : "Desactivar";
+          let clase = row.bien_estado == 0 ? "danger" : "success";
+          let btnDestroy = "";
+
+          if (row.bien_estado == 0) {
+            btnDestroy = `
+					<button class="btn btn-sm btn-warning b-destroy" onclick="bDelet(this);" data-function="Destroy" id="bDestroy"
+					data-form="form-del-${row.bien_cod}"
+						data-dismiss="modal" title="Eliminar regitro">
+							<i class="fas fa-trash"></i>
+						</button>`;
+          }
+
+          let btn = `
+          <form name="form-del-${row.bien_cod}" id="form-del-${row.bien_cod}">
+            <input type="hidden" name="Cod" value="${row.bien_cod}">
+          </form>
+          <div class='btn-group'>
+            <button class="btn btn-sm btn-info" id="btn-edit" onclick="Consulta(this)" data-codigo="${row.bien_cod}"
+              data-toggle="modal" data-target="#ModalEdit" ${estado} title="${title_edit}">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="btn btn-sm btn-${clase}" onclick="bDelet(this);" data-function="Delete" id="bDelete" data-form="form-del-${row.bien_cod}"
+            data-dismiss="modal" title="${title_desac}">
+              <i class="fas fa-power-off"></i>
+            </button>
+            <button class="btn btn-sm btn-default" data-control="${controller}" onclick="bConsul(this);" data-codigo="${row.bien_cod}"
+              data-toggle="modal" data-target="#ModalConsultar" data-dismiss="modal"  title="Consultar">
+              <i class="fas fa-list"></i>
+            </button>
+						${btnDestroy}
+           </div>`;
+          return btn;
+        },
+      },
+    ],
+    language: {
+      url: `${host_url}/Views/Js/DataTables.config.json`,
+    },
+  });
+
+  let table = $(`.catalogo-table #catalogo_table_incorporados`).DataTable();
   table.page.len(5).draw();
   table.on("processing", async () => {
     let res = await permisosUser();
@@ -180,8 +267,8 @@ $(document).ready(() => {
         required: true,
         min: 1,
         minlength: 1,
-        maxlength: 12,
-        decimal: true,
+        maxlength: 9,
+        number: true,
       },
       Fecbien: {
         required: true,
@@ -211,7 +298,7 @@ $(document).ready(() => {
         required: true,
         min: 1,
         minlength: 1,
-        maxlength: 12,
+        maxlength: 9,
         decimal: true,
       },
       Placa: {
@@ -264,20 +351,13 @@ $(document).ready(() => {
       Valbien: {
         required: "Ingrese el valor del bien",
         minlength: "Minimo 1 caracter numerico",
-        maxlength: "NO puedes ingresar mas de 12 caracteres",
+        maxlength: "NO puedes ingresar mas de 9 caracteres",
         min: "Ingrese una precio mayor a 0",
-        decimal: "Solo se permiten caracteres decimales",
+        number: "Solo se permiten caracteres decimales",
       },
       Fecbien: {
         required: "Ingrese la fecha de registro",
         valida_fecha: "La fecha es invalida",
-      },
-      Cantbien: {
-        required: "Debe de ingresar la cantidad de bienes",
-        minlength: "Minimo 1 caracter numerico",
-        maxlength: "Maximo de 3 caracteres numericos",
-        min: "Ingrese un numero mayor a cero",
-        number: "Solo se permiten numeros",
       },
       Marca: {
         required: "Seleccione la marca del bien",
@@ -302,7 +382,7 @@ $(document).ready(() => {
       Depre: {
         required: "Debe de ingresar la deprecion del bien",
         minlength: "Debe de ingresar al menos 1 caracter numerico",
-        maxlength: "No ingreses mas de 12 caracteres",
+        maxlength: "No ingreses mas de 9 caracteres",
         decimal: "Solo se permiten caracteres decimales",
         min: "Ingrese una depreciacion mayor a 0",
       },
@@ -365,9 +445,9 @@ $(document).ready(() => {
       Valbien: {
         required: true,
         minlength: 1,
-        maxlength: 12,
+        maxlength: 9,
         min: 1,
-        decimal: true,
+        number: true,
       },
       Fecbien: {
         required: true,
@@ -378,6 +458,7 @@ $(document).ready(() => {
         minlength: 1,
         maxlength: 3,
         min: 1,
+        max: 100,
         number: true,
       },
       Marca: {
@@ -403,7 +484,7 @@ $(document).ready(() => {
         required: true,
         min: 1,
         minlength: 1,
-        maxlength: 12,
+        maxlength: 9,
         decimal: true,
       },
       Placa: {
@@ -462,9 +543,9 @@ $(document).ready(() => {
       Valbien: {
         required: "Ingrese el valor del bien",
         minlength: "Minimo 1 caracter numerico",
-        maxlength: "NO puedes ingresar mas de 12 caracteres",
+        maxlength: "NO puedes ingresar mas de 9 caracteres",
         min: "Ingrese una precio mayor a 0",
-        deciam: "Solo se permiten valores decimales",
+        number: "Solo se permiten valores decimales",
       },
       Fecbien: {
         required: "Ingrese la fecha de registro",
@@ -475,6 +556,7 @@ $(document).ready(() => {
         minlength: "Minimo 1 caracter numerico",
         maxlength: "Maximo de 3 caracteres numericos",
         min: "Ingrese un numero mayor a cero",
+        max: "Solo se pueden registrar maximo 100",
         number: "Solo se permiten numeros",
       },
       Marca: {
@@ -500,7 +582,7 @@ $(document).ready(() => {
       Depre: {
         required: "Debe de ingresar la deprecion del bien",
         minlength: "Debe de ingresar al menos 1 caracter numerico",
-        maxlength: "No ingreses mas de 12 caracteres",
+        maxlength: "No ingreses mas de 9 caracteres",
         decimal: "Solo se permiten valores decimales",
         min: "Ingrese una depreciacion mayor a 0",
       },
@@ -630,7 +712,7 @@ $(document).ready(() => {
 
   $("#Cantbien").on("keyup", () => {
     if ($("#Cantbien").valid()) {
-      // let tipo = $("#Tbien").val();
+      
       switch (categoria) {
         case "IN":
           $("#Terreno").attr("disabled", false);

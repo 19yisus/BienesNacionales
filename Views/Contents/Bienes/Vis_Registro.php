@@ -42,7 +42,7 @@
                         <div class="input-group-prepend">
                           <span class="input-group-text">Bs</span>
                         </div>
-                        <input type="number" name="Valbien" id="Valbien" class="form-control" step="0,00" min="1" minlength="1" maxlength="12" disabled required>
+                        <input type="text" pattern="[0-9.,]{1,9}" name="Valbien" id="Valbien" class="form-control" min="1" minlength="1" maxlength="9" disabled required>
                       </div>
 											
                     </div>
@@ -60,7 +60,7 @@
                     </div>
                     <div class="form-group col-md-4">
                       <label for="">Cantidad</label><label for="" id="ob">*</label>
-                      <input type="number" name="Cantbien" id="Cantbien" minlength="1" maxlength="3" min="1" max="100" class="form-control" placeholder="Cantidad" disabled required>
+                      <input type="number" pattern="[0-9]{1,3}" name="Cantbien" id="Cantbien" minlength="1" maxlength="3" min="1" max="100" class="form-control" placeholder="Cantidad" disabled required>
                     </div>
                   </div>
                   <!-- Row1 (Bienes ELectronicos, Materiales, Material de oficina, Transporte) -->
@@ -102,7 +102,7 @@
                         <div class="input-group-prepend">
                           <span class="input-group-text">Bs</span>
                         </div>
-                        <input type="number" name="Depre" id="Depre" step="0,00" min="1" minlength="1" maxlength="12" class="form-control" disabled required>
+                        <input type="text" pattern="[0-9.,]{1,9}" name="Depre" id="Depre" min="1" minlength="1" maxlength="9" class="form-control" disabled required>
                       </div>
                     </div>
                     <div class="col-md-2 form-group">

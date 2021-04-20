@@ -26,7 +26,7 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text">Bs</span>
                 </div>
-                <input type="number" name="Valbien" id="Valbien_edit" class="form-control" step="0,00" min="1" minlength="1" maxlength="12" disabled required>
+                <input type="text" pattern="[0-9.,]{1,9}" name="Valbien" id="Valbien_edit" class="form-control" min="1" minlength="1" maxlength="9" disabled required>
                 <!-- <div class="input-group-append">
                   <span class="input-group-text">.00</span>
                 </div> -->
@@ -84,7 +84,7 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text">Bs</span>
                 </div>
-                <input type="number" name="Depre" id="Depre_edit" step="0,00" min="1" minlength="1" maxlength="12" class="form-control" disabled required>
+                <input type="text" pattern="[0-9.,]{1,9}" name="Depre" id="Depre_edit" min="1" minlength="1" maxlength="9" class="form-control" disabled required>
                 <!-- <div class="input-group-append">
                   <span class="input-group-text">.00</span>
                 </div> -->

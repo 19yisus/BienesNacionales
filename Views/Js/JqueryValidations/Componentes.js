@@ -90,39 +90,39 @@ $(document).ready( () =>{
 	// 	return true;
 	
 	// }, "No has cambiado ningun valor");
-	// $.validator.setDefaults({
-	// 	onsubmit: true,
-	// 	debug: true,
-	//     errorClass: 'invalid-feedback',
-	//     highlight: function(element) {
-	//       $(element)
-	//         .closest('.form-group')
-	//         .removeClass('has-success')
-	//         .addClass('has-error');
-	//     },
-	//     unhighlight: function(element) {
-	//       $(element)
-	//         .closest('.form-group')
-	//         .removeClass('has-error')
-	//         .addClass('has-success');
-	//     },			   
-	//     errorPlacement: function (error, element) {
-	//       if (element.prop('type') === 'checkbox') {
-	//         error.insertAfter(element.parent());
-	//       }else {
-	//       	// var id = element[0].attributes.id.value;
-	//       	// console.log( $(`#${id}`)[0].attr('aria-invalid'))
-	//       	// $(element).attr('aria-invalid', true);
-	//         error.insertAfter(element);
-	//       }
+	$.validator.setDefaults({
+		onsubmit: true,
+		debug: true,
+	    errorClass: 'invalid-feedback',
+	    highlight: function(element) {
+	      $(element)
+	        .closest('.form-group')
+	        .removeClass('has-success')
+	        .addClass('has-error');
+	    },
+	    unhighlight: function(element) {
+	      $(element)
+	        .closest('.form-group')
+	        .removeClass('has-error')
+	        .addClass('has-success');
+	    },			   
+	    errorPlacement: function (error, element) {
+	      if (element.prop('type') === 'checkbox') {
+	        error.insertAfter(element.parent());
+	      }else {
+	      	// var id = element[0].attributes.id.value;
+	      	// console.log( $(`#${id}`)[0].attr('aria-invalid'))
+	      	// $(element).attr('aria-invalid', true);
+	        error.insertAfter(element);
+	      }
 
-	// 			if(element.parent().parent().parent().parent()[0].id == 'formulario'){
-	// 				$('#formulario').addClass('was-validated');
-	// 			}else{
-	// 				$('#FormEdit').addClass('was-validated');
-	// 			}
-	//     }
-	// });
+				if(element.parent().parent().parent().parent()[0].id == 'formulario'){
+					$('#formulario').addClass('was-validated');
+				}else{
+					$('#FormEdit').addClass('was-validated');
+				}
+	    }
+	});
 	
 	$('.formulario').validate({
 		rules:{

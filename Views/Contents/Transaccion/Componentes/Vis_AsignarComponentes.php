@@ -4,7 +4,7 @@
   <?php $this->Nav();?>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <?php $this->Wraper('Catalogo','Transaccion/Vis_Componentes','Asignacion de componentes');?>
+    <?php $this->Wraper('Home page','Home/Vis_Index','Asignacion de componentes');?>
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
@@ -121,60 +121,70 @@
                 </div>  
               </form> -->
               <div class="card-body">
-              <?php
-                $result = $this->Control('TransaccionController')->Componentes();
-                if(isset($result[0])){
-                  
-                  ?>
-                  <div class="d-flex justify-content-between ml-1 col-12">
+                <form class="row" action="" method="get">
+                  <div class="form-group col-9">
+                    <select name="dep_cod" id="" class="form-custom-select select-option-special w-100" required>
+                      <?php echo $this->Control('PersonasController')->SelectDeps(4); ?>
+                    </select>
+                  </div>
+                  <div class="form-group col-3 text-center">
+                    <div class="btn-group">
+                      <button class="btn btn-primary" type="submit">Filtrar</button>
+                      <a class="btn btn-danger" href="./Vis_AsignarComponentes" id="limpiar">Limpiar</a>
+                    </div>
+                  </div>
+                </form>
+                <!-- <div class="d-flex justify-content-between ml-1 col-12">
+                    
                     <label for="">Datos del componente</label>
-                    <!-- <label for="">Datos del bien</label> -->
+                    
                     <div class="btn-group col-2">
                       <button class="btn btn-info mr-2">Ediar</button>
                     </div>
-                  </div>
-                  <?php
-                  foreach($result as $comp){
-                    ?>
-                    <!-- <div class="card"> -->
-                      <form method="post" id="form-<?php echo $comp['bien_cod'];?>" class="formulario d-inline-flex flex-row align-items-center col-12 needs-validation" novalidate>
-                        <div class="form-group col-2 my-auto py-2">
-                          <input type="text" name="componente_cod" placeholder="Codigo" id="" class="form-control" value="<?php echo $comp['bien_cod'];?>" readonly>
-                        </div>
-                        <div class="form-group col-2 my-auto py-2">
-                          <input type="text" name="" placeholder="Descripcion" id="" class="form-control" value="<?php echo $comp['bien_des'];?>" readonly>
-                        </div>
-                        <div class="form-group col-2 my-auto py-2">
-                          <input type="text" name="" placeholder="Precio" id="" class="form-control" value="<?php echo $comp['bien_precio'];?>" readonly>
-                        </div>
-                        <div class="form-group col-4 my-auto py-2">
-                          <select name="bien_cod" id="" class="custom-select select-option-special w-100" title="Bienes electronicos que requieren un componente">
-                            <option value="">Seleccionar un bien</option>
-                            <?php 
-                            $var = $this->Control('TransaccionController')->Bienes($comp['bien_cod']);
-                            foreach($var as $bien){
+                  </div> -->
+              <?php
+                  if(isset($_GET['dep_cod'])){
+                    $result = $this->Control('TransaccionController')->Componentes($_GET['dep_cod']);                  
+                    foreach($result as $comp){
+                      ?>
+                      <!-- <div class="card"> -->
+                        <form method="post" id="form-<?php echo $comp['bien_cod'];?>" class="formulario d-inline-flex flex-row align-items-center col-12 needs-validation" novalidate>
+                          <div class="form-group col-2 my-auto py-2">
+                            <label for="">Codigo</label>
+                            <input type="text" name="componente_cod" placeholder="Codigo" id="" class="form-control" value="<?php echo $comp['bien_cod'];?>" readonly>
+                          </div>
+                          <div class="form-group col-2 my-auto py-2">
+                          <label for="">Descripcion</label>
+                            <input type="text" name="" placeholder="Descripcion" id="" class="form-control" value="<?php echo $comp['bien_des'];?>" readonly>
+                          </div>
+                          <div class="form-group col-2 my-auto py-2">
+                          <label for="">Precio</label>
+                            <input type="text" name="" placeholder="Precio" id="" class="form-control" value="<?php echo $comp['bien_precio'];?>" readonly>
+                          </div>
+                          <div class="form-group col-4 my-auto py-2">
+                          <label for="">Bien </label><label for="" id="ob">*</label>
+                            <select name="bien_cod" id="" class="custom-select select-option-special w-100" title="Bienes electronicos que requieren un componente" required>
+                              <option value="">Seleccionar un bien</option>
+                              <?php 
+                              $var = $this->Control('TransaccionController')->Bienes($comp['bien_cod']);
+                              foreach($var as $bien){
+                                ?>
+                                <option value="<?php echo $bien['bien_cod'];?>"><?php echo $bien['bien_cod'].' - '.$bien['bien_des'];?></option>
+                                <?php
+                              }
                               ?>
-                              <option value="<?php echo $bien['bien_cod'];?>"><?php echo $bien['bien_cod'].' - '.$bien['bien_des'];?></option>
-                              <?php
-                            }
-                            ?>
-                          </select>
-                        </div>
-                        <div class="btn-group col-2 my-auto py-2">
-                          <button type="button" class="btn btn-success Asignar" value="#form-<?php echo $comp['bien_cod'];?>">
-                            <i class="fas fa-save"></i> Asignar
-                          </button>
-                        </div>
-                      </form>
-                    <!-- </div> -->
-                    <?php
+                            </select>
+                          </div>
+                          <div class="btn-group col-2 my-auto">
+                            <button type="button" class="btn btn-success Asignar" value="#form-<?php echo $comp['bien_cod'];?>">
+                              <i class="fas fa-save"></i> Asignar
+                            </button>
+                          </div>
+                        </form>
+                      <!-- </div> -->
+                      <?php
+                    }
                   }
-                }else{
-                  ?>
-                  <h1 class="text-danger text-center">Sin registros disponibles</h1>
-                  <a href="../../" class="text-center">Regresar al Home Page</a>
-                  <?php
-                }
               ?>
               </div>
             </div>

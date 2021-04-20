@@ -116,8 +116,16 @@
 		 * Consulta un paginador para mostrar un catalogo de registros
 		 * @return json
 		 */
-		public function PaginadorController(){ 
+		public function PaginadorController(){
 			return $this->PJSON($this->modelo->ALl());
+		}
+
+		public function Incorporados($any = ''){
+
+			if(is_array($any)){
+				return $this->PJSON($this->modelo->All('Incorporados'));
+			}
+			return $this->modelo->All('Incorporados');
 		}
 		/**
 		 * Function codificador

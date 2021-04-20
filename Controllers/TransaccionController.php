@@ -21,6 +21,7 @@
 				$bien = $this->GetPost('bien_cod');
 				$orden = $this->GetPost('orden');
 				$encargado = $this->GetPost("encargado");
+				
 				$this->modelo->setDatos($origen,$Factura,$Dep,null,$Obser,$bien,$this->fecha(),$orden,$encargado);
 				return $this->PJSON($this->modelo->Incorporar());
 			}else{
@@ -44,6 +45,7 @@
 				$Dep = $this->GetPost('Dep');
 				$bien = $this->GetPost('bien_cod');
 				$encargado = $this->GetPost("encargado");
+
 				$this->modelo->setDatos($origen,null,$Dep,null,$Obser,$bien,$this->fecha(),$orden,$encargado);
 				return $this->PJSON($this->modelo->Desincorporar());
 			}else{
@@ -68,6 +70,7 @@
 				$newdep = $this->GetPost('Dep_destino');
 				$bien = $this->GetPost('bien_cod');
 				$encargado = $this->GetPost("encargado");
+				
 				$this->modelo->setDatos($origen,null,$newdep,$Dep,$Obser,$bien,$this->fecha(),$orden,$encargado);
 				return $this->PJSON($this->modelo->Reasignar());
 			}else{
@@ -76,15 +79,20 @@
 		}
 
 		public function ConsultarEncargado($id){
-			return $this->PJSON($this->modelo->ConsultarEncargado($id[0]));
+			if(is_array($id)){
+				return $this->PJSON($this->modelo->ConsultarEncargado($id[0]));
+			}else{
+				return $this->modelo->ConsultarEncargado($id);
+			}
+			
 		}
 
-		public function Componentes(){
-			return $this->modelo->Componentes_bienes('Componentes');
+		public function Componentes($por_dependencia){
+			return $this->modelo->Componentes_bienes('Componentes', $por_dependencia);
 		}
 
 		public function Bienes($codigo){
-			return $this->modelo->Componentes_bienes('Electronicos', $codigo);
+			return $this->modelo->Componentes_bienes('Electronicos', $codigo, '');
 		}
 
 		public function Asignar(){
@@ -112,13 +120,12 @@
 		public function Consulta($id){
 			return $this->PJSON($this->modelo->Consulta($id[0]));
 		}
-
-		public function ModalAsignacion($tipo){
-			return $this->PJSON($this->modelo->All($tipo[0]));
-		}
-
-		public function SearchById($cod){
-			$this->PJSON($this->modelo->SearchById($cod[0]));
+		/**
+		 * Comprobante que podamos realizar alguna de las transacciones
+		 * @return boolean
+		 */
+		public function IfTransaccion($nameTransaction){
+			return $this->modelo->ValidTransacciones($nameTransaction);
 		}
 
 		public function BienesNoIncorporados(){

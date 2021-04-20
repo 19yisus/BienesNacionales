@@ -140,60 +140,43 @@
 		public function Update(){
 
 			try{
+				$con = $this->Prepare("UPDATE bien SET
+					bien_des = :des,
+					bien_catalogo = :catalogo,
+					bien_fecha_ingreso = :fecha,
+					bien_precio = :precio,
+					bien_depreciacion = :depre,
+					bien_color_cod = :color,
+					bien_serial = :c_serial,
+					bien_mod_cod = :modelo,
+					bien_sexo = :sexo,
+					bien_peso = :peso,
+					bien_anio = :anio,
+					bien_placa = :placa,
+					bien_terreno = :terreno WHERE bien_estado = '1' AND bien_cod = :codigo ;");
 
-				/**
-				 * Primero se comprueba el bien no este asignado a una dependencia
-				 * al momento de actualizar la informacion
-				 * @return array si hay datos
-				 * @return boolean si no hay datos
-				 */
-				$con1 = $this->Prepare("SELECT * FROM movimientos WHERE mov_bien_cod = :codigo1");
-				$con1 -> bindParam(":codigo1",$this->cod_bien);
-				$con1 -> execute();
-				$con1 = $con1 -> fetch();
+				$con -> bindParam(":codigo",$this->cod_bien);
+				$con -> bindParam(":des",$this->descrip);
+				$con -> bindParam(":catalogo",$this->catalogo);
+				$con -> bindParam(":fecha",$this->fecha);
+				$con -> bindParam(":precio",$this->valor);
+				$con -> bindParam(":depre",$this->depreciacion);
+				$con -> bindParam(":color",$this->color);
+				$con -> bindParam(":c_serial",$this->serial);
+				$con -> bindParam(":modelo",$this->modelo);
+				$con -> bindParam(":sexo",$this->sexo);
+				$con -> bindParam(":peso",$this->peso);
+				$con -> bindParam(":anio",$this->anio);
+				$con -> bindParam(":placa",$this->placa);
+				$con -> bindParam(":terreno",$this->terreno);
 
-				if(!$con1){
-					$con = $this->Prepare("UPDATE bien SET
-						bien_des = :des,
-						bien_catalogo = :catalogo,
-						bien_fecha_ingreso = :fecha,
-						bien_precio = :precio,
-						bien_depreciacion = :depre,
-						bien_color_cod = :color,
-						bien_serial = :c_serial,
-						bien_mod_cod = :modelo,
-						bien_sexo = :sexo,
-						bien_peso = :peso,
-						bien_anio = :anio,
-						bien_placa = :placa,
-						bien_terreno = :terreno WHERE bien_estado = '1' AND bien_cod = :codigo ;");
+				$con -> execute();
 
-					$con -> bindParam(":codigo",$this->cod_bien);
-					$con -> bindParam(":des",$this->descrip);
-					$con -> bindParam(":catalogo",$this->catalogo);
-					$con -> bindParam(":fecha",$this->fecha);
-					$con -> bindParam(":precio",$this->valor);
-					$con -> bindParam(":depre",$this->depreciacion);
-					$con -> bindParam(":color",$this->color);
-					$con -> bindParam(":c_serial",$this->serial);
-					$con -> bindParam(":modelo",$this->modelo);
-					$con -> bindParam(":sexo",$this->sexo);
-					$con -> bindParam(":peso",$this->peso);
-					$con -> bindParam(":anio",$this->anio);
-					$con -> bindParam(":placa",$this->placa);
-					$con -> bindParam(":terreno",$this->terreno);
-
-					$con -> execute();
-
-					if ($con->rowCount() > 0){
-						return $this->MakeResponse(200, "Operacion Exitosa!");
-					}else{
-						return $this->MakeResponse(400, "Operacion Fallida!");
-					}
+				if ($con->rowCount() > 0){
+					return $this->MakeResponse(200, "Operacion Exitosa!");
 				}else{
-					return $this->MakeResponse(400, "Operacion Fallida!","El bien ya esta en uso!");
+					return $this->MakeResponse(400, "Operacion Fallida!");
 				}
-
 			}catch(PDOException $e){
 				error_log("Error en la consulta::models/ClsBienes->Update(), ERROR = ".$e->getMessage());
 				return $this->MakeResponse(400, "Error desconocido, Revisar php-error.log");
@@ -540,14 +523,19 @@
 				return $this->MakeResponse(400, "Error desconocido, Revisar php-error.log");
 			}
 		}
-		public function All(){
+		public function All($condition = ''){
 
 			try{
+				if($condition == ''){
+					$where = "WHERE bien_cod NOT IN(SELECT mov_bien_cod FROM movimientos)";
+				}else{
+					$where = "WHERE bien_cod IN(SELECT mov_bien_cod FROM movimientos)";
+				}
+
 				$data = $this->Query("SELECT DISTINCT bien.bien_cod,bien.bien_des,bien.bien_precio,bien.bien_fecha_ingreso,categoria.cat_des,
 					bien.bien_estado FROM bien
 				INNER JOIN clasificacion ON bien.bien_clasificacion_cod = clasificacion.cla_cod
-				INNER JOIN categoria ON clasificacion.cla_cat_cod = categoria.cat_cod WHERE
-				bien_cod NOT IN(SELECT mov_bien_cod FROM movimientos);")->fetchAll(PDO::FETCH_ASSOC);
+				INNER JOIN categoria ON clasificacion.cla_cat_cod = categoria.cat_cod $where;")->fetchAll(PDO::FETCH_ASSOC);
 
 				return ['data' => $data];
 

@@ -21,7 +21,7 @@
 			$this->Dep_actual = isset($Dep_actual) ? $this->Limpiar($Dep_actual) : null;
 			$this->origen = isset($origen) ? $this->Limpiar($origen) : null;
 			$this->Factura = isset($Factura) ? $this->Limpiar($Factura) : null;
-			$this->bien = (is_array($bien)) ? $bien : $this->Limpiar($bien);
+			$this->bien = (is_array($bien)) ? $bien : array($bien);
 			$this->fecha = $fecha;
 			$this->orden = isset($orden) ? $this->Limpiar($orden) : null;
 			$this->encargado = isset($encargado) ? $this->Limpiar($encargado) : null;
@@ -54,19 +54,6 @@
 				$con = $this->conectar();
 				$con->beginTransaction();
 				$res = $this->CreateComprobante($con, 'I');
-				// $code_comprobante = $this->CheckCodeComprobante('1');
-
-				// $comprobantes = $con->Prepare("INSERT INTO comprobantes(
-				// 	com_cod,com_tipo,com_estado,com_dep_user,com_dep_ant,com_fecha_comprobante,com_num_factura,mov_justificacion,com_observacion,com_origen)
-				// 	VALUES(:codigo,'I','1',:dependencia,null,:fecha,:num_factura,:orden,:observacion,:origen);");
-
-				// $comprobantes->bindParam(":codigo", $code_comprobante);
-				// $comprobantes->bindParam(":dependencia", $this->Dep);
-				// $comprobantes->bindParam(":fecha", $this->fecha);
-				// $comprobantes->bindParam(":num_factura", $this->Factura);
-				// $comprobantes->bindParam(":orden", $this->orden);
-				// $comprobantes->bindParam(":observacion", $this->Obser);
-				// $comprobantes->bindParam(":origen", $this->origen);
 				$mov = $con->Prepare("INSERT INTO movimientos(mov_com_cod,mov_com_desincorporacion,mov_bien_cod) VALUES(:com_I,null,:cod_bien);");
 				if($res[0]->execute()){
 					$response = true;
@@ -109,30 +96,18 @@
 				$con = $this->conectar();
 				$con->beginTransaction();
 				$res = $this->CreateComprobante($con, 'D');
-				
-				// $code_comprobante = $this->CheckCodeComprobante('1');
-				// $comprobantes = $con->Prepare("INSERT INTO comprobantes(
-				// 	com_cod,com_tipo,com_estado,com_dep_user,com_dep_ant,com_fecha_comprobante,com_num_factura,mov_justificacion,com_observacion,com_origen)
-				// 	VALUES(:codigo,'D','1',:dependencia,null,:fecha,null,:orden,:observacion,:origen);");
-
-				// $comprobantes->bindParam(":codigo", $code_comprobante);
-				// $comprobantes->bindParam(":dependencia", $this->Dep);
-				// $comprobantes->bindParam(":fecha", $this->fecha);
-				// // $comprobantes->bindParam(":num_factura", $this->Factura);
-				// $comprobantes->bindParam(":orden", $this->orden);
-				// $comprobantes->bindParam(":observacion", $this->Obser);
-				// $comprobantes->bindParam(":origen", $this->origen);
-
 				$mov = $con->Prepare("UPDATE movimientos SET mov_com_desincorporacion = :com_D WHERE mov_bien_cod = :cod_bien;");
 				$bien = $con->Prepare("UPDATE bien SET bien_estado = '0' WHERE bien_cod = :cod;");
+				$this->CatchComponentes();
 
 				if($res[0]->execute()){
 					$response = true;
 
 					foreach($this->bien as $key){
+
 						$mov->bindParam(":com_D", $res[1]);
 						$mov->bindParam(":cod_bien", $key);
-
+						
 						$bien->bindParam(":cod", $key);
 
 						if(!$mov->execute()){
@@ -175,28 +150,15 @@
 				$con = $this->conectar();
 				$con->beginTransaction();
 				$res = $this->CreateComprobante($con, 'R');
-				// $code_comprobante = $this->CheckCodeComprobante('1');
-
-				// $comprobantes = $con->Prepare("INSERT INTO comprobantes(
-				// 	com_cod,com_tipo,com_estado,com_dep_user,com_dep_ant,com_fecha_comprobante,com_num_factura,mov_justificacion,com_observacion,com_origen)
-				// 	VALUES(:codigo,'R','1',:new_dependencia,:dependencia,:fecha,null,:orden,:observacion,:origen);");
-
-				// $comprobantes->bindParam(":codigo", $code_comprobante);
-				// $comprobantes->bindParam(":dependencia", $this->Dep);
-				// $comprobantes->bindParam(":new_dependencia", $this->newDep);
-				// $comprobantes->bindParam(":fecha", $this->fecha);
-				// // $comprobantes->bindParam(":num_factura", $this->Factura);
-				// $comprobantes->bindParam(":orden", $this->orden);
-				// $comprobantes->bindParam(":observacion", $this->Obser);
-				// $comprobantes->bindParam(":origen", $this->origen);
-
 				$mov = $con->Prepare("UPDATE movimientos SET mov_com_cod = :com_R WHERE mov_bien_cod = :cod_bien;");
 				$bien = $con->Prepare("UPDATE bien SET bien_estado = '1' WHERE bien_cod = :cod;");
+				$this->CatchComponentes();
 
 				if($res[0]->execute()){
 					$response = true;
-
+					
 					foreach($this->bien as $key){
+						
 						$mov->bindParam(":com_R", $res[1]);
 						$mov->bindParam(":cod_bien", $key);
 
@@ -235,6 +197,52 @@
 				return $this->MakeResponse(400, "Error desconocido, Revisar php-error.log");
 			}
 		}
+		
+		public function CatchComponentes(){
+			foreach($this->bien as $bien_cod){
+				$con1 = $this->Query("SELECT bien.ifcomponente,bien.bien_link_bien FROM bien WHERE bien.bien_cod = '$bien_cod';")->fetch();
+				
+				if($con1['ifcomponente'] == 1){
+					if(!in_array($con1['bien_link_bien'], $this->bien)){
+						array_push($this->bien, $con1['bien_link_bien']);
+					}
+				}else{
+				
+					$con2 = $this->Query("SELECT bien.bien_cod FROM bien WHERE bien.bien_link_bien = '$bien_cod' ;");
+					while($key = $con2->fetch(PDO::FETCH_ASSOC)){
+						if(!in_array($key['bien_cod'], $this->bien)){
+							array_push($this->bien, $key['bien_cod']);
+						}
+					}
+				}
+			}
+		}
+
+		public function ValidTransacciones($name_transaction){
+
+			try{
+
+				switch($name_transaction){
+					case 'I':
+						$res = $this->Bienes('','');
+					break;
+
+					case 'D':
+						$res = $this->Bienes('Incorporado','withoutDep');
+					break;
+
+					case 'R':
+						$res = $this->Bienes('Desincorporado','withoutDep');
+					break;
+				}
+
+				return isset($res);
+
+			}catch(PDOException $e){
+				error_log("Error en la consulta::models/ClsTransaccion->ValidTransacciones(), ERROR = ".$e->getMessage());
+				return $this->MakeResponse(400, "Error desconocido, Revisar php-error.log");
+			}
+		}
 
 		public function CatalogoComprobantes($tipo){
 
@@ -253,35 +261,56 @@
 
 		public function ConsultarEncargado($id){
 			try{
-				$con = $this->Query("SELECT per_cedula,per_nombre,per_apellido FROM personas WHERE per_car_cod = '1' AND per_dep_cod = $id ;")->fetch(PDO::FETCH_ASSOC);
-				$res = "V-".$con['per_cedula']." ".$con['per_nombre']." ".$con["per_apellido"];
+				$dep = $this->Query("SELECT dep_cod FROM dependencia WHERE dep_cod = $id")->fetch();
+				if(isset($dep[0])){
+					$con = $this->Query("SELECT per_cedula,per_nombre,per_apellido FROM personas WHERE per_car_cod = '1' AND per_dep_cod = $id ;")->fetch();
+					if(isset($con[0])){
+						$res = "V-".$con['per_cedula']." ".$con['per_nombre']." ".$con["per_apellido"];
+					}else{
+						$res = 'Sin-encargado';
+					}
+				}else{
+					$res = 'No-dependencia';
+				}
+
 				return $res;
+				
+				
 			}catch(PDOException $e){
 				error_log("Error en la consulta::models/ClsTransaccion->ConsultarEncargado(), ERROR = ".$e->getMessage());
 				return $this->MakeResponse(400, "Error desconocido, Revisar php-error.log");
 			}
 		}
-		public function Componentes_bienes($condition, $codigo = ''){
+		public function Componentes_bienes($condition, $codigo = '', $por_dependencia = ''){
 
 			try{
 
 				if($condition == 'Componentes'){
-					$con = $this->Query("SELECT bien.bien_cod,bien.bien_des,bien.bien_precio FROM bien 
-						INNER JOIN movimientos ON movimientos.mov_bien_cod = bien.bien_cod 
-						WHERE bien.ifcomponente = 1 AND bien.bien_link_bien IS NULL AND bien.bien_estado = 1;")->fetchAll(PDO::FETCH_ASSOC);
+					if($por_dependencia == ''){
+
+						$con = $this->Query("SELECT bien.bien_cod,bien.bien_des,bien.bien_precio FROM bien 
+							INNER JOIN movimientos ON movimientos.mov_bien_cod = bien.bien_cod 
+							WHERE bien.ifcomponente = 1 AND bien.bien_link_bien IS NULL AND bien.bien_estado = 1;")->fetchAll(PDO::FETCH_ASSOC);
+					}else{
+						$con = $this->Query("SELECT DISTINCT bien.bien_cod,bien.bien_des,bien.bien_precio FROM bien 
+							INNER JOIN comprobantes ON comprobantes.com_cod = movimientos.mov_com_cod
+							INNER JOIN movimientos ON movimientos.mov_bien_cod = bien.bien_cod 
+							WHERE bien.ifcomponente = 1 AND bien.bien_link_bien IS NULL AND bien.bien_estado = 1 
+							AND comprobantes.com_dep_user = $por_dependencia;")->fetchAll(PDO::FETCH_ASSOC);
+					}
 				}else if($condition == 'Electronicos'){
 					$con = $this->Query("SELECT bien.bien_cod, bien.bien_des FROM bien
 						INNER JOIN clasificacion ON clasificacion.cla_cod = bien.bien_clasificacion_cod
 						INNER JOIN categoria ON categoria.cat_cod = clasificacion.cla_cat_cod
 						INNER JOIN movimientos ON movimientos.mov_bien_cod = bien.bien_cod
 						INNER JOIN comprobantes ON comprobantes.com_cod = movimientos.mov_com_cod WHERE
-						clasificacion.cla_cat_cod = 'EL' AND bien.bien_estado = '1' AND comprobantes.com_dep_user =(
+						clasificacion.cla_cat_cod = 'EL' AND bien.ifcomponente = 0 AND bien.bien_estado = '1' AND comprobantes.com_dep_user =(
 						SELECT comprobantes.com_dep_user FROM movimientos
 						INNER JOIN comprobantes ON comprobantes.com_cod = movimientos.mov_com_cod
 						WHERE movimientos.mov_bien_cod = $codigo );")->fetchAll(PDO::FETCH_ASSOC);
 				}				
-
-				if(isset($con)){
+				
+				if(isset($con[0])){
 					return $con;		
 				}
 				return [];
@@ -303,13 +332,18 @@
 				
 				if($conditions != ''){
 					// OR comprobantes.com_cod = movimientos.mov_com_reasignacion
+
+					if($dep != 'withoutDep'){
+						$com_depUser = "AND comprobantes.com_dep_user = '$dep' ";
+					}else{
+						$com_depUser = '';
+					}
+
 					$Bienes = $this->Query("SELECT bien.bien_cod,bien.bien_des,bien.bien_catalogo,dependencia.dep_des FROM bien
 						INNER JOIN movimientos ON movimientos.mov_bien_cod = bien.bien_cod $extraJoin
-						
 						INNER JOIN dependencia ON dependencia.dep_cod = comprobantes.com_dep_user
 						WHERE bien.bien_estado = $estado
-						AND bien.bien_cod IN(SELECT mov_bien_cod FROM movimientos)
-						AND comprobantes.com_dep_user = '$dep';")->fetchAll(PDO::FETCH_ASSOC);
+						AND bien.bien_cod IN(SELECT mov_bien_cod FROM movimientos) ;")->fetchAll(PDO::FETCH_ASSOC);
 
 				}else{
 

@@ -344,23 +344,39 @@
 				$select = "dependencia.dep_cod,dependencia.dep_des,nucleo.nuc_des,nucleo.nuc_tipo_nucleo";
 
 				if($condition != '' && $condition == 1){
+					// Todas las dependencias que tengan un encarmado activo
 					$con = $this->Query("SELECT DISTINCT  $select FROM dependencia
 					INNER JOIN nucleo ON nucleo.nuc_cod = dependencia.dep_nucleo_cod
 					INNER JOIN personas ON personas.per_dep_cod = dependencia.dep_cod
 					WHERE dependencia.dep_estado = '1';");
 				}elseif($condition != '' && $condition == 2){
+					// Dependencias que tengan bienes Desincorporados
 					$con = $this->Query("SELECT DISTINCT  $select FROM dependencia
 					INNER JOIN nucleo ON nucleo.nuc_cod = dependencia.dep_nucleo_cod
 					INNER JOIN personas ON personas.per_dep_cod = dependencia.dep_cod
 					INNER JOIN comprobantes ON dependencia.dep_cod = comprobantes.com_dep_user
-					WHERE comprobantes.com_tipo = 'D' AND dependencia.dep_estado = '1';");					
+					WHERE comprobantes.com_tipo = 'D' AND dependencia.dep_estado = '1' AND 
+					comprobantes.com_cod IN(SELECT movimientos.mov_com_desincorporacion FROM movimientos);");					
       	}elseif($condition != '' && $condition == 3){
+					//Dependencias que tengan bienes incorporados
 					$con = $this->Query("SELECT DISTINCT  $select FROM dependencia
 					INNER JOIN nucleo ON nucleo.nuc_cod = dependencia.dep_nucleo_cod
 					INNER JOIN personas ON personas.per_dep_cod = dependencia.dep_cod
 					INNER JOIN comprobantes ON dependencia.dep_cod = comprobantes.com_dep_user
-					WHERE comprobantes.com_tipo = 'I' AND dependencia.dep_estado = '1';");					
+					INNER JOIN movimientos ON movimientos.mov_com_cod = comprobantes.com_cod
+					WHERE comprobantes.com_cod IN(SELECT movimientos.mov_com_cod FROM movimientos);");					
+      	}elseif($condition != '' && $condition == 4){
+					//Dependencias que tengan bienes y componentes incorporados
+					$con = $this->Query("SELECT DISTINCT  $select FROM
+								dependencia
+						INNER JOIN nucleo ON nucleo.nuc_cod = dependencia.dep_nucleo_cod
+						INNER JOIN comprobantes ON comprobantes.com_dep_user = dependencia.dep_cod
+						INNER JOIN movimientos ON movimientos.mov_com_cod = comprobantes.com_cod
+						INNER JOIN bien ON bien.bien_cod = movimientos.mov_bien_cod
+						WHERE
+							bien.ifcomponente = 1 AND bien.bien_link_bien IS NULL;");					
       	}else{
+					// Todas las dependencias activas
       		$con = $this->Query("SELECT $select FROM dependencia
 					INNER JOIN nucleo ON nucleo.nuc_cod = dependencia.dep_nucleo_cod
 					WHERE dependencia.dep_estado = '1';");
