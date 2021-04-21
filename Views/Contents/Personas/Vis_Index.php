@@ -25,7 +25,7 @@
                         <th scope="col">Dependencia</th>
                         <th scope="col">Nucleo</th>
                         <th scope="col">Estado</th>
-                        <th scope="col">Optiones</th>
+                        <th scope="col">Opciones</th>
                       </tr>
                     </thead>
                     <tbody>

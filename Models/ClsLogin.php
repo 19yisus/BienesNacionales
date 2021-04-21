@@ -2,6 +2,7 @@
   class ClsLogin extends Model{
     // private $name, $lastname, $email, $password, $password_repeat, $photo, $rol, $created, $updated, $deleted;
     private $user_id, $user_pass, $user_name, $user_state, $user_rol, $pg1, $pg2, $rp1, $rp2;
+    public $datos;
     
     public function __construct(){
       parent::__construct();
@@ -72,6 +73,115 @@
       }else{ 
         setcookie("failPassword",1, time() + 3600);
         $this->view->Redirect("Login?m=4");
+      }
+    }
+
+    public function ConsultarUser($user, $verificacion = true){
+      if($verificacion){
+        $vars = rtrim($user,'-');
+        $vars = explode('-',$vars);
+        $cedula = $this->Limpiar($vars[0]);
+        $name = $this->Limpiar($vars[1]);
+        $sql = "SELECT user_cedula,user_pregunta1,user_pregunta2 FROM usuarios WHERE user_cedula = '$cedula' AND user_nombre = '$name';";
+      }else{
+        $cedula = $this->Limpiar($user);
+        $sql = "SELECT user_cedula,user_pregunta1,user_pregunta2 FROM usuarios WHERE user_cedula = '$cedula';";
+      }    
+
+      $con = $this->Query($sql)->fetch(PDO::FETCH_ASSOC);
+
+      $this->datos = $con;
+
+      if($con){
+        return [
+          'valido' => 1,
+          'userid' => $con['user_cedula'],
+          'PG1' => $con['user_pregunta1'],
+          'PG2' => $con['user_pregunta2']
+        ];
+      }else{
+        return [
+          'valido' => 0,
+          'Error' => 'Los datos ingresados son invalido o incorrecto'
+        ];
+      }
+    }
+
+    public function ValidaRespuestas($userid, $rp1, $rp2){
+
+      try{
+        $user = $this->Limpiar($userid);
+        $rp1 = $this->Limpiar($rp1);
+        $rp2 = $this->Limpiar($rp2);
+        $con = $this->Query("SELECT user_cedula FROM usuarios WHERE user_cedula = '$user' AND user_respuesta1 =  '$rp1' AND user_respuesta2 = '$rp2';")->fetch();
+        
+        if($con){
+          return [
+            'valido' => 2,
+            'userid' => $userid
+          ];
+        }else{
+          $con2 = $this->ConsultarUser($userid, false);
+          return [
+            'valido' => 1,
+            'Error' => "Has ingresado alguna respuesta equivocada",
+            'userid' => $userid,
+            'PG1' => $con2['PG1'],
+            'PG2' => $con2['PG2']
+          ];
+        }
+
+      }catch(PDOException $e){
+        error_log("Error en la consulta::models/ClsLogin->ValidaRespuestas(), ERROR = ".$e->getMessage());
+				return [
+          'valido' => 1,
+          'Error' => "Has ingresado alguna respuesta equivocada",
+          'userid' => $userid,
+          'PG1' => $rp1,
+          'PG2' => $rp2
+        ];
+      }
+    }
+
+    public function ResetPassword($userid, $ps1, $ps2){
+      if($ps1 == $ps2){
+        try{
+          
+          $newpassword = $this->Encript($ps1);
+          
+          $con = $this->Prepare("UPDATE usuarios SET user_clave = :newPassword, user_estado = '1' WHERE user_cedula = :user ;");
+          $con -> bindParam(":newPassword", $newpassword);
+          $con -> bindParam(":user", $userid);
+          $con -> execute();
+          
+          if($con->rowCount() > 0){
+            return [
+              'valido' => 3,
+              'h1' => 'Tu contraseña a sido cambiada con exito, ahora puedes dirigirte al login',
+            ];
+          }else{
+            return [
+              'valido' => 2,
+              'Error' => "Ha ocurrido un error",
+              'userid' => $userid,
+            ];
+          }
+          
+
+        }catch(PDOException $e){
+          error_log("Error en la consulta::models/ClsLogin->ResetPassword(), ERROR = ".$e->getMessage());
+          return [
+            'valido' => 2,
+            'Error' => "Has ingresado alguna respuesta equivocada",
+            'userid' => $userid,
+          ];
+        }
+      }else{
+				return [
+          'valido' => 2,
+          'Error' => "Ambas claves deben de ser identicas",
+          'userid' => $userid,
+        ];
       }
     }
 

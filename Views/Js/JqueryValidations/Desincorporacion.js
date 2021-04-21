@@ -13,6 +13,13 @@ $(document).ready( ()=>{
         {data: "com_origen"},
         {data: "dep_des"},
         {data: "com_fecha_comprobante"},
+        {data: "total_bienes"},
+        {defaultContent: "", 
+        render: function(data, type, row, meta){
+          return `<button class="btn btn-sm btn-default" title="Consultar" onclick="bConsul(this);" data-control="${controller}" 
+          data-codigo="${row.com_cod}" data-toggle="modal" data-target="#ModalConsultar" 
+          data-dismiss="modal"><i class="fas fa-list"></i></button>`;
+        }},
       ],
       language: {
         url: `${host_url}/Views/Js/DataTables.config.json`,

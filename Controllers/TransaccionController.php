@@ -78,6 +78,10 @@
 			}
 		}
 
+		public function Listar($cod_comprobante){
+			echo $this->modelo->Listar($cod_comprobante[0]);
+		}
+
 		public function ConsultarEncargado($id){
 			if(is_array($id)){
 				return $this->PJSON($this->modelo->ConsultarEncargado($id[0]));
@@ -88,7 +92,7 @@
 		}
 
 		public function Componentes($por_dependencia){
-			return $this->modelo->Componentes_bienes('Componentes', $por_dependencia);
+			return $this->modelo->Componentes_bienes('Componentes','', $por_dependencia);
 		}
 
 		public function Bienes($codigo){

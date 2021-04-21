@@ -23,7 +23,8 @@
                         <th scope="col">Origen</th>
                         <th scope="col">Registrado en</th>
                         <th scope="col">Fecha</th>
-                        <!-- <th scope="col">Optiones</th> -->
+                        <th scope="col">Cantidad de bienes</th>
+                        <th scope="col">Opciones</th>
                       </tr>
                     </thead>
                     <tbody>

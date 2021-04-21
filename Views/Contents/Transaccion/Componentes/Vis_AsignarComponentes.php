@@ -124,7 +124,7 @@
                 <form class="row" action="" method="get">
                   <div class="form-group col-9">
                     <select name="dep_cod" id="" class="form-custom-select select-option-special w-100" required>
-                      <?php echo $this->Control('PersonasController')->SelectDeps(4); ?>
+                      <option><?php echo $this->Control('PersonasController')->SelectDeps(4); ?></option>
                     </select>
                   </div>
                   <div class="form-group col-3 text-center">

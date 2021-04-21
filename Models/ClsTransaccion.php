@@ -210,6 +210,8 @@
 				
 					$con2 = $this->Query("SELECT bien.bien_cod FROM bien WHERE bien.bien_link_bien = '$bien_cod' ;");
 					while($key = $con2->fetch(PDO::FETCH_ASSOC)){
+						$c = $key['bien_cod'];
+						error_log("Este es el codigo: $c");
 						if(!in_array($key['bien_cod'], $this->bien)){
 							array_push($this->bien, $key['bien_cod']);
 						}
@@ -247,10 +249,12 @@
 		public function CatalogoComprobantes($tipo){
 
 			try{
-				$comprobante = $this->Query("SELECT comprobantes.com_cod,comprobantes.com_origen,
+				$comprobante = $this->Query("SELECT comprobantes.com_cod,COUNT(comprobantes.com_cod) AS total_bienes,comprobantes.com_origen,
 					comprobantes.com_fecha_comprobante,dependencia.dep_des FROM comprobantes
 					INNER JOIN dependencia ON dependencia.dep_cod = comprobantes.com_dep_user
-					WHERE com_tipo = '$tipo' ;")->fetchAll(PDO::FETCH_ASSOC);
+					INNER JOIN movimientos ON movimientos.mov_com_cod = comprobantes.com_cod OR 
+					movimientos.mov_com_desincorporacion = comprobantes.com_cod
+					WHERE com_tipo = '$tipo' GROUP BY comprobantes.com_cod;")->fetchAll(PDO::FETCH_ASSOC);
 				return ['data' => $comprobante];
 
 			}catch(PDOException $e){
@@ -293,8 +297,8 @@
 							WHERE bien.ifcomponente = 1 AND bien.bien_link_bien IS NULL AND bien.bien_estado = 1;")->fetchAll(PDO::FETCH_ASSOC);
 					}else{
 						$con = $this->Query("SELECT DISTINCT bien.bien_cod,bien.bien_des,bien.bien_precio FROM bien 
-							INNER JOIN comprobantes ON comprobantes.com_cod = movimientos.mov_com_cod
 							INNER JOIN movimientos ON movimientos.mov_bien_cod = bien.bien_cod 
+							INNER JOIN comprobantes ON comprobantes.com_cod = movimientos.mov_com_cod
 							WHERE bien.ifcomponente = 1 AND bien.bien_link_bien IS NULL AND bien.bien_estado = 1 
 							AND comprobantes.com_dep_user = $por_dependencia;")->fetchAll(PDO::FETCH_ASSOC);
 					}
@@ -375,6 +379,30 @@
 				error_log("Error en la consulta::models/ClsTransaccion->Asignar(), ERROR = ".$e->getMessage());
 				return $this->MakeResponse(400, "Error desconocido, Revisar php-error.log");
 			}
+		}
+
+		public function Listar($codigo){
+			try{
+				$sql1 = "SELECT DISTINCT comprobantes.com_cod, comprobantes.com_tipo, dependencia.dep_des, comprobantes.com_fecha_comprobante, 
+					comprobantes.com_num_factura, comprobantes.com_justificacion, comprobantes.com_observacion, comprobantes.com_origen, comprobantes.com_info_encargado
+					FROM comprobantes
+					INNER JOIN movimientos ON movimientos.mov_com_cod = comprobantes.com_cod 
+					OR movimientos.mov_com_desincorporacion = comprobantes.com_cod
+					INNER JOIN dependencia ON dependencia.dep_cod = comprobantes.com_dep_user
+					WHERE comprobantes.com_cod = '$codigo'; ";
+
+				$sql2 = "SELECT bien.bien_cod, bien.bien_des, bien.bien_fecha_ingreso, bien.bien_catalogo, bien.bien_precio, bien.ifcomponente,
+					bien.bien_link_bien, bien.bien_estado FROM bien INNER JOIN movimientos ON movimientos.mov_bien_cod = bien.bien_cod 
+					WHERE movimientos.mov_com_cod = '$codigo' OR movimientos.mov_com_desincorporacion = '$codigo';";
+					
+					$con1 = $this->Query($sql1)->fetch(PDO::FETCH_ASSOC);
+					$con2 = $this->Query($sql2)->fetchAll(PDO::FETCH_ASSOC);
+					require_once 'Templates/ListarComprobantes.php';
+				
+			}catch(PDOException $e){
+				error_log("Error en la consulta::models/ClsTransaccion->Listar(), ERROR = ".$e->getMessage());
+				return $this->MakeResponse(400, "Error desconocido, Revisar php-error.log");
+			}			
 		}
 		// public function Update(){
 
