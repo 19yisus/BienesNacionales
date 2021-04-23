@@ -1,12 +1,13 @@
 <?php
   class View extends Session{
+    private $cod_comprobante;
     /**
      * RenderView()
      * @param string name view
      * @return file.php
      */
     public function RenderView($ruta){
-
+      
       if(strpos($ruta[sizeof($ruta) - 1],'Vis') !== false){
         $url_route = '';
         
@@ -18,16 +19,23 @@
             $url_route .= $key;
           }
         }
-        
         $File = './Views/Contents/'.$url_route.'.php';
-
+        
         if(file_exists($File)){
 
           require_once $File;
         }else{
           $this->Redirect('');
         }
-      } 
+      }elseif($ruta[0] == 'PDF'){
+        
+        $File = "./Views/Contents/pdf/$ruta[1].php";
+
+        if(file_exists($File)){
+          $this->cod_comprobante = (isset($ruta[2])) ? $ruta[2] : null;
+          require_once $File;
+        }        
+      }
     }
     private function Control($name){
       require_once "./Controllers/$name.php";

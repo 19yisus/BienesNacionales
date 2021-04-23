@@ -53,7 +53,8 @@
         'Transaccion/Reasignacion/Vis_Index',
         'Transaccion/Desincorporacion/Vis_Desincorporacion',
         'Transaccion/Desincorporacion/Vis_Index',
-        'Transaccion/Componentes/Vis_AsignarComponentes'
+        'Transaccion/Componentes/Vis_AsignarComponentes',
+        'PDF/Vis_Comprobante','PDF/Vis_Reportes'
       ],
     ];
 

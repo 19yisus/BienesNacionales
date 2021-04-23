@@ -5,7 +5,7 @@
   require_once './Models/Session.php';
   require_once './Views/View.php';
   require_once './Controllers/Controller.php';
-  
+    
   error_reporting(E_ALL);
   ini_set('ignore_repeated_errors',TRUE);
   ini_set('display_errors',FALSE);
@@ -51,14 +51,16 @@
     }
 
     private function RequestController($request){
+      
+      if(strpos($request[0],'Controller') !== false || $request[0] == 'PDF'){
+        
+        $nameController = ($request[0] == 'PDF') ? 'PDFController' : $request[0];
 
-      if(strpos($request[0],'Controller') !== false){
-
-        $Controller = './Controllers/'.$request[0].'.php';
+        $Controller = "./Controllers/$nameController.php";
         
         if(file_exists($Controller)){  
           require_once $Controller;
-          $control = new $request[0]();
+          $control = new $nameController();
           
           if(method_exists($control, $request[1])){
             

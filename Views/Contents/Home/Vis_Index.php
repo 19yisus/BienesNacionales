@@ -4,7 +4,7 @@
   <?php $this->Nav();?>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <?php //$this->Wraper('Inicio');?>
+  <?php $this->Wraper('','','');?>
     <!-- Main content -->
     <div class="content mt-4">
       <div class="container-fluid">

@@ -73,7 +73,7 @@
 						$con->commit();
 						return $this->MakeResponse(200, "Operacion exitosa","", [
 							'valid' => true,
-							'url' => $res[1]
+							'url' => constant('URL') .'PDF/Vis_Comprobante/'. $res[1]
 						]);
 					}else{
 						$con->rollback();
@@ -127,7 +127,7 @@
 						$con->commit();
 						return $this->MakeResponse(200, "Operacion exitosa","", [
 							'valid' => true,
-							'url' => $res[1]
+							'url' => constant('URL') .'PDF/Vis_Comprobante/'. $res[1]
 						]);
 					}else{
 						$con->rollback();
@@ -181,7 +181,7 @@
 						$con->commit();
 						return $this->MakeResponse(200, "Operacion exitosa","", [
 							'valid' => true,
-							'url' => $res[1]
+							'url' => constant('URL') .'PDF/Vis_Comprobante/'. $res[1]
 						]);
 					}else{
 						$con->rollback();
