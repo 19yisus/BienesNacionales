@@ -249,12 +249,18 @@
 		public function CatalogoComprobantes($tipo){
 
 			try{
+				$where = "";
+
+				if($tipo != "A"){
+					$where = "WHERE com_tipo = '$tipo' ";
+				}
+
 				$comprobante = $this->Query("SELECT comprobantes.com_cod,COUNT(comprobantes.com_cod) AS total_bienes,comprobantes.com_origen,
-					comprobantes.com_fecha_comprobante,dependencia.dep_des FROM comprobantes
+					comprobantes.com_tipo,comprobantes.com_fecha_comprobante,dependencia.dep_des FROM comprobantes
 					INNER JOIN dependencia ON dependencia.dep_cod = comprobantes.com_dep_user
 					INNER JOIN movimientos ON movimientos.mov_com_cod = comprobantes.com_cod OR 
 					movimientos.mov_com_desincorporacion = comprobantes.com_cod
-					WHERE com_tipo = '$tipo' GROUP BY comprobantes.com_cod;")->fetchAll(PDO::FETCH_ASSOC);
+					$where GROUP BY comprobantes.com_cod;")->fetchAll(PDO::FETCH_ASSOC);
 				return ['data' => $comprobante];
 
 			}catch(PDOException $e){

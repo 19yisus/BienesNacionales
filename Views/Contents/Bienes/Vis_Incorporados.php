@@ -22,8 +22,7 @@
                           <th scope="col">#</th>
                           <th scope="col">Descripcion</th>
                           <th scope="col">Categoria</th>
-                          <th scope="col">Fecha de ingreso</th>
-                          <th scope="col">Precio</th>
+                          <th scope="col">Ubicación</th>
                           <th scope="col">Estado</th>
                           <th scope="col">Optiones</th>
                         </tr>

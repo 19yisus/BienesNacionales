@@ -1,6 +1,6 @@
 <?php $this->Headers(); $this->Exit(); ?>
 <body class="hold-transition sidebar-mini">
-	<div class="wrapper">
+  <div class="wrapper">
   <?php $this->Nav();?>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -14,134 +14,22 @@
               <div class="card-header">
                 <h3 class="card-title">Componentes</h3>
               </div>
-              <!-- <form role="form" name="formulario" id="formulario" method="POST" action="#" autocomplete="off" class="needs-validation" novalidate>
-                <div class="card-body">
-                  
-                  <div class="row">
-                    <div class="row">
-                    <div class="col-md-6">
-                      <div class="card">
-                        <div class="card-header bg-info">
-                          <h6 class="card-title">Componente</h6>
-                          <div class="float-right">
-                            <button class="btn btn-sm btn-success" type="button" id="btnAddMaterial" title="Agregar" data-toggle="modal" data-target="#ModalComponente">
-                              <i class="fas fa-plus"></i>
-                            </button>
-                          </div>
-                        </div>
-                        <div class="card-body">
-                          <div class="row">
-                            <div class="form-group col-md-5">
-                              <label for="">Codigo</label>
-                              <input type="text" name="Componente" id="CodC" class="form-control" placeholder="Codigo" readonly required>
-                            </div>
-                            <div class="form-group col-md-7">
-                              <label for="">Descripcion</label>
-                              <input type="text" id="DesM" class="form-control" placeholder="Descripcion" readonly >
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="form-group col-md-5">
-                              <label for="">Precio</label>
-                              <input type="text" id="PreM" class="form-control" placeholder="Codigo" readonly >
-                            </div>
-                            <div class="form-group col-md-7">
-                              <label for="">Fecha de ingreso</label>
-                              <div class="form-group">
-                                <div class="input-group">
-                                  <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
-                                  </div>
-                                  <input type="date" class="form-control" id="FechaM" data-inputmask-alias="datetime" 
-                                  data-inputmask-inputformat="mm/dd/yyyy" readonly>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="card">
-                        <div class="card-header bg-warning">
-                          <h6 class="card-title">Bien</h6>
-                          <div class="float-right">
-                            <button class="btn btn-sm btn-success" type="button" id="btnAddBien" title="Agregar" data-toggle="modal" data-target="#ModalBien">
-                              <i class="fas fa-plus"></i>
-                            </button>
-                          </div>
-                        </div>
-                        <div class="card-body">
-                          <div class="row">
-                              <div class="form-group col-md-5">
-                                <label for="">Codigo</label>
-                                <input type="text" name="Bien" id="CodB" class="form-control" placeholder="Codigo" readonly required >
-                              </div>
-                              <div class="form-group col-md-7">
-                                <label for="">Descripcion</label>
-                                <input type="text" id="DesB" class="form-control" placeholder="Descripcion" readonly >
-                              </div>
-                          </div>
-                          <div class="row">
-                            <div class="form-group col-md-5">
-                              <label for="">Precio</label>
-                              <input type="text" id="PreB" class="form-control" placeholder="Codigo" readonly >
-                            </div>
-                            <div class="form-group col-md-7">
-                              <label for="">Fecha de ingreso</label>
-                              <div class="form-group">
-                                <div class="input-group">
-                                  <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
-                                  </div>
-                                  <input type="date" class="form-control" id="FechaB" data-inputmask-alias="datetime" 
-                                  data-inputmask-inputformat="mm/dd/yyyy" readonly>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  </div>
-                  <div class="row card-footer">
-                    <div class="col-md-12 text-center">
-                      <div class="btn-group ">
-                        <button type="button" id="btnAdd" data-formulario="formulario" value="Insert" class="btn btn-success" title="Guardar"> 
-                          <i class="fas fa-save"></i> Registrar
-                        </button>
-                        <button type="reset" class="btn btn-danger">Limpiar</button>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalCatalogo"> 
-                            <i class="fas fa-search" ></i> Listar
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>  
-              </form> -->
               <div class="card-body">
                 <form class="row" action="" method="get">
                   <div class="form-group col-9">
+                    <label for="">Filtrar por dependencias</label>
                     <select name="dep_cod" id="" class="form-custom-select select-option-special w-100" required>
                       <option><?php echo $this->Control('PersonasController')->SelectDeps(4); ?></option>
                     </select>
                   </div>
-                  <div class="form-group col-3 text-center">
-                    <div class="btn-group">
+                  <div class="col-3">
+                      <label class="ml-5" for="">Operaciones</label>
+                    <div class="form-group text-center">
                       <button class="btn btn-primary" type="submit">Filtrar</button>
                       <a class="btn btn-danger" href="./Vis_AsignarComponentes" id="limpiar">Limpiar</a>
                     </div>
                   </div>
                 </form>
-                <!-- <div class="d-flex justify-content-between ml-1 col-12">
-                    
-                    <label for="">Datos del componente</label>
-                    
-                    <div class="btn-group col-2">
-                      <button class="btn btn-info mr-2">Ediar</button>
-                    </div>
-                  </div> -->
               <?php
                   if(isset($_GET['dep_cod'])){
                     $result = $this->Control('TransaccionController')->Componentes($_GET['dep_cod']);                  
@@ -154,15 +42,15 @@
                             <input type="text" name="componente_cod" placeholder="Codigo" id="" class="form-control" value="<?php echo $comp['bien_cod'];?>" readonly>
                           </div>
                           <div class="form-group col-2 my-auto py-2">
-                          <label for="">Descripcion</label>
+                            <label for="">Descripcion</label>
                             <input type="text" name="" placeholder="Descripcion" id="" class="form-control" value="<?php echo $comp['bien_des'];?>" readonly>
                           </div>
                           <div class="form-group col-2 my-auto py-2">
-                          <label for="">Precio</label>
+                            <label for="">Precio</label>
                             <input type="text" name="" placeholder="Precio" id="" class="form-control" value="<?php echo $comp['bien_precio'];?>" readonly>
                           </div>
                           <div class="form-group col-4 my-auto py-2">
-                          <label for="">Bien </label><label for="" id="ob">*</label>
+                            <label for="">Bien </label><label for="" id="ob">*</label>
                             <select name="bien_cod" id="" class="custom-select select-option-special w-100" title="Bienes electronicos que requieren un componente" required>
                               <option value="">Seleccionar un bien</option>
                               <?php 
@@ -175,7 +63,9 @@
                               ?>
                             </select>
                           </div>
-                          <div class="btn-group col-2 my-auto">
+                          
+                          <div class="form-group col-2 my-auto">
+                            <label for="">Operaciones</label>
                             <button type="button" class="btn btn-success Asignar" value="#form-<?php echo $comp['bien_cod'];?>">
                               <i class="fas fa-save"></i> Asignar
                             </button>

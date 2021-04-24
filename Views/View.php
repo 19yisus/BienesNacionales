@@ -8,9 +8,9 @@
      */
     public function RenderView($ruta){
       
-      if(strpos($ruta[sizeof($ruta) - 1],'Vis') !== false){
+      if(strpos($ruta[sizeof($ruta) - 1],'Vis') !== false && $ruta[0] != "PDF"){
         $url_route = '';
-        
+                
         foreach($ruta as $key){       
 
           if(!strpos($key,'Vis') && gettype(strpos($key,'Vis')) == "boolean"){
@@ -32,9 +32,10 @@
         $File = "./Views/Contents/pdf/$ruta[1].php";
 
         if(file_exists($File)){
+          
           $this->cod_comprobante = (isset($ruta[2])) ? $ruta[2] : null;
           require_once $File;
-        }        
+        }
       }
     }
     private function Control($name){
@@ -95,7 +96,14 @@
       }else{
         
         if(isset($_GET['url'])){
-          if(!$this->validRole($_GET['url'])){
+          $ruta = explode("/", $_GET["url"]);
+
+          if($ruta[0] == "PDF"){
+            $url = $ruta[0]."/".$ruta[1];
+            if(!$this->validRole($url)){
+              $this->Redirect('');  
+            }
+          }elseif(!$this->validRole($_GET['url'])){
             $this->Redirect('');
           }
         }

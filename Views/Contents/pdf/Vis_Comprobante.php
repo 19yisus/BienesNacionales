@@ -18,11 +18,11 @@
       $title = "Comprobante de incorporación";
     break;
 
-    case 'R':
+    case 'D':
       $title = "Comprobante de Desincorporación";
     break;
 
-    case 'D':
+    case 'R':
       $title = "Comprobante de Reasignación";
     break;
   }

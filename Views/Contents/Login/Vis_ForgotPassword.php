@@ -93,11 +93,11 @@
       <form method="post" name="formulario">
         <input type="hidden" name="user" value="<?php echo $res['userid']; ?>">
         <div class="form-group mb-3">
-          <label for="username"><?php echo $res['PG1'];?></label>
+          <label for="username">¿<?php echo $res['PG1'];?>?</label>
           <input type="text" class="form-control" name="res_1" placeholder="Responda la pregunta 1" required>
         </div>
         <div class="form-group mb-3">
-          <label for="username"><?php echo $res['PG2'];?></label>
+          <label for="username">¿<?php echo $res['PG2'];?>?</label>
           <input type="text" class="form-control" name="res_2" placeholder="Responda la pregunta 2" required>
         </div>
         <div class="row">

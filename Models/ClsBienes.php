@@ -527,12 +527,19 @@
 
 			try{
 				if($condition == ''){
+					$select = "";
 					$where = "WHERE bien_cod NOT IN(SELECT mov_bien_cod FROM movimientos)";
 				}else{
-					$where = "WHERE bien_cod IN(SELECT mov_bien_cod FROM movimientos)";
+					$select = 	"CONCAT(dependencia.dep_des,' - ',nucleo.nuc_des) AS ubicacion,";
+
+					$where = "INNER JOIN movimientos ON movimientos.mov_bien_cod = bien.bien_cod
+						INNER JOIN comprobantes ON comprobantes.com_cod = movimientos.mov_com_cod OR comprobantes.com_cod = movimientos.mov_com_desincorporacion
+						INNER JOIN dependencia ON dependencia.dep_cod = comprobantes.com_dep_user
+						INNER JOIN nucleo ON nucleo.nuc_cod = dependencia.dep_nucleo_cod
+						WHERE bien_cod IN(SELECT mov_bien_cod FROM movimientos)";
 				}
 
-				$data = $this->Query("SELECT DISTINCT bien.bien_cod,bien.bien_des,bien.bien_precio,bien.bien_fecha_ingreso,categoria.cat_des,
+				$data = $this->Query("SELECT DISTINCT $select bien.bien_cod,bien.bien_des,bien.bien_precio,bien.bien_fecha_ingreso,categoria.cat_des,
 					bien.bien_estado FROM bien
 				INNER JOIN clasificacion ON bien.bien_clasificacion_cod = clasificacion.cla_cod
 				INNER JOIN categoria ON clasificacion.cla_cat_cod = categoria.cat_cod $where;")->fetchAll(PDO::FETCH_ASSOC);
@@ -599,8 +606,13 @@
 				$con2 = $con2 -> fetch(PDO::FETCH_ASSOC);
 				// ./EXECUCION DE LA SEGUNDA CONSULTA
 
+				$movimiento_sql = "SELECT comprobantes.com_dep_user, comprobantes.com_dep_ant, comprobantes.com_fecha_comprobante 
+					FROM bien INNER JOIN movimientos ON movimientos.mov_bien_cod = bien.bien_cod
+					INNER JOIN comprobantes ON comprobantes.com_cod = movimientos.mov_com_cod OR comprobantes.com_cod = movimientos.mov_com_desincorporacion
+					INNER JOIN dependencia ON dependencia.dep_cod = comprobantes.com_dep_user WHERE
+    				bien.bien_cod = '$cod' ";
+				
 				require "Templates/ListarBienes.php";
-				return $card;
 
 			}catch(PDOException $e){
 				error_log("Error en la consulta::models/ClsBienes->Listar(), ERROR = ".$e->getMessage());

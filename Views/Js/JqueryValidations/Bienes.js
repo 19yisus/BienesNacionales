@@ -116,8 +116,7 @@ $(document).ready(() => {
       { data: "bien_cod" },
       { data: "bien_des" },
       { data: "cat_des" },
-      { data: "bien_fecha_ingreso" },
-      { data: "bien_precio" },
+      { data: "ubicacion" },
       {
         data: "bien_estado",
         render: function (data) {
