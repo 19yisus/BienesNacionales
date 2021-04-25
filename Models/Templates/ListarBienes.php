@@ -113,7 +113,9 @@
                                     <th>Color</th>
                                     <th>Serial</th>
                                     <th>Catalogo</th>
+                                    <?php if($con['ifcomponente'] == 0){?>
                                     <th>Componentes</th>
+                                    <?php }?>
                                 </tr>
                             </thead>
                             <tbody>
@@ -123,7 +125,9 @@
                                     <td><?php echo $con6["color_des"]; ?></td>
                                     <td><?php echo $con["bien_serial"]; ?></td>
                                     <td><?php echo $con["bien_catalogo"]; ?></td>
+                                    <?php if($con['ifcomponente'] == 0){?>
                                     <td><?php echo $con4["cantidad"]; ?></td>
+                                    <?php }?>
                                 </tr>
                             </tbody>
                         </table>
@@ -278,7 +282,7 @@
                                     <th>Marca</th>
                                     <th>Modelo</th>
                                     <th>Anio</th>
-                                    <th>Componentes</th>
+                                    <!-- <th>Componentes</th> -->
                                 </tr>
                             </thead>
                             <tbody>
@@ -287,24 +291,38 @@
                                     <td><?php echo $con3["mar_des"]; ?></td>
                                     <td><?php echo $con3["mod_des"]; ?></td>
                                     <td><?php echo $con["bien_anio"]; ?></td>
-                                    <td><?php echo $con4["cantidad"]; ?></td>
+                                    <!-- <td><?php //echo $con4["cantidad"]; ?></td> -->
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
         <?php
-    }
-        if($con2['mov_com_cod']){
+    }   
+        
+        if($con2){
             $movimientos_res = $this->Query($movimiento_sql)->fetchAll(PDO::FETCH_ASSOC);
-            // var_dump($movimientos_res);
-
-
-            $dep_sql = "SELECT CONCAT(dependencia.dep_des,' - ',nucleo.nuc_des) AS ubicacion FROM dependencia
-					INNER JOIN nucleo ON nucleo.nuc_cod = dependencia.dep_nucleo_cod WHERE dependencia.dep_cod = '$dep' ";
             
+            $dep_sql = "SELECT CONCAT(dependencia.dep_des,' - ',nucleo.nuc_des) AS ubicacion FROM dependencia
+					INNER JOIN nucleo ON nucleo.nuc_cod = dependencia.dep_nucleo_cod WHERE dependencia.dep_cod = :dep_cod ";
+            $dep_user_con = $this->Prepare($dep_sql);
+            $dep_user_con->bindParam(":dep_cod", $movimientos_res[0]['com_dep_user']);
+            $dep_user_con->execute();
+            $dep_user = $dep_user_con->fetch();
+                        
+            if($movimientos_res[0]['com_dep_ant']){
+
+                $dep_ant_con = $this->Prepare($dep_sql);
+                $dep_ant_con->bindParam(":dep_cod", $movimientos_res[0]['com_dep_ant']);
+                $dep_ant_con->execute();
+                $dep_ant = $dep_ant_con->fetch();
+            }else{
+                $dep_ant = ['ubicacion' => ''];
+            }
+            
+            $date = new DateTime($movimientos_res[0]['com_fecha_comprobante']);
 ?>
-            <!-- <div class="card card-primary card-outline">
+            <div class="card card-primary card-outline">
                 <div class="card-header">
                     <h3 class="card-title">Detalles del bien</h3>
                 </div>
@@ -319,12 +337,14 @@
                         </thead>
                         <tbody>
                             <tr>
-                                
+                                <td><?php echo $dep_user['ubicacion']; ?></td>
+                                <td><?php echo $dep_ant['ubicacion']; ?></td>
+                                <td><?php echo $date->format('d/m/Y');?></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-            </div> -->
+            </div>
 <?php
         }
 

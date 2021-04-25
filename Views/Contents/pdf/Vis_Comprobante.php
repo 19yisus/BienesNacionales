@@ -7,11 +7,6 @@
   $bienes_nacionales = $datos[1];
   $bienes = $datos[2];
   $almacen = $datos[3];
-  
-  $fecha = explode('-', $comprobante['fecha']);
-  $fecha = array_reverse($fecha);
-  $fecha = $fecha[0].'/'.$fecha[1].'/'.$fecha[2];
-  
 
   switch($comprobante['tipo']){
     case 'I':
@@ -43,7 +38,7 @@
         </div>
 
         <div>
-          <strong>Fecha: </strong><?php echo $fecha;?>
+          <strong>Fecha: </strong><?php echo $comprobante['fecha'];?>
         </div>
       </div>
 

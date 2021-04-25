@@ -4,7 +4,7 @@
     <?php $this->Nav();?>
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-      <?php $this->Wraper('Catalogo','Bienes/Vis_Index','Catalogo de Bienes Incorporados');?>
+      <?php $this->Wraper('Regresar al catalogo','Bienes/Vis_Index','Catalogo de Bienes Incorporados');?>
       <!-- Main content -->
       <div class="content">
         <div class="container-fluid">

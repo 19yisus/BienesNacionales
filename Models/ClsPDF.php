@@ -40,10 +40,11 @@
           $con4 = $this->Query($sql4)->fetchAll();
 
           $encargado = explode(' ',$con1['com_info_encargado']);
-                    
+          $date = new DateTime($con1['com_fecha_comprobante']);
+
           $comprobante = [
             'cod' => $con1['com_cod'],
-            'fecha' => $con1['com_fecha_comprobante'],
+            'fecha' => $date->format('d/m/Y'),
             'tipo' => $con1['com_tipo'],
             'factura' => $con1['com_num_factura'],
             'justificacion' => $con1['com_justificacion'],

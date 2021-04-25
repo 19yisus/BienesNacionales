@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 20-04-2021 a las 03:31:52
+-- Tiempo de generación: 25-04-2021 a las 20:39:36
 -- Versión del servidor: 5.7.24
 -- Versión de PHP: 7.4.7
 
@@ -66,9 +66,6 @@ INSERT INTO `bien` (`bien_cod`, `bien_des`, `bien_catalogo`, `bien_fecha_ingreso
 ('2400007', 'COMPUTADOR DE MESA', '465465465465', '2020-10-10', '100000000.00', '100000.00', 1, NULL, 3, '65465DSDS', '24', NULL, 3, NULL, NULL, NULL, NULL, NULL, 0),
 ('2400008', 'COMPUTADOR DE MESA', '465465465465', '2020-10-10', '100000000.00', '100000.00', 1, NULL, 3, '65465DSDS', '24', NULL, 3, NULL, NULL, NULL, NULL, NULL, 0),
 ('2400009', 'COMPUTADOR DE MESA', '465465465465', '2020-10-10', '100000000.00', '100000.00', 1, NULL, 3, '65465DSDS', '24', NULL, 3, NULL, NULL, NULL, NULL, NULL, 0),
-('2600000', 'DISCO DURO', '465465465465', '2020-10-10', '100000000.00', '100000000.00', 1, NULL, 5, '654ASD564564', '26', NULL, 2, NULL, NULL, NULL, NULL, NULL, 1),
-('2600001', 'DISCO DURO', '465465465465', '2020-10-10', '100000000.00', '100000000.00', 1, NULL, 5, '654ASD564564', '26', NULL, 2, NULL, NULL, NULL, NULL, NULL, 1),
-('2600002', 'DISCO DURO', '465465465465', '2020-10-10', '100000000.00', '100000000.00', 1, NULL, 5, '654ASD564564', '26', NULL, 2, NULL, NULL, NULL, NULL, NULL, 1),
 ('2600003', 'DISCO DURO', '465465465465', '2020-10-10', '100000000.00', '100000000.00', 1, NULL, 5, '654ASD564564', '26', NULL, 2, NULL, NULL, NULL, NULL, NULL, 1),
 ('2600004', 'DISCO DURO', '465465465465', '2020-10-10', '100000000.00', '100000000.00', 1, NULL, 5, '654ASD564564', '26', NULL, 2, NULL, NULL, NULL, NULL, NULL, 1),
 ('2600005', 'DISCO DURO', '465465465465', '2020-10-10', '100000000.00', '100000000.00', 1, NULL, 5, '654ASD564564', '26', NULL, 2, NULL, NULL, NULL, NULL, NULL, 1),
@@ -184,7 +181,7 @@ CREATE TABLE `comprobantes` (
   `com_estado` tinyint(1) DEFAULT NULL,
   `com_dep_user` int(11) NOT NULL,
   `com_dep_ant` int(11) DEFAULT NULL,
-  `com_fecha_comprobante` date NOT NULL,
+  `com_fecha_comprobante` datetime NOT NULL,
   `com_num_factura` varchar(11) COLLATE utf8_spanish_ci DEFAULT NULL,
   `com_justificacion` varchar(11) COLLATE utf8_spanish_ci DEFAULT NULL,
   `com_observacion` varchar(150) COLLATE utf8_spanish_ci DEFAULT NULL,
@@ -393,8 +390,8 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`user_id`, `user_cedula`, `user_clave`, `user_nombre`, `user_estado`, `user_role_id`, `user_pregunta1`, `user_respuesta1`, `user_pregunta2`, `user_respuesta2`, `user_photo`) VALUES
-(1, '27132642', '$2y$12$1GkWh.I4M1jyh79KbnyuzOdLeVryQlQqry5pyUPVez2nrX.wzmdUC', 'Programador', 1, 4, 'pregunta 1', 'nada', 'pregunta 2', 'nada', 'Img/Default/User.png'),
-(2, '3943546', '$2y$12$1GkWh.I4M1jyh79KbnyuzOdLeVryQlQqry5pyUPVez2nrX.wzmdUC', 'programador_2', 1, 1, 'pregunta 1', 'nada', 'pregunta 2', 'nada', 'Img/Default/User.png');
+(1, '27132642', '$2y$12$w86sqF5fFOXFl0uMPCvg/uwQVCI2giNiqonlUKoxKGjtb19SEGh/e', 'PROGRAMADOR', 1, 4, 'pregunta 1', 'NADA', 'pregunta 2', 'NADA', 'Img/Default/User.png'),
+(2, '3943546', '$2y$12$1GkWh.I4M1jyh79KbnyuzOdLeVryQlQqry5pyUPVez2nrX.wzmdUC', 'PROGRAMADOR2', 1, 1, 'pregunta 1', 'nada', 'pregunta 2', 'nada', 'Img/Default/User.png');
 
 --
 -- Índices para tablas volcadas

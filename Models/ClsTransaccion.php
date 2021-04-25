@@ -32,12 +32,11 @@
 			$code_comprobante = $this->CheckCodeComprobante('1');
 			$comprobantes = $conexion->Prepare("INSERT INTO comprobantes(com_cod,com_tipo,com_estado,com_dep_user,com_dep_ant,
 			com_fecha_comprobante,com_num_factura,com_justificacion,com_observacion,com_origen,com_info_encargado,com_info_usuario)
-				VALUES(:codigo,'$tipo','1',:dependencia,:dependencia_ant,:fecha,:num_factura,:orden,:observacion,:origen,:encargado,:usuario);");
+				VALUES(:codigo,'$tipo','1',:dependencia,:dependencia_ant,NOW(),:num_factura,:orden,:observacion,:origen,:encargado,:usuario);");
 
 			$comprobantes->bindParam(":codigo", $code_comprobante);
 			$comprobantes->bindParam(":dependencia", $this->Dep_actual);
 			$comprobantes->bindParam(":dependencia_ant", $this->Dep_anterior);
-			$comprobantes->bindParam(":fecha", $this->fecha);
 			$comprobantes->bindParam(":num_factura", $this->Factura);
 			$comprobantes->bindParam(":orden", $this->orden);
 			$comprobantes->bindParam(":observacion", $this->Obser);
@@ -261,6 +260,13 @@
 					INNER JOIN movimientos ON movimientos.mov_com_cod = comprobantes.com_cod OR 
 					movimientos.mov_com_desincorporacion = comprobantes.com_cod
 					$where GROUP BY comprobantes.com_cod;")->fetchAll(PDO::FETCH_ASSOC);
+
+				$n = sizeof($comprobante);
+				for($i = 0; $i < $n; $i++){
+					$date = new DateTIme($comprobante[$i]['com_fecha_comprobante']);
+					$comprobante[$i]['com_fecha_comprobante'] = $date->format('d/m/Y');
+				}
+
 				return ['data' => $comprobante];
 
 			}catch(PDOException $e){

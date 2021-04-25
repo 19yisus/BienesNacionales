@@ -25,8 +25,8 @@
             }            
             if(strpos($ruta,'Bienes') !== false){
               $incorporado = $this->Control('BienesController')->Incorporados('any');
-              
-              if(isset($incorporado)){
+                          
+              if(isset($incorporado['data']['bien_cod'])){
               ?>
               <li class="breadcrumb-item">
                   <a href="<?php echo constant('URL')?>Bienes/Vis_Incorporados" class="btn btn-outline-success">Bienes Incorporados</a>

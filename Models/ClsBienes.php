@@ -544,7 +544,10 @@
 				INNER JOIN clasificacion ON bien.bien_clasificacion_cod = clasificacion.cla_cod
 				INNER JOIN categoria ON clasificacion.cla_cat_cod = categoria.cat_cod $where;")->fetchAll(PDO::FETCH_ASSOC);
 
-				return ['data' => $data];
+				if(isset($data)){
+					return ['data' => $data];
+				}
+				return false;				
 
 			}catch(PDOException $e){
 				error_log("Error en la consulta::models/ClsNucleo->All(), ERROR = ".$e->getMessage());
@@ -574,7 +577,8 @@
 					categoria.cat_des,
 					categoria.cat_cod,
 					bien.bien_sexo,
-					bien.bien_mod_cod
+					bien.bien_mod_cod,
+					bien.ifcomponente
 					FROM bien
 					INNER JOIN clasificacion ON clasificacion.cla_cod = bien.bien_clasificacion_cod
 					INNER JOIN categoria ON categoria.cat_cod = clasificacion.cla_cat_cod
@@ -610,7 +614,7 @@
 					FROM bien INNER JOIN movimientos ON movimientos.mov_bien_cod = bien.bien_cod
 					INNER JOIN comprobantes ON comprobantes.com_cod = movimientos.mov_com_cod OR comprobantes.com_cod = movimientos.mov_com_desincorporacion
 					INNER JOIN dependencia ON dependencia.dep_cod = comprobantes.com_dep_user WHERE
-    				bien.bien_cod = '$cod' ";
+    				bien.bien_cod = '$cod' ORDER BY comprobantes.com_fecha_comprobante DESC";
 				
 				require "Templates/ListarBienes.php";
 
