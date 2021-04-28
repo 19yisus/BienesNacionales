@@ -47,6 +47,55 @@
 			return [ $comprobantes, $code_comprobante ];
 		}
 
+		private function GetComps(){
+			$array_mov = [];
+
+			foreach($this->bien as $bien_cod){
+				$info_mov = $this->Query("SELECT movimientos.mov_com_cod,movimientos.mov_com_desincorporacion FROM movimientos WHERE movimientos.mov_bien_cod = '$bien_cod' ;")->fetch(PDO::FETCH_ASSOC);
+				
+				if(!isset($array_mov[0])){
+
+					if(isset($info_mov['mov_com_cod'])){
+						array_push($array_mov,['com_cod' => $info_mov['mov_com_cod']]);
+					}
+					if(isset($info_mov['mov_com_desincorporacion'])){
+						array_push($array_mov,['com_cod' => $info_mov['mov_com_desincorporacion']]);
+					}
+				}else{
+					foreach($array_mov as $row){
+						
+						if(isset($info_mov['mov_com_cod'])){
+							if(!in_array($info_mov['mov_com_cod'], $row)){
+								array_push($array_mov, ['com_cod' => $info_mov['mov_com_cod']]);
+							}
+						}
+
+						if(isset($info_mov['mov_com_desincorporacion'])){
+							if(!in_array($info_mov['mov_com_desincorporacion'], $row)){
+								array_push($array_mov, ['com_cod' => $info_mov['mov_com_desincorporacion']]);
+							}
+						}
+					}
+				}	
+			}	
+			
+			return $array_mov;
+		}
+
+		private function checkComprobantes($array){
+			
+			foreach($array as $comprobante){
+				$codigo = $comprobante['com_cod'];
+
+				$sql = "SELECT * FROM movimientos WHERE movimientos.mov_com_cod = '$codigo' OR movimientos.mov_com_desincorporacion = '$codigo';";
+				$con = $this->Query($sql)->fetchAll();
+
+				if(!isset($con[0])){
+					$this->Query("UPDATE comprobantes SET comprobantes.com_estado = 0 WHERE comprobantes.com_cod = '$codigo' ;");
+				}
+			}
+		}
+
 		public function Incorporar(){
 
 			try{
@@ -98,7 +147,8 @@
 				$mov = $con->Prepare("UPDATE movimientos SET mov_com_desincorporacion = :com_D WHERE mov_bien_cod = :cod_bien;");
 				$bien = $con->Prepare("UPDATE bien SET bien_estado = '0' WHERE bien_cod = :cod;");
 				$this->CatchComponentes();
-
+				$cod_comps = $this->GetComps();
+				
 				if($res[0]->execute()){
 					$response = true;
 
@@ -124,6 +174,7 @@
 
 				if($response){
 						$con->commit();
+						$this->checkComprobantes($cod_comps);
 						return $this->MakeResponse(200, "Operacion exitosa","", [
 							'valid' => true,
 							'url' => constant('URL') .'PDF/Vis_Comprobante/'. $res[1]
@@ -152,6 +203,7 @@
 				$mov = $con->Prepare("UPDATE movimientos SET mov_com_cod = :com_R WHERE mov_bien_cod = :cod_bien;");
 				$bien = $con->Prepare("UPDATE bien SET bien_estado = '1' WHERE bien_cod = :cod;");
 				$this->CatchComponentes();
+				$cod_comps = $this->GetComps();
 
 				if($res[0]->execute()){
 					$response = true;
@@ -178,6 +230,7 @@
 
 					if($response){
 						$con->commit();
+						$this->checkComprobantes($cod_comps);
 						return $this->MakeResponse(200, "Operacion exitosa","", [
 							'valid' => true,
 							'url' => constant('URL') .'PDF/Vis_Comprobante/'. $res[1]
@@ -248,18 +301,24 @@
 		public function CatalogoComprobantes($tipo){
 
 			try{
-				$where = "";
+				$select_inner = ",dependencia.dep_des FROM comprobantes INNER JOIN dependencia ON dependencia.dep_cod = comprobantes.com_dep_user
+						INNER JOIN movimientos ON movimientos.mov_com_cod = comprobantes.com_cod OR  movimientos.mov_com_desincorporacion = comprobantes.com_cod";
 
+				$where = "";
+				
 				if($tipo != "A"){
-					$where = "WHERE com_tipo = '$tipo' ";
+					if($tipo == "I"){
+						$where = "WHERE com_tipo != 'D' ";
+					}elseif($tipo == "Desactivados"){
+						$select_inner = " FROM comprobantes";
+						$where = "WHERE comprobantes.com_estado = 0";
+					}else{
+						$where = "WHERE com_tipo = '$tipo' ";
+					}
 				}
 
 				$comprobante = $this->Query("SELECT comprobantes.com_cod,COUNT(comprobantes.com_cod) AS total_bienes,comprobantes.com_origen,
-					comprobantes.com_tipo,comprobantes.com_fecha_comprobante,dependencia.dep_des FROM comprobantes
-					INNER JOIN dependencia ON dependencia.dep_cod = comprobantes.com_dep_user
-					INNER JOIN movimientos ON movimientos.mov_com_cod = comprobantes.com_cod OR 
-					movimientos.mov_com_desincorporacion = comprobantes.com_cod
-					$where GROUP BY comprobantes.com_cod;")->fetchAll(PDO::FETCH_ASSOC);
+					comprobantes.com_tipo,comprobantes.com_fecha_comprobante $select_inner $where GROUP BY comprobantes.com_cod;")->fetchAll(PDO::FETCH_ASSOC);
 
 				$n = sizeof($comprobante);
 				for($i = 0; $i < $n; $i++){
@@ -415,6 +474,35 @@
 				error_log("Error en la consulta::models/ClsTransaccion->Listar(), ERROR = ".$e->getMessage());
 				return $this->MakeResponse(400, "Error desconocido, Revisar php-error.log");
 			}			
+		}
+
+		/**
+		 * Function Destroy
+		 * Elimina fisicamente un registro de la base de datos que ya no este en uso
+		 * @return array
+		 */
+		public function Destroy($cod){
+
+			try{
+				$con1 = $this->Query("SELECT * FROM movimientos WHERE mov_com_cod = '$cod' OR mov_com_desincorporacion = '$cod';")->fetch();
+
+				if(!$con1){
+					$con = $this->Prepare("DELETE FROM comprobantes WHERE com_cod = :codigo ;");
+					$con -> bindParam(":codigo",$cod);
+					$con -> execute();
+
+					if($con->rowCount() > 0){
+						return $this->MakeResponse(200,'Operacion exitosa!');
+					}else{
+						return $this->MakeResponse(400, "Operacion Fallida!");
+					}
+				}else{
+					return $this->MakeResponse(400, "Operacion Fallida!","Este comprobante no puede ser eliminado");
+				}
+			}catch(PDOException $e){
+				error_log("Error en la consulta::models/ClsTransaccion->Destroy(), ERROR = ".$e->getMessage());
+				return $this->MakeResponse(400, "Error desconocido, Revisar php-error.log");
+			}
 		}
 		// public function Update(){
 

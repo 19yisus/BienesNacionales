@@ -4,7 +4,7 @@
   <?php $this->Nav();?>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <?php $this->Wraper('Home page','Home/Vis_Index','Asignacion de componentes');?>
+    <?php $this->Wraper('Home page','Home/Vis_Index','Reemplazo de componentes');?>
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">

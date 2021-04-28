@@ -195,7 +195,7 @@
               <p><?php echo $comprobante['factura'];?></p>
             </td>
             <td class="p-1">
-              <strong>observacion: </strong><?php echo $comprobante['observacion'];?>
+              <strong></strong><?php echo $comprobante['observacion'];?>
             </td>
             <td class="p-1">
               <label>Justificacion: </label>
@@ -225,13 +225,13 @@
           </tr>
           <tr class="" heigth="30px;">
             <td class="p-2" width="25%">
-              11454222
+              <!-- 11454222 -->
             </td>
             <td class="p-2">
-              jose alfredo
+              <!-- jose alfredo -->
             </td>
             <td class="p-2">
-              Recto
+              Rector/a
             </td>      
           </tr>
         </table>

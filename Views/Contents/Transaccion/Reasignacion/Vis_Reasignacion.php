@@ -89,7 +89,7 @@
                         </button>
                         <button type="reset" class="btn btn-danger">Limpiar</button>
                         <button type="button" class="btn btn-primary" id="listar" data-toggle="modal" data-target="#ModalBienes" title="Primero debe de seleccionar la Dependencia de origen" disabled>
-                            <i class="fas fa-search" ></i> Listar
+                          <i class="fas fa-search" ></i> Listar Bienes
                         </button>
                       </div>
                     </div>

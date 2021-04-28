@@ -49,7 +49,7 @@
   ?>
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
-      <a href="./" class="h1"><b>Admin</b>LTE</a>
+      <a href="./" class="h1"><b><?php echo constant('App_name')[0];?></b><?php echo constant('App_name')[1];?></a>
     </div>
     <div class="card-body">
       <p class="login-box-msg">Para recuperar tu usuario: Solo debes de ingresar tu id de usuario seguido de un (-) y su nombre de usuario
@@ -86,7 +86,7 @@
   ?>
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
-      <a href="./" class="h1"><b>Admin</b>LTE</a>
+      <a href="./" class="h1"><b><?php echo constant('App_name')[0];?></b><?php echo constant('App_name')[1];?></a>
     </div>
     <div class="card-body">
       <p class="login-box-msg">Por favor, responde las preguntas de seguridad</p>
@@ -116,7 +116,7 @@
   <?php }elseif($status == 2){?>
     <div class="card card-outline card-primary">
     <div class="card-header text-center">
-      <a href="./" class="h1"><b>Admin</b>LTE</a>
+      <a href="./" class="h1"><b><?php echo constant('App_name')[0];?></b><?php echo constant('App_name')[1];?></a>
     </div>
     <div class="card-body">
       <p class="login-box-msg">Ingresa su nueva clave</p>
@@ -146,7 +146,7 @@
   <?php }elseif($status == 3){?>
     <div class="card card-outline card-primary">
     <div class="card-header text-center">
-      <a href="./" class="h1"><b>Admin</b>LTE</a>
+      <a href="./" class="h1"><b><?php echo constant('App_name')[0];?></b><?php echo constant('App_name')[1];?></a>
     </div>
     <div class="card-body">
       <h1 class="text-success text-center"><?php echo $res['h1'];?></h1>

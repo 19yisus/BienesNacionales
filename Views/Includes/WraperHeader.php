@@ -12,16 +12,25 @@
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
           <?php 
-            $result = $this->Control('TransaccionController')->Componentes('');
             
-            if(isset($result[0])){
-              if(strpos($ruta,'Transaccion') !== false){
+            if(strpos($ruta,'Transaccion') !== false){
+              $result = $this->Control('TransaccionController')->Componentes('');
+              if(isset($result[0])){
                 ?>
                   <li class="breadcrumb-item">
                     <a href="<?php echo constant('URL')?>Transaccion/Componentes/Vis_AsignarComponentes" class="btn btn-outline-danger">Reemplazar Componentes</a>
                   </li>
                 <?php
-              } 
+              }
+
+              $result2 = $this->Control('TransaccionController')->CatalogoComprobantes('Desactivados');
+              if(isset($result2['data'])){
+                ?>
+                  <li class="breadcrumb-item">
+                    <a href="<?php echo constant('URL')?>Transaccion/Vis_Innactivos" class="btn btn-outline-danger">Comprobantes innactivos</a>
+                  </li>
+                <?php
+              }
             }            
             if(strpos($ruta,'Bienes') !== false){
               $incorporado = $this->Control('BienesController')->Incorporados('any');

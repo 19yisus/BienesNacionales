@@ -1,5 +1,37 @@
 $(document).ready( ()=>{
 
+  $('#Catalogo_comprobantes_Innactivos').DataTable({
+    responsive: true,
+      lengthChange: true,
+      autoWidth: true,
+      ajax: {
+        url: `${host_url}/TransaccionController/CatalogoComprobantes/Desactivados`,
+        dataSrc: "data",
+      },
+      columns:[
+        {data: "com_cod"},
+        {data: "com_origen"},
+        {data: "com_fecha_comprobante"},
+        {data: "total_bienes"},
+        {defaultContent: "", 
+        render: function(data, type, row, meta){
+          let form = `
+          <form name="form-del-${row.com_cod}" id="form-del-${row.com_cod}">
+            <input type="hidden" name="Cod" value="${row.com_cod}">
+          </form>`;
+          let btn = `${form}
+          <button class="btn btn-sm btn-danger b-destroy" title="Eliminar" onclick="bDelet(this);"
+            data-function="Destroy" id="bDestroy" data-form="form-del-${row.com_cod}" data-control="${controller}" >
+          <i class="fas fa-trash"></i></button>`;
+
+          return btn;
+        }},
+      ],
+      language: {
+        url: `${host_url}/Views/Js/DataTables.config.json`,
+      },
+  });
+
   $('#Catalogo_comprobantes_Incorporacion').DataTable({
     responsive: true,
       lengthChange: true,

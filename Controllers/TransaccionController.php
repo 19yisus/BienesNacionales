@@ -145,6 +145,28 @@
 		}
 
 		public function CatalogoComprobantes($tipo){
-			return $this->PJSON($this->modelo->CatalogoComprobantes($tipo[0]));
+			if(is_array($tipo)){
+				return $this->PJSON($this->modelo->CatalogoComprobantes($tipo[0]));
+			}else{
+				return $this->modelo->CatalogoComprobantes($tipo);
+			}
+		}
+
+		/**
+		 * Function Destroy
+		 * Elimina fisicamente un registro
+		 * @return json
+		 */
+		public function Destroy(){
+
+			if($this->modelo->session->GetDatos('permisos')['eliminar'] == 1){
+				if($this->Post(['Cod'])){
+					return $this->PJSON($this->modelo->Destroy($this->GetPost('Cod')));
+				}else{
+					return $this->PJSON($this->modelo->MakeResponse(400, 'No hay Post'));
+				}
+			}else{
+				return $this->PJSON($this->modelo->MakeResponse(400, 'No tienes permisos para esta accion'));
+			}
 		}
 	}
