@@ -41,7 +41,7 @@
 
               setcookie("failPassword", '', time() - 3600);
 
-              if($this->session->SetDatos($datos)){ $this->view->Redirect('Home'); }
+              if($this->session->SetDatos($datos)){ $this->view->Redirect('Home/Vis_HomePage'); }
             }else{
               $this->validaFailsPassword();
             }

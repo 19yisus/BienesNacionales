@@ -6,6 +6,7 @@
       // INVITADO PUEDE ACCEDER A ESCASAS RUTAS
       'Invitado' => [
         'NULL',
+        'Home/Vis_HomePage','Home/Vis_Nosotros',
         'Nucleo/Vis_Index',
         'Dependencias/Vis_Index',
         'Clasificacion/Vis_Index',
@@ -19,6 +20,7 @@
       //ASISTENTE PUEDE ACCEDER A CIERTAS RUTAS
       'Asistente' => [
         'NULL',
+        'Home/Vis_HomePage','Home/Vis_Nosotros',
         'Nucleo/Vis_Index','Nucleo/Vis_Registro',
         'Dependencias/Vis_Index','Dependencias/Vis_Registro',
         'Clasificacion/Vis_Index','Clasificacion/Vis_Registro',
@@ -32,6 +34,7 @@
       //ADMIN PUEDE ACCEDER A TODAS LAS RUTAS
       'Admin' => [
         'NULL',
+        'Home/Vis_HomePage','Home/Vis_Nosotros',
         'Nucleo/Vis_Index','Nucleo/Vis_Registro',
         'Dependencias/Vis_Index','Dependencias/Vis_Registro',
         'Clasificacion/Vis_Index','Clasificacion/Vis_Registro',
@@ -45,6 +48,7 @@
       // SUPER ADMIN PUEDE ACCEDER A TODAS LAS RUTAS
       'Super Admin' => [
         'NULL',
+        'Home/Vis_HomePage','Home/Vis_Nosotros',
         'Nucleo/Vis_Index','Nucleo/Vis_Registro',
         'Dependencias/Vis_Index','Dependencias/Vis_Registro',
         'Clasificacion/Vis_Index','Clasificacion/Vis_Registro',

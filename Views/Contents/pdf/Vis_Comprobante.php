@@ -38,11 +38,11 @@
     <img src="<?php echo constant('URL').'Views/Img/';?>logo.jpg" alt="Logo" class="img-fluid w-100">
     <div class="border rounded border-secondary">
       <div class="p-1 w-100">
-        <div>
+        <div style="margin-left: 520px;">
           <strong>Nº: </strong><?php echo $comprobante['cod'];?>
         </div>
 
-        <div>
+        <div style="margin-left: 503px;">
           <strong>Fecha: </strong><?php echo $comprobante['fecha'];?>
         </div>
       </div>
@@ -78,7 +78,7 @@
         </table>
       </div>
 
-      <div class="p-1 bg-secondary text-white">
+      <div class="p-1  text-dark" style="background: #ccc;">
         <div>
           <strong>Denominación: </strong>UNIVERSIDAD POLITECNICA TERRITORIAL DE PORTUGUESA J.J MONTILLA
         </div>
@@ -113,8 +113,8 @@
         </div>
       </div>
 
-      <div class="bg-secondary">
-        <h6 class="text-center pt-1 text-white">
+      <div class="" style="background: #ccc;">
+        <h6 class="text-center pt-1 text-dark">
           <strong>Responsable de almacen</strong>
         </h6>
       </div>
@@ -154,9 +154,9 @@
       <div class="w-100 text-center">
         <table border="1" class="w-100">
           <thead>
-            <tr class="bg-secondary">
-              <th class="p-1 text-center text-light">Codigo</th>
-              <th class="p-1 text-center text-light">Concepto</th>
+            <tr class="" style="background: #ccc;">
+              <th class="p-1 text-center text-dark">Codigo</th>
+              <th class="p-1 text-center text-dark">Concepto</th>
             </tr>
           </thead>
           <tr>
@@ -201,10 +201,10 @@
       <div class="border border-secondary w-100 text-center">
         <table class="w-100" border="1">
           <thead>
-            <tr class="bg-secondary">
-              <th class="text-light p-1">Numero de factura</th>
-              <th class="text-light p-1">Observación</th>
-              <th class="text-light p-1">Justificacion</th>
+            <tr class="" style="background: #ccc;">
+              <th class="text-dark p-1">Numero de factura</th>
+              <th class="text-dark p-1">Observación</th>
+              <th class="text-dark p-1">Justificacion</th>
             </tr>
           </thead>
           <tr class="">
@@ -221,24 +221,24 @@
         </table>
       </div>
 
-      <div class="bg-secondary">
-        <h6 class="text-center text-white p-1">
+      <div class="" style="background: #ccc;">
+        <h6 class="text-center text-dark p-1">
           Responsable Patrimonial Primario
         </h6>
       </div>
       <div class="border border-secondary w-100 text-center">
         <table class="w-100" border="1">
-          <tr class="bg-secondary text-center ">
-            <td class="text-white">
+          <tr class=" text-center " style="background: #ccc;">
+            <td class="text-dark">
               <strong>Cedula de identidad</strong>
             </td>
-            <td class="text-white">
+            <td class="text-dark">
               <strong>Nombre y Apellido </strong>
             </td>
-            <td class="text-white">
+            <td class="text-dark">
               <strong>Cargo </strong>
             </td>
-            <td class="text-white">
+            <td class="text-dark">
               <strong>Firma </strong>
             </td>
           </tr>
@@ -259,24 +259,24 @@
         </table>
       </div>
 
-      <div class="bg-secondary">
-        <h6 class="text-center text-white p-1">
+      <div class="" style="background: #ccc;">
+        <h6 class="text-center text-dark p-1">
           <strong>Responsable Patrimonial Por Uso</strong>
         </h6>
       </div>
       <div class="border border-secondary w-100 text-center">
         <table class="w-100" border="1">
-          <tr class="bg-secondary text-center ">
-            <td class="text-white">
+          <tr class=" text-center " style="background: #ccc;">
+            <td class="text-dark">
               <strong>Cedula de identidad</strong>
             </td>
-            <td class="text-white">
+            <td class="text-dark">
               <strong>Nombre y Apellido </strong>
             </td>
-            <td class="text-white">
+            <td class="text-dark">
               <strong>Cargo </strong>
             </td>
-            <td class="text-white">
+            <td class="text-dark">
               <strong>Firma </strong>
             </td>
           </tr>
@@ -306,17 +306,17 @@
       </div>
       <div class="border border-secondary w-100 text-center">
         <table class="w-100" border="1">
-          <tr class="bg-secondary text-center ">
-            <td class="text-white">
+          <tr class="bg-secondary text-center " style="background: #ccc;">
+            <td class="text-dark">
               Región
             </td>
-            <td class="text-white">
+            <td class="text-dark">
               Entidad Federal
             </td>
-            <td class="text-white">
+            <td class="text-dark">
               Sede
             </td>
-            <td class="text-white">
+            <td class="text-dark">
               Direccion 
             </td>
           </tr>
@@ -336,14 +336,14 @@
           </tr>
         </table>
         <table class="w-100" border="1">
-          <tr class="bg-secondary">
-            <td class="text-white">
+          <tr class="" style="background: #ccc;">
+            <td class="text-dark">
               <strong>Codigo postal</strong>
             </td>
-            <td class="text-white">
+            <td class="text-dark">
               <strong>Fecha de recepción</strong>
             </td>
-            <td class="text-white">
+            <td class="text-dark">
               <strong>Firma de Recibo Conforme</strong>
             </td>
           </tr>
