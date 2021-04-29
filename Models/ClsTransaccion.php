@@ -1,6 +1,6 @@
 <?php
 	class clsTransaccion extends model{
-		private $bien,$Obser,$Dep_anterior,$Dep_actual,$origen,$Factura,$fecha,$orden,$encargado;
+		private $bien,$Obser,$Dep_anterior,$Dep_actual,$origen,$Factura,$fecha,$orden,$encargado, $tipo_bienes, $destino;
 
 		public function __construct(){
 			parent::__construct();
@@ -13,9 +13,11 @@
 			$this->fecha = null;
 			$this->orden = null;
 			$this->encargado = null;
+			$this->tipo_bienes = null;
+			$this->destino = null;
 		}
 
-		public function setDatos($origen,$Factura,$Dep_actual,$Dep_anterior,$Obser,$bien,$fecha,$orden,$encargado){
+		public function setDatos($origen,$Factura,$Dep_actual,$Dep_anterior,$Obser,$bien,$fecha,$orden,$encargado, $tipo_bienes, $destino){
 			$this->Obser = isset($Obser) ? $this->Limpiar($Obser) : null;
 			$this->Dep_anterior = isset($Dep_anterior) ? $this->Limpiar($Dep_anterior) : null;
 			$this->Dep_actual = isset($Dep_actual) ? $this->Limpiar($Dep_actual) : null;
@@ -25,14 +27,16 @@
 			$this->fecha = $fecha;
 			$this->orden = isset($orden) ? $this->Limpiar($orden) : null;
 			$this->encargado = isset($encargado) ? $this->Limpiar($encargado) : null;
+			$this->tipo_bienes = isset($tipo_bienes) ? $tipo_bienes : null;
+			$this->destino = isset($destino) ? $this->Limpiar($destino) : null;
 		}
 
 		private function CreateComprobante($conexion,$tipo){
 			$usuario = $this->session->GetDatos("user_id"). "-".$this->session->GetDatos("user_name");
 			$code_comprobante = $this->CheckCodeComprobante('1');
-			$comprobantes = $conexion->Prepare("INSERT INTO comprobantes(com_cod,com_tipo,com_estado,com_dep_user,com_dep_ant,
-			com_fecha_comprobante,com_num_factura,com_justificacion,com_observacion,com_origen,com_info_encargado,com_info_usuario)
-				VALUES(:codigo,'$tipo','1',:dependencia,:dependencia_ant,NOW(),:num_factura,:orden,:observacion,:origen,:encargado,:usuario);");
+			$comprobantes = $conexion->Prepare("INSERT INTO comprobantes(com_cod,com_tipo,com_bien_tipos,com_estado,com_dep_user,com_dep_ant,
+			com_fecha_comprobante,com_num_factura,com_justificacion,com_observacion,com_origen,com_destino,com_info_encargado,com_info_usuario)
+				VALUES(:codigo,'$tipo',:tipos,'1',:dependencia,:dependencia_ant,NOW(),:num_factura,:orden,:observacion,:origen,:destino,:encargado,:usuario);");
 
 			$comprobantes->bindParam(":codigo", $code_comprobante);
 			$comprobantes->bindParam(":dependencia", $this->Dep_actual);
@@ -41,8 +45,10 @@
 			$comprobantes->bindParam(":orden", $this->orden);
 			$comprobantes->bindParam(":observacion", $this->Obser);
 			$comprobantes->bindParam(":origen", $this->origen);
+			$comprobantes->bindParam(":destino", $this->destino);
 			$comprobantes->bindParam(":encargado", $this->encargado);
 			$comprobantes->bindParam(":usuario", $usuario);
+			$comprobantes->bindParam(":tipos", $this->tipo_bienes);
 
 			return [ $comprobantes, $code_comprobante ];
 		}
@@ -308,12 +314,12 @@
 				
 				if($tipo != "A"){
 					if($tipo == "I"){
-						$where = "WHERE com_tipo != 'D' ";
+						$where = " WHERE com_tipo != 'D' ";
 					}elseif($tipo == "Desactivados"){
-						$select_inner = " FROM comprobantes";
-						$where = "WHERE comprobantes.com_estado = 0";
+						$select_inner = " FROM comprobantes ";
+						$where = " WHERE comprobantes.com_estado = 0 ";
 					}else{
-						$where = "WHERE com_tipo = '$tipo' ";
+						$where = " WHERE com_tipo = '$tipo' ";
 					}
 				}
 
@@ -395,35 +401,40 @@
 				return $this->MakeResponse(400, "Error desconocido, Revisar php-error.log");
 			}
 		}
-		public function Bienes($conditions, $dep){
+		public function Bienes($conditions, $dep, $tipo){
 			try{
 				$estado = ($conditions == 'Incorporado' ? 1 : 0);
+				$extraJoin = "INNER JOIN comprobantes ON comprobantes.com_cod = movimientos.mov_com_desincorporacion";
+				$where = " AND clasificacion.cla_cat_cod != 'MA' ";
+
+				if($tipo == "materiales"){
+					$where = " AND clasificacion.cla_cat_cod = 'MA' ";
+				}
 				
 				if($estado == 1){
 					$extraJoin = "INNER JOIN comprobantes ON comprobantes.com_cod = movimientos.mov_com_cod";
-				}else{
-					$extraJoin = "INNER JOIN comprobantes ON comprobantes.com_cod = movimientos.mov_com_desincorporacion";
 				}
 				
 				if($conditions != ''){
 					// OR comprobantes.com_cod = movimientos.mov_com_reasignacion
+					$com_depUser = '';
 
 					if($dep != 'withoutDep'){
 						$com_depUser = "AND comprobantes.com_dep_user = '$dep' ";
-					}else{
-						$com_depUser = '';
 					}
 
 					$Bienes = $this->Query("SELECT bien.bien_cod,bien.bien_des,bien.bien_catalogo,dependencia.dep_des FROM bien
+						INNER JOIN clasificacion ON clasificacion.cla_cod = bien.bien_clasificacion_cod
 						INNER JOIN movimientos ON movimientos.mov_bien_cod = bien.bien_cod $extraJoin
-						INNER JOIN dependencia ON dependencia.dep_cod = comprobantes.com_dep_user
-						WHERE bien.bien_estado = $estado
-						AND bien.bien_cod IN(SELECT mov_bien_cod FROM movimientos) ;")->fetchAll(PDO::FETCH_ASSOC);
+						INNER JOIN dependencia ON dependencia.dep_cod = comprobantes.com_dep_user WHERE bien.bien_estado = $estado
+						AND bien.bien_cod IN(SELECT mov_bien_cod FROM movimientos) $where ")->fetchAll(PDO::FETCH_ASSOC);
 
 				}else{
+					$sql = "SELECT bien.bien_cod,bien.bien_des,bien.bien_fecha_ingreso,bien.bien_catalogo FROM bien
+					INNER JOIN clasificacion ON clasificacion.cla_cod = bien.bien_clasificacion_cod
+					WHERE bien.bien_estado = '1' AND bien.bien_cod NOT IN(SELECT movimientos.mov_bien_cod FROM movimientos) $where ";
 
-					$Bienes = $this->Query("SELECT bien_cod,bien_des,bien_fecha_ingreso,bien_catalogo FROM bien WHERE bien_estado = '1'
-						AND bien_cod NOT IN(SELECT mov_bien_cod FROM movimientos);")->fetchAll(PDO::FETCH_ASSOC);
+					$Bienes = $this->Query($sql)->fetchAll(PDO::FETCH_ASSOC);
 				}
 				
 				return ['data' => $Bienes];

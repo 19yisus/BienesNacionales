@@ -1,2 +1,0 @@
-[27-Apr-2021 22:32:14 UTC] PHP Notice:  Undefined variable: select_inner in C:\laragon\www\proyectos\proyecto3\Bienes\Models\ClsTransaccion.php on line 322
-[27-Apr-2021 22:32:14 UTC] Error en la consulta::models/ClsTransaccion->CatalogoComprobantes(), ERROR = SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'GROUP BY comprobantes.com_cod' at line 2

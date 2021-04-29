@@ -47,7 +47,7 @@
 					$res = $con->execute();
 
 					if($this->dep_ifprincipal == '1'){
-						$sql2 = "INSERT INTO dependencia(dep_des,dep_nucleo_cod,dep_estado,dep_ifprincipal) VALUES('AlMACEN',:nucleo,'1','0');";
+						$sql2 = "INSERT INTO dependencia(dep_des,dep_nucleo_cod,dep_estado,dep_ifprincipal) VALUES('ALMACEN',:nucleo,'1','0');";
 						$con2 = $this->Prepare($sql2);
 						$con2 -> bindParam(":nucleo", $this->nucleo);
 						$con2 -> execute();
@@ -285,6 +285,7 @@
 				'PR' => 'Programa',
 				'SP' => 'Sede Principal'
 			];
+			$select = "";
 
 			try{
 
@@ -299,8 +300,11 @@
 			        }
 			    }else{
 			    	$res = $this->Query("SELECT * FROM nucleo WHERE nuc_estado = '1' AND nuc_tipo_nucleo = 'SP';")->fetch(PDO::FETCH_ASSOC);
-			    	$tipo = $res['nuc_tipo_nucleo'];
-			    	$select = "<option value='".$res['nuc_cod']."'>".$res['nuc_des']." - ".$tipos[$tipo]."</option>";
+					if($res){
+						$tipo = $res['nuc_tipo_nucleo'];
+			    		$select = "<option value='".$res['nuc_cod']."'>".$res['nuc_des']." - ".$tipos[$tipo]."</option>";
+					}
+					
 			    }
 
 				return $select;			

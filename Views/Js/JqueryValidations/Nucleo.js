@@ -223,6 +223,7 @@ $(document).ready(() => {
         minlength: 4,
         maxlength: 4,
         valida_postal: true,
+        remote: `${host_url}/${controller}/check_postal`
       },
       Dir: {
         required: true,
@@ -245,6 +246,7 @@ $(document).ready(() => {
         minlength: "Debe de ingresar 4 caracteres",
         maxlength: "Debe de ingresar 4 caracteres",
         valida_postal: "El codigo postal ingresado no esta disponible",
+        remote: "El codigo postal ya esta registrado",
       },
       Dir: {
         required: "La direccion es obligatoria",

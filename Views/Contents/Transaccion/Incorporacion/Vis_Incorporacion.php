@@ -26,8 +26,16 @@
                       <input type="date" id="Fecha" class="form-control" readonly title="Fecha de la incorporacion">
                     </div>
                     <div class="form-group col-2">
+                      <label for="">Tipos de bienes</label><label for="" id="ob">*</label>
+                      <select name="bien_tipos" class="custom-select" id="tipos">
+                        <option value="">Seleccione un valor</option>
+                        <option value="muebles">Muebles</option>
+                        <option value="materiales">Materiales</option>
+                      </select>
+                    </div>
+                    <div class="form-group col-3">
                       <label for="">Origen</label><label for="" id="ob">*</label>
-                      <select name="origen" id="origen" class="custom-select" required>
+                      <select name="origen" id="origen" class="custom-select" required disabled>
                         <option value="">Seleccione un valor</option>
                         <option value="Compra">Compra</option>
                         <option value="Donacion">Donación</option>
@@ -35,17 +43,18 @@
                     </div>
                     <div class="form-group col-3">
                       <label for="">N° de factura</label><label for="" id="ob">*</label>
-                      <input type="text" name="Factura" id="Factura" pattern="[0-9]{4,10}" class="form-control" placeholder="Factura" minlength="4" title="Solo se permiten numeros " maxlength="10" required>
+                      <input type="text" name="Factura" id="Factura" pattern="[0-9]{4,10}" class="form-control" placeholder="Factura" minlength="4" title="Solo se permiten numeros " maxlength="10" required disabled>
                     </div>
-                    <div class="form-group col-3">
-                      <label for="">Justificacion</label><label for="" id="ob">*</label>
-                      <input type="text" name="orden" id="orden" class="form-control" pattern="[0-9]{8,10}" minlength="8" maxlength="10" placeholder="Justificacion" title="Solo se permiten numeros" required>
-                    </div>
+                    
                   </div>
                   <div class="row">
-                    <div class="form-group col-4">
+                    <div class="form-group col-3">
+                      <label for="">Justificacion</label><label for="" id="ob">*</label>
+                      <input type="text" name="orden" id="orden" class="form-control" pattern="[0-9]{8,10}" minlength="8" maxlength="10" placeholder="Justificacion" title="Solo se permiten numeros" required disabled>
+                    </div>
+                    <div class="form-group col-6">
                       <label for="">Dependencia</label><label for="" id="ob">*</label>
-                      <select name="Dep" id="Dep" class="form-control select-option-special" width="40%" required>
+                      <select name="Dep" id="Dep" class="form-control select-option-special" width="40%" required disabled>
                       <?php echo $this->Control('PersonasController')->SelectDeps(1); ?>
                       </select>
                     </div>
@@ -56,15 +65,15 @@
                     
                     <div class="form-group col">
                       <label for="">Observacion </label><label for="" id="ob">*</label>
-                      <textarea name="Obser" id="Obser" cols="30" rows="1" maxlength="150" minlength="10" class="form-control" placeholder="Observacion" style="text-transform: uppercase;" required></textarea>
+                      <textarea name="Obser" id="Obser" cols="30" rows="1" maxlength="150" minlength="10" class="form-control" placeholder="Observacion" style="text-transform: uppercase;" required disabled></textarea>
                     </div>
                   </div>
                   <div class="row">
-                    <div class="card w-100 bg-green">
+                    <div class="card w-100 bg-light">
                       <div class="card-body">
                         <div class="table-responsive mx-auto">
                           <table id="Transaccion_bienes" class="table table-bordered display rowrap table-sm table-hover table-striped rounded-sm catalogo-table" cellspacing="0" style="width: 100%;">
-                            <thead class="thead-light">
+                            <thead class="thead-dark">
                               <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Descripcion</th>
@@ -83,11 +92,11 @@
                   <div class="row card-footer">
                     <div class="col-md-12 text-center">
                       <div class="btn-group ">
-                        <button type="button" id="Registro" data-formulario="formulario" value="Insert" class="btn btn-success" title="Guardar">
+                        <button type="button" id="Registro" data-formulario="formulario" value="Insert" class="btn btn-success" title="Guardar" disabled>
                           <i class="fas fa-save"></i> Incorporar
                         </button>
                         <button type="reset" class="btn btn-danger">Limpiar</button>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalBienes">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalBienes" title="Listar bienes" id="listar" disabled>
                             <i class="fas fa-search" ></i> Listar Bienes
                         </button>
                       </div>

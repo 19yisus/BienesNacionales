@@ -77,7 +77,7 @@ $(document).ready( ()=>{
 	    	style:'multi'
 	    },
 	    ajax: {
-	      url: `${host_url}/TransaccionController/BienesNoIncorporados`,
+	      // url: `${host_url}/TransaccionController/BienesNoIncorporados`,
 	      dataSrc: "data",
 	    },
 	    columns:[
@@ -145,6 +145,9 @@ $(document).ready( ()=>{
       	minlength: 4,
       	maxlength: 10,
       },
+      bien_tipos:{
+        required: true,
+      },
       Dep:{
       	required: true
       },
@@ -170,6 +173,9 @@ $(document).ready( ()=>{
       	required: "Debe de ingresar el numero de factura",
       	minlength: "Minimo 4 caracteres numericos",
       	maxlength: "Maximo 10 caracteres numericos",
+      },
+      bien_tipos:{
+        required: "Debe de seleccionar el tipo de bien"
       },
       Dep:{
       	required: "Debe de seleccionar la dependencia destino"

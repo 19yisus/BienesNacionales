@@ -7,20 +7,25 @@
   $bienes_nacionales = $datos[1];
   $bienes = $datos[2];
   $almacen = $datos[3];
+  $encargado = $datos[4];
+  $ubicacion = $datos[5];
 
   switch($comprobante['tipo']){
     case 'I':
-      $title = "Comprobante de incorporación";
+      $title = "de incorporación";
     break;
 
     case 'D':
-      $title = "Comprobante de Desincorporación";
+      $title = "de Desincorporación";
     break;
 
     case 'R':
-      $title = "Comprobante de Reasignación";
+      $title = "de Reasignación";
     break;
   }
+
+  $box_one = ($comprobante['tipo_bienes'] == 'muebles') ? 'bg-dark text-dark' :'bg-light text-light';
+  $box_two = ($comprobante['tipo_bienes'] == 'materiales') ? 'bg-dark text-dark' :'bg-light text-light';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -44,20 +49,20 @@
 
       <div class="">
         <h5 class="text-center p-1 ">
-          <strong><?php echo $title; ?></strong>
+          <strong>Acta <?php echo $title; ?></strong>
         </h5>
       </div>
 
-      <div class="my-2">
+      <div class="my-1">
 
         <table class="w-75 mx-auto text-center">
           <tr class="border border-secondary rounded-lg">
             <td class="w-50 p-2">              
-              <span class="p-3 bg-light text-white rounded-circle border border-secondary">O</span>
+              <span class="p-3 <?php echo $box_one;?> rounded-circle border border-secondary">O</span>
               <strong>Bienes mueble</strong>
             </td>
             <td class="w-50 p-2">
-              <span class="p-3 m-2 bg-light text-white rounded-circle border border-secondary">O</span>
+              <span class="p-3 m-2 <?php echo $box_two;?> rounded-circle border border-secondary">O</span>
               <strong>Materiales</strong>
             </td>
           </tr>
@@ -148,6 +153,12 @@
 
       <div class="w-100 text-center">
         <table border="1" class="w-100">
+          <thead>
+            <tr class="bg-secondary">
+              <th class="p-1 text-center text-light">Codigo</th>
+              <th class="p-1 text-center text-light">Concepto</th>
+            </tr>
+          </thead>
           <tr>
             <td class="p-1 text-center">
               <span>Codigo: 00</span>
@@ -163,9 +174,9 @@
         <thead class="">
           <tr>
             <th scope="col">Cantidad</th>
-            <th scope="col">Catalogo</th>
-            <th scope="col">Codigo del bien</th>
-            <th scope="col">Descripcion</th>
+            <th scope="col">Código del catalogo</th>
+            <th scope="col">Numero de inventario (solo para bienes)</th>
+            <th scope="col">Descripción</th>
             <th scope="col">Valor Unitario</th>
             <th scope="col">Valor total</th>
           </tr>
@@ -189,16 +200,21 @@
       </table>
       <div class="border border-secondary w-100 text-center">
         <table class="w-100" border="1">
+          <thead>
+            <tr class="bg-secondary">
+              <th class="text-light p-1">Numero de factura</th>
+              <th class="text-light p-1">Observación</th>
+              <th class="text-light p-1">Justificacion</th>
+            </tr>
+          </thead>
           <tr class="">
             <td class="p-1" width="25%">
-              <label>Numero de factura: </label>
               <p><?php echo $comprobante['factura'];?></p>
             </td>
             <td class="p-1">
-              <strong></strong><?php echo $comprobante['observacion'];?>
+              <p><?php echo $comprobante['observacion'];?></p>
             </td>
             <td class="p-1">
-              <label>Justificacion: </label>
               <p><?php echo $comprobante['justificacion'];?></p>
             </td>            
           </tr>
@@ -207,7 +223,7 @@
 
       <div class="bg-secondary">
         <h6 class="text-center text-white p-1">
-          <strong>Responsable Patrimonial Primario</strong>
+          Responsable Patrimonial Primario
         </h6>
       </div>
       <div class="border border-secondary w-100 text-center">
@@ -222,6 +238,9 @@
             <td class="text-white">
               <strong>Cargo </strong>
             </td>
+            <td class="text-white">
+              <strong>Firma </strong>
+            </td>
           </tr>
           <tr class="" heigth="30px;">
             <td class="p-2" width="25%">
@@ -232,13 +251,131 @@
             </td>
             <td class="p-2">
               Rector/a
-            </td>      
+            </td>
+            <td class="p-2">
+              
+            </td>
           </tr>
         </table>
       </div>
 
-      <div class="py-5 text-center ">
-        <p><?php echo $bienes_nacionales['nombre'].' '.$bienes_nacionales['apellido'].' '.$bienes_nacionales['dep_name']; ?></p>
+      <div class="bg-secondary">
+        <h6 class="text-center text-white p-1">
+          <strong>Responsable Patrimonial Por Uso</strong>
+        </h6>
+      </div>
+      <div class="border border-secondary w-100 text-center">
+        <table class="w-100" border="1">
+          <tr class="bg-secondary text-center ">
+            <td class="text-white">
+              <strong>Cedula de identidad</strong>
+            </td>
+            <td class="text-white">
+              <strong>Nombre y Apellido </strong>
+            </td>
+            <td class="text-white">
+              <strong>Cargo </strong>
+            </td>
+            <td class="text-white">
+              <strong>Firma </strong>
+            </td>
+          </tr>
+          <tr class="" heigth="30px;">
+            <td class="p-2" width="25%">
+              <?php echo $encargado['cedula'];?>
+            </td>
+            <td class="p-2">
+            <?php echo $encargado['nombre'];?>
+            </td>
+            <td class="p-2">
+              Encargado/a
+            </td>
+            <td class="p-2">
+              
+            </td>
+          </tr>
+        </table>
+      </div>
+      <?php
+        if($comprobante['tipo'] != 'I'){
+      ?>
+      <div class="">
+        <h6 class="text-center p-1">
+          <strong>Ubicación geografica</strong>
+        </h6>
+      </div>
+      <div class="border border-secondary w-100 text-center">
+        <table class="w-100" border="1">
+          <tr class="bg-secondary text-center ">
+            <td class="text-white">
+              Región
+            </td>
+            <td class="text-white">
+              Entidad Federal
+            </td>
+            <td class="text-white">
+              Sede
+            </td>
+            <td class="text-white">
+              Direccion 
+            </td>
+          </tr>
+          <tr class="" heigth="30px;">
+            <td class="p-2" width="25%">
+              18
+            </td>
+            <td class="p-2">
+              Portuguesa
+            </td>
+            <td class="p-2">
+              <?php echo $ubicacion['sede'];?>
+            </td>
+            <td class="p-2">
+            <?php echo $ubicacion['direccion'];?>
+            </td>
+          </tr>
+        </table>
+        <table class="w-100" border="1">
+          <tr class="bg-secondary">
+            <td class="text-white">
+              <strong>Codigo postal</strong>
+            </td>
+            <td class="text-white">
+              <strong>Fecha de recepción</strong>
+            </td>
+            <td class="text-white">
+              <strong>Firma de Recibo Conforme</strong>
+            </td>
+          </tr>
+          <tr>
+            <td class="p-2">
+            <?php echo $ubicacion['postal'];?>
+            </td>
+            <td class="p-2">
+            </td>
+            <td class="p-2">
+            </td>
+          </tr>          
+        </table>
+      </div>
+      <?php 
+        }
+
+        if($comprobante['tipo'] == 'D'){
+          ?>
+      <div class="border border-secondary w-100">
+        <p class=" p-1">
+          Observación del destino: <?php echo $comprobante['com_destino'];?>
+        </p>
+        
+      </div>
+          <?php
+        }
+      
+      ?>
+
+      <div class="pt-1 text-center">
+        <p class="pt-4"><?php echo $bienes_nacionales['nombre'].' '.$bienes_nacionales['apellido'].' '.$bienes_nacionales['dep_name']; ?></p>
       </div>
     </div>
   </div>

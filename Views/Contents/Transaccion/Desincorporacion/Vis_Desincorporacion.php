@@ -25,31 +25,43 @@
                       <label for="">Fecha</label>
                       <input type="date" id="Fecha" class="form-control" readonly title="Fecha de la incorporacion">
                     </div>
-                    <div class="form-group col-5">
+                    <div class="form-group col-2">
+                      <label for="">Tipos de bienes</label><label for="" id="ob">*</label>
+                      <select name="bien_tipos" class="custom-select" id="tipos">
+                        <option value="">Seleccione un valor</option>
+                        <option value="muebles">Muebles</option>
+                        <option value="materiales">Materiales</option>
+                      </select>
+                    </div>
+                    <div class="form-group col-6">
                       <label for="">Dependencia</label><label for="" id="ob">*</label>
                       <select name="Dep" id="Dep" class="form-control select-option-special" width="40%" required>
                       <?php echo $this->Control('PersonasController')->SelectDeps(3); ?>
                       </select>
                     </div>
-                    <div class="form-group col-3">
+                    
+                  </div>
+                  <div class="row">
+                    <div class="form-group col-4">
                       <label for="">Responsable</label>
                       <input type="text" id="Encargado" name="encargado" class="form-control" placeholder="Encargado" readonly>
                     </div>
-                  </div>
-                  <div class="row">
-                    <div class="form-group col-2">
+                    <div class="form-group col-3">
                       <label for="">Razon</label><label for="" id="ob">*</label>
                       <select name="origen" id="origen" class="custom-select" required disabled>
                         <option value="">Seleccione un valor</option>
                         <option value="Deterioro">Deterioro</option>
                         <option value="Hurto">Hurto</option>
-                        <option value="Reasignacion">Reasignacion</option>
                         <option value="Donacion">Donación</option>
                       </select>
                     </div>
-                    <div class="form-group col-4">
+                    <div class="form-group col-5">
                       <label for="">Justificacion</label><label for="" id="ob">*</label>
                       <input type="text" name="orden" id="orden" class="form-control" pattern="[0-9]{8,10}" minlength="8" maxlength="10" placeholder="Justificacion" required disabled>
+                    </div>
+                    <div class="form-group col">
+                      <label for="">Destino</label><label for="" id="ob">*</label>
+                      <textarea name="Destino" id="Destino" cols="30" rows="1" maxlength="150" minlength="10" class="form-control" placeholder="Destino del bien" style="text-transform: uppercase;" required readonly></textarea>
                     </div>
                     <div class="form-group col">
                       <label for="">Observacion</label><label for="" id="ob">*</label>
@@ -57,11 +69,11 @@
                     </div>
                   </div>
                   <div class="row">
-                    <div class="card w-100 bg-green">
+                    <div class="card w-100 bg-light">
                       <div class="card-body">
                         <div class="table-responsive mx-auto">
                           <table id="Transaccion_bienes" class="table table-bordered display rowrap table-sm table-hover table-striped rounded-sm catalogo-table" cellspacing="0" style="width: 100%;">
-                            <thead class="thead-light">
+                            <thead class="thead-dark">
                               <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Descripcion</th>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 25-04-2021 a las 20:39:36
+-- Tiempo de generación: 29-04-2021 a las 04:03:26
 -- Versión del servidor: 5.7.24
 -- Versión de PHP: 7.4.7
 
@@ -56,6 +56,16 @@ CREATE TABLE `bien` (
 --
 
 INSERT INTO `bien` (`bien_cod`, `bien_des`, `bien_catalogo`, `bien_fecha_ingreso`, `bien_precio`, `bien_depreciacion`, `bien_estado`, `bien_fecha_desactivacion`, `bien_color_cod`, `bien_serial`, `bien_clasificacion_cod`, `bien_link_bien`, `bien_mod_cod`, `bien_sexo`, `bien_peso`, `bien_anio`, `bien_placa`, `bien_terreno`, `ifcomponente`) VALUES
+('1200000', 'PALA DE MADERA', '', '2020-10-10', '1000000.00', NULL, 1, NULL, 7, NULL, '12', NULL, 4, NULL, NULL, NULL, NULL, NULL, 0),
+('1200001', 'PALA DE MADERA', '', '2020-10-10', '1000000.00', NULL, 1, NULL, 7, NULL, '12', NULL, 4, NULL, NULL, NULL, NULL, NULL, 0),
+('1200002', 'PALA DE MADERA', '', '2020-10-10', '1000000.00', NULL, 1, NULL, 7, NULL, '12', NULL, 4, NULL, NULL, NULL, NULL, NULL, 0),
+('1200003', 'PALA DE MADERA', '', '2020-10-10', '1000000.00', NULL, 1, NULL, 7, NULL, '12', NULL, 4, NULL, NULL, NULL, NULL, NULL, 0),
+('1200004', 'PALA DE MADERA', '', '2020-10-10', '1000000.00', NULL, 1, NULL, 7, NULL, '12', NULL, 4, NULL, NULL, NULL, NULL, NULL, 0),
+('1200005', 'PALA DE MADERA', '', '2020-10-10', '1000000.00', NULL, 1, NULL, 7, NULL, '12', NULL, 4, NULL, NULL, NULL, NULL, NULL, 0),
+('1200006', 'PALA DE MADERA', '', '2020-10-10', '1000000.00', NULL, 1, NULL, 7, NULL, '12', NULL, 4, NULL, NULL, NULL, NULL, NULL, 0),
+('1200007', 'PALA DE MADERA', '', '2020-10-10', '1000000.00', NULL, 1, NULL, 7, NULL, '12', NULL, 4, NULL, NULL, NULL, NULL, NULL, 0),
+('1200008', 'PALA DE MADERA', '', '2020-10-10', '1000000.00', NULL, 1, NULL, 7, NULL, '12', NULL, 4, NULL, NULL, NULL, NULL, NULL, 0),
+('1200009', 'PALA DE MADERA', '', '2020-10-10', '1000000.00', NULL, 1, NULL, 7, NULL, '12', NULL, 4, NULL, NULL, NULL, NULL, NULL, 0),
 ('2400000', 'COMPUTADOR DE MESA', '465465465465', '2020-10-10', '100000000.00', '100000.00', 1, NULL, 3, '65465DSDS', '24', NULL, 3, NULL, NULL, NULL, NULL, NULL, 0),
 ('2400001', 'COMPUTADOR DE MESA', '465465465465', '2020-10-10', '100000000.00', '100000.00', 1, NULL, 3, '65465DSDS', '24', NULL, 3, NULL, NULL, NULL, NULL, NULL, 0),
 ('2400002', 'COMPUTADOR DE MESA', '465465465465', '2020-10-10', '100000000.00', '100000.00', 1, NULL, 3, '65465DSDS', '24', NULL, 3, NULL, NULL, NULL, NULL, NULL, 0),
@@ -178,6 +188,7 @@ INSERT INTO `colores` (`color_cod`, `color_des`) VALUES
 CREATE TABLE `comprobantes` (
   `com_cod` char(10) COLLATE utf8_spanish_ci NOT NULL,
   `com_tipo` varchar(1) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `com_bien_tipos` enum('muebles','materiales') COLLATE utf8_spanish_ci NOT NULL,
   `com_estado` tinyint(1) DEFAULT NULL,
   `com_dep_user` int(11) NOT NULL,
   `com_dep_ant` int(11) DEFAULT NULL,
@@ -186,6 +197,7 @@ CREATE TABLE `comprobantes` (
   `com_justificacion` varchar(11) COLLATE utf8_spanish_ci DEFAULT NULL,
   `com_observacion` varchar(150) COLLATE utf8_spanish_ci DEFAULT NULL,
   `com_origen` varchar(12) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `com_destino` varchar(120) COLLATE utf8_spanish_ci DEFAULT NULL,
   `com_info_encargado` varchar(120) COLLATE utf8_spanish_ci NOT NULL,
   `com_info_usuario` varchar(120) COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;

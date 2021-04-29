@@ -35,9 +35,7 @@ $(document).ready( ()=>{
   });
 
   $('#formulario').on('reset', ()=>{
-    $('#Transaccion_bienes tbody').children().each( (indice, element) =>{
-        $('#Transaccion_bienes').DataTable().row($(element)).remove().draw();
-    });
+    cleanBienes();
 
     $('#CatalogoBienes tbody').children().each( (indice, element) => {
       if(!$(element).is('visible')) $(element).show();
@@ -46,6 +44,12 @@ $(document).ready( ()=>{
     print_info();
   });
 });
+
+const cleanBienes = () =>{
+  $('#Transaccion_bienes tbody').children().each( (indice, element) =>{
+    $('#Transaccion_bienes').DataTable().row($(element)).remove().draw();
+  });
+}
 
 const ConsultaEncargado = (idDep) =>{
 	fetch(`${host_url}/${controller}/ConsultarEncargado/${idDep}`)

@@ -21,8 +21,9 @@
 				$bien = $this->GetPost('bien_cod');
 				$orden = $this->GetPost('orden');
 				$encargado = $this->GetPost("encargado");
+				$tipo_bienes = $this->GetPost("bien_tipos");
 				
-				$this->modelo->setDatos($origen,$Factura,$Dep,null,$Obser,$bien,$this->fecha(),$orden,$encargado);
+				$this->modelo->setDatos($origen,$Factura,$Dep,null,$Obser,$bien,$this->fecha(),$orden,$encargado,$tipo_bienes,null);
 				return $this->PJSON($this->modelo->Incorporar());
 			}else{
 				return $this->PJSON($this->modelo->MakeResponse(400, 'No hay Post'));
@@ -45,8 +46,10 @@
 				$Dep = $this->GetPost('Dep');
 				$bien = $this->GetPost('bien_cod');
 				$encargado = $this->GetPost("encargado");
+				$tipo_bienes = $this->GetPost("bien_tipos");
+				$destino = $this->GetPost('Destino');
 
-				$this->modelo->setDatos($origen,null,$Dep,null,$Obser,$bien,$this->fecha(),$orden,$encargado);
+				$this->modelo->setDatos($origen,null,$Dep,null,$Obser,$bien,$this->fecha(),$orden,$encargado,$tipo_bienes, $destino);
 				return $this->PJSON($this->modelo->Desincorporar());
 			}else{
 				return $this->PJSON($this->modelo->MakeResponse(400, 'No hay Post'));
@@ -70,8 +73,9 @@
 				$newdep = $this->GetPost('Dep_destino');
 				$bien = $this->GetPost('bien_cod');
 				$encargado = $this->GetPost("encargado");
+				$tipo_bienes = $this->GetPost("bien_tipos");
 				
-				$this->modelo->setDatos($origen,null,$newdep,$Dep,$Obser,$bien,$this->fecha(),$orden,$encargado);
+				$this->modelo->setDatos($origen,null,$newdep,$Dep,$Obser,$bien,$this->fecha(),$orden,$encargado,$tipo_bienes, null);
 				return $this->PJSON($this->modelo->Reasignar());
 			}else{
 				return $this->PJSON($this->modelo->MakeResponse(400, 'No hay Post'));
@@ -132,16 +136,16 @@
 			return $this->modelo->ValidTransacciones($nameTransaction);
 		}
 
-		public function BienesNoIncorporados(){
-			$this->PJSON($this->modelo->Bienes('',''));
+		public function BienesNoIncorporados($tipo){
+			$this->PJSON($this->modelo->Bienes('','', $tipo[0]));
 		}
 
-		public function BienesIncorporados($dep = []){
-			$this->PJSON($this->modelo->Bienes('Incorporado',$dep[0]));
+		public function BienesIncorporados($datos){
+			$this->PJSON($this->modelo->Bienes('Incorporado',$datos[0],$datos[1]));
 		}
 
-		public function BienesDesincorporados($dep = []){
-			$this->PJSON($this->modelo->Bienes('Desincorporados',$dep[0]));
+		public function BienesDesincorporados($datos){
+			$this->PJSON($this->modelo->Bienes('Desincorporados',$datos[0],$datos[1]));
 		}
 
 		public function CatalogoComprobantes($tipo){

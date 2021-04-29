@@ -38,7 +38,7 @@
 				 * @return array si hay datos
 				 * @return boolean si no hay datos
 				 */
-				$con1 = $this->Query("SELECT * FROM nucleo WHERE nuc_des = '$this->des' ;")->fetch();
+				$con1 = $this->Query("SELECT * FROM nucleo WHERE nuc_des = '$this->des' OR nuc_codigo_postal = '$this->cp';")->fetch();
 
 				if(!$con1){
 
@@ -80,8 +80,8 @@
 				 * @return array si hay datos
 				 * @return boolean si no hay datos
 				 */
-				$confirm = $this->Query("SELECT * FROM nucleo WHERE nuc_des = '$this->des' AND
-				nuc_codigo_postal = '$this->cp' AND nuc_direccion = '$this->dir' AND nuc_tipo_nucleo = '$this->tip' ;")->fetch();
+				$confirm = $this->Query("SELECT * FROM nucleo WHERE nuc_des = '$this->des' OR
+				nuc_codigo_postal = '$this->cp' OR nuc_direccion = '$this->dir' AND nuc_tipo_nucleo = '$this->tip' ;")->fetch();
 
 				if(!$confirm){
 
@@ -227,6 +227,21 @@
 		public function Id(){
 
 			return $this->showCodIncrements('nuc_cod','nucleo');
+		}
+		public function checkPostal($codigo){
+
+			try{
+				$con = $this->Query("SELECT nuc_codigo_postal FROM nucleo WHERE nuc_codigo_postal = '$codigo';")->fetch(PDO::FETCH_ASSOC);
+
+				if($con == false){
+					return 'true';
+				}
+
+				return 'false';
+			}catch(PDOException $e){
+				error_log("Error en la consulta::models/ClsNucleo->checkPostal(), ERROR = ".$e->getMessage());
+				return $this->MakeResponse(400, "Error desconocido, Revisar php-error.log");
+			}
 		}
 		/**
 		 * Function All

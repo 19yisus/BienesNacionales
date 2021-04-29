@@ -266,8 +266,8 @@ $(document).ready(() => {
         required: true,
         min: 1,
         minlength: 1,
-        maxlength: 9,
-        number: true,
+        maxlength: 13,
+        decimal: true,
       },
       Fecbien: {
         required: true,

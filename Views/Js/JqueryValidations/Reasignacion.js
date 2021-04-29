@@ -58,24 +58,23 @@ $(document).ready( ()=>{
 
   $('#Dep_origen').on('change', (e)=>{
     if(e.target.value != ''){
+      $('#Dep_destino').attr('disabled', false);
+
       if($('#Dep_destino').val() != e.target.value){
         $('#listar').attr('disabled',false);
+        cleanBienes();
+        let tipo_bienes = $('#tipos').val();
         let catalogo = $('#CatalogoBienes').DataTable();
-        $('#Transaccion_bienes').DataTable().ajax.reload(null,false);
-        catalogo.ajax.url(`${host_url}/TransaccionController/BienesDesincorporados/${e.target.value}`).load();
-        
-        $('#origen').attr('disabled',false);
-        $('#orden').attr('disabled',false);
-        $('#Obser').attr('readonly',false);
+        catalogo.ajax.url(`${host_url}/TransaccionController/BienesDesincorporados/${e.target.value}/${tipo_bienes}`).load();
       }
 
       validarSelects();
-
     }else{
       // $('#tabla').hide('slow');
-      $('#origen').attr('disabled',true);
       $('#orden').attr('disabled',true);
       $('#Obser').attr('readonly',true);
+      $('#Dep_destino').attr('disabled', true);
+      $('#Reasignar').attr('disabled', true);
     }
   });
 
@@ -85,10 +84,22 @@ $(document).ready( ()=>{
       $('#Dep_destino').trigger('change');
       
       alerta("La dependencia destino no puede ser la misma dependencia de origen");
+      return false;
     }
+    return true;
   }
 
-  $('#Dep_destino').on('change', (e) => validarSelects() );
+  $('#Dep_destino').on('change', (e) =>{
+    if(validarSelects()){
+      $('#orden').attr('disabled',false);
+      $('#Obser').attr('readonly',false);
+      $('#Reasignar').attr('disabled', false);
+    }else{
+      $('#orden').attr('disabled',true);
+      $('#Obser').attr('readonly',true);
+      $('#Reasignar').attr('disabled', true);
+    }
+  });
 
   $.validator.setDefaults({
     onsubmit: true,

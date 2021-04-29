@@ -71,8 +71,7 @@
 				 * @return array si hay datos
 				 * @return boolean si no hay datos
 				 */
-				$con = $this->Query("SELECT * FROM clasificacion WHERE cla_des = '$this->des' AND cla_cod = '$this->cod' AND 
-				cla_cat_cod = '$this->tipo' ;")->fetch();
+				$con = $this->Query("SELECT * FROM clasificacion WHERE cla_des = '$this->des' AND cla_cat_cod = '$this->tipo';")->fetch();
 
 				if(!$con){
 					$con2 = $this->Query("SELECT * FROM bien WHERE bien_clasificacion_cod = '$this->cod';")->fetch();
@@ -91,10 +90,10 @@
 							return $this->MakeResponse(400, "Operacion Fallida!");
 						}
 					}else{
-						return $this->MakeResponse(200, "Operacion Fallida!","Esta clasificacion esta en uso");	
+						return $this->MakeResponse(400, "Operacion Fallida!","Esta clasificacion esta en uso");	
 					}
 				}else{
-					return $this->MakeResponse(200, "Operacion Fallida!","Estas duplicando la informacion de otra clasificacion");
+					return $this->MakeResponse(400, "Operacion Fallida!","Estas duplicando la informacion de otra clasificacion");
 				}
 
 			}catch(PDOException $e){
@@ -171,7 +170,7 @@
 
 				return 'false';
 			}catch(PDOException $e){
-				error_log("Error en la consulta::models/ClsNucleo->checkCedula(), ERROR = ".$e->getMessage());
+				error_log("Error en la consulta::models/ClsClasificacion->checkCodigo(), ERROR = ".$e->getMessage());
 				return $this->MakeResponse(400, "Error desconocido, Revisar php-error.log");
 			}
 		}

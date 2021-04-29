@@ -9,9 +9,9 @@
 
       try{
         //DATOS DEL COMPROBANTE
-        $sql1 = "SELECT comprobantes.com_cod, comprobantes.com_tipo, comprobantes.com_fecha_comprobante, comprobantes.com_num_factura,
+        $sql1 = "SELECT comprobantes.com_cod, comprobantes.com_tipo, comprobantes.com_bien_tipos, comprobantes.com_fecha_comprobante, comprobantes.com_num_factura,
           comprobantes.com_justificacion, comprobantes.com_observacion, comprobantes.com_origen, comprobantes.com_info_encargado,
-          comprobantes.com_dep_user,dependencia.dep_des, nucleo.nuc_des
+          comprobantes.com_dep_user, comprobantes.com_destino, dependencia.dep_des, nucleo.nuc_des
           FROM comprobantes INNER JOIN dependencia ON dependencia.dep_cod = comprobantes.com_dep_user 
           INNER JOIN nucleo ON nucleo.nuc_cod = dependencia.dep_nucleo_cod
           WHERE comprobantes.com_cod = '$codigo' AND comprobantes.com_estado = 1";
@@ -31,13 +31,18 @@
         $sql4 = "SELECT dependencia.dep_cod, dependencia.dep_des, personas.per_cedula, personas.per_nombre, personas.per_apellido
           FROM dependencia INNER JOIN personas ON personas.per_dep_cod = dependencia.dep_cod WHERE dependencia.dep_cod = '2' 
           OR dependencia.dep_cod = '1' ";
-
         $con1 = $this->Query($sql1)->fetch(PDO::FETCH_ASSOC);
 
         if($con1){
+          $dep = $con1['com_dep_user'];
+          $sql5 = "SELECT personas.per_cedula,CONCAT(personas.per_nombre,' ',personas.per_apellido) AS nombre FROM personas WHERE personas.per_dep_cod = $dep AND personas.per_car_cod = 1";
+          $sql6 = "SELECT nucleo.nuc_des,nucleo.nuc_direccion,nucleo.nuc_codigo_postal FROM nucleo INNER JOIN dependencia ON dependencia.dep_nucleo_cod = nucleo.nuc_cod WHERE dependencia.dep_cod = $dep";
+
           $con2 = $this->Query($sql2)->fetchAll();
           $con3 = $this->Query($sql3)->fetchAll();
           $con4 = $this->Query($sql4)->fetchAll();
+          $con5 = $this->Query($sql5)->fetch(PDO::FETCH_ASSOC);
+          $con6 = $this->Query($sql6)->fetch(PDO::FETCH_ASSOC);
 
           $encargado = explode(' ',$con1['com_info_encargado']);
           $date = new DateTime($con1['com_fecha_comprobante']);
@@ -45,6 +50,7 @@
           $comprobante = [
             'cod' => $con1['com_cod'],
             'fecha' => $date->format('d/m/Y'),
+            'tipo_bienes' => $con1['com_bien_tipos'],
             'tipo' => $con1['com_tipo'],
             'factura' => $con1['com_num_factura'],
             'justificacion' => $con1['com_justificacion'],
@@ -56,6 +62,7 @@
             'cedula' => $encargado[0],
             'nombre' => $encargado[1],
             'apellido' => $encargado[2],
+            'com_destino' => $con1['com_destino']
           ];
 
           $bienes_nacionales = [
@@ -70,6 +77,17 @@
             'apellido' => $con4[1]['per_apellido'],
             'dep_cod' => $con4[1]['dep_cod'],
             'dep_name' => $con4[1]['dep_des'],
+          ];
+
+          $encargado_dep = [
+            'cedula' => $con5['per_cedula'],
+            'nombre' => $con5['nombre']
+          ];
+
+          $ubicacion = [
+            'sede' => $con6['nuc_des'],
+            'postal' => $con6['nuc_codigo_postal'],
+            'direccion' => $con6['nuc_direccion']
           ];
           
           $bienes = [];
@@ -112,7 +130,7 @@
           }
         }
 
-        return [ $comprobante, $bienes_nacionales, $bienes, $almacen ];
+        return [ $comprobante, $bienes_nacionales, $bienes, $almacen, $encargado_dep, $ubicacion ];
           
       }catch(PDOException $e){
         error_log("Error en la consulta::models/ClsMarcas->Insert(), ERROR = ".$e->getMessage());

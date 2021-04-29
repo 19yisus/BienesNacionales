@@ -64,18 +64,22 @@ $(document).ready( ()=>{
       // $('#tabla').show('slow');
       $('#listar').attr('disabled',false);
       let catalogo = $('#CatalogoBienes').DataTable();
-      $('#Transaccion_bienes').DataTable().ajax.reload(null,false);
-      catalogo.ajax.url(`${host_url}/TransaccionController/BienesIncorporados/${e.target.value}`).load();
+      // $('#Transaccion_bienes').DataTable().ajax.reload(null,false);
+      cleanBienes();
+      let tipo_bienes = $('#tipos').val();
+      catalogo.ajax.url(`${host_url}/TransaccionController/BienesIncorporados/${e.target.value}/${tipo_bienes}`).load();
       
       $('#origen').attr('disabled',false);
       $('#orden').attr('disabled',false);
       $('#Obser').attr('readonly',false);
+      $('#Destino').attr('readonly',false);
 
     }else{
       // $('#tabla').hide('slow');
       $('#origen').attr('disabled',true);
       $('#orden').attr('disabled',true);
       $('#Obser').attr('readonly',true);
+      $('#Destino').attr('readonly',true);
     }
   });
 
@@ -140,6 +144,11 @@ $(document).ready( ()=>{
         minlength: 8,
         maxlength: 10,
       },
+      Destino:{
+        required: true,
+        minlength: 5,
+        maxlength: 150,
+      },
       Obser:{
         required: true,
         minlength: 10,
@@ -165,6 +174,11 @@ $(document).ready( ()=>{
         minlength: "Minimo 8 caracteres numericos",
         maxlength: "Maximo 10 caracteres numericos",
         required: "Este campo es requerido",
+      },
+      Destino:{
+        required: "Este campo es obligatorio",
+        minlength: "Debe de ingresar minimo 5 caracteres",
+        maxlength: "Maximo de 150 caracteres",
       },
       Obser:{
         required: "Debe de ingresar una obervacion",

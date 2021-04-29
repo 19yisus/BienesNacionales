@@ -442,9 +442,9 @@
 				$data = $this->Query("SELECT personas.per_cedula,CONCAT(personas.per_nombre,' ',personas.per_apellido) AS nombre,
 				cargos.car_des,dependencia.dep_des,personas.per_estado,nucleo.nuc_des
 				FROM personas
-				INNER JOIN cargos ON cargos.car_cod = personas.per_car_cod
-				INNER JOIN dependencia ON dependencia.dep_cod = personas.per_dep_cod
-				INNER JOIN nucleo ON nucleo.nuc_cod = dependencia.dep_cod;")->fetchAll(PDO::FETCH_ASSOC);
+				LEFT JOIN cargos ON cargos.car_cod = personas.per_car_cod
+				LEFT JOIN dependencia ON dependencia.dep_cod = personas.per_dep_cod
+				LEFT JOIN nucleo ON nucleo.nuc_cod = dependencia.dep_nucleo_cod ;")->fetchAll(PDO::FETCH_ASSOC);
 
 				return ['data' => $data];
 

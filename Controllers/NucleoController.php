@@ -148,5 +148,14 @@
 		public function IsThereSedePrincipal(){
 			return $this->PJSON($this->modelo->IsThereSedePrincipal());
 		}
+
+		/**
+		 * Function Cehck_codigo
+		 * Para verificar que el codigo no se repita
+		 * @return boolean
+		 */
+		public function check_postal(){
+			echo $this->modelo->checkPostal($_GET['CP']);
+		}
 	}
 ?>

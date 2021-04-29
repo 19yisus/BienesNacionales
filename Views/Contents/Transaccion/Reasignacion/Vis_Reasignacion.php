@@ -25,39 +25,40 @@
                       <label for="">Fecha</label>
                       <input type="date" id="Fecha" class="form-control" readonly title="Fecha de la incorporacion">
                     </div>
-                    <div class="form-group col-4">
+                    <div class="form-group col-3">
+                      <label for="">Tipos de bienes</label><label for="" id="ob">*</label>
+                      <select name="bien_tipos" class="custom-select" id="tipos">
+                        <option value="">Seleccione un valor</option>
+                        <option value="muebles">Muebles</option>
+                        <option value="materiales">Materiales</option>
+                      </select>
+                    </div>
+                    <div class="form-group col-5">
                       <label for="">Dependencia de origen </label><label for="" id="ob">*</label>
                       <select name="Dep_origen" id="Dep_origen" class="form-control select-option-special" width="40%" required>
                       <?php echo $this->Control('PersonasController')->SelectDeps(2); ?>
                       </select>
                     </div>
-                    <div class="form-group col-4">
+                  </div>
+                  <div class="row">
+                    <div class="form-group col-5">
                       <label for="">Dependencia destino</label><label for="" id="ob">*</label>
-                      <select name="Dep_destino" id="Dep_destino" class="form-control select-option-special" width="40%" required>
+                      <select name="Dep_destino" id="Dep_destino" class="form-control select-option-special" width="40%" required disabled>
                       <?php echo $this->Control('PersonasController')->SelectDeps(1); ?>
                       </select>
                     </div>
-                  </div>
-                  <div class="row">
                     <div class="form-group col-4">
                       <label for="">Responsable</label>
                       <input type="text" id="Encargado" class="form-control" placeholder="Encargado" disabled>
                     </div>
-                    <div class="form-group col-4">
-                      <label for="">Origen</label><label for="" id="ob">*</label>
-                      <select name="origen" id="origen" class="custom-select" required>
-                        <option value="">Seleccione un valor</option>
-                        <option value="Compra">Compra</option>
-                        <option value="Donacion">Donación</option>
-                      </select>
-                    </div>
-                    <div class="form-group col-4">
+                    <input type="hidden" name="origen" value="Reasignacion">
+                    <div class="form-group col-3">
                       <label for="">Justificacion</label><label for="" id="ob">*</label>
-                      <input type="text" name="orden" id="orden" class="form-control" pattern="[0-9]{8,10}" minlength="8" maxlength="10" placeholder="Justificacion" required>
+                      <input type="text" name="orden" id="orden" class="form-control" pattern="[0-9]{8,10}" minlength="8" maxlength="10" placeholder="Justificacion" required disabled>
                     </div>
                     <div class="form-group col">
                       <label for="">Observacion </label><label for="" id="ob">*</label>
-                      <textarea name="Obser" id="Obser" cols="30" rows="1" maxlength="150" minlength="10" class="form-control" placeholder="Direccion" style="text-transform: uppercase;" required></textarea>
+                      <textarea name="Obser" id="Obser" cols="30" rows="1" maxlength="150" minlength="10" class="form-control" placeholder="Direccion" style="text-transform: uppercase;" readonly required></textarea>
                     </div>
                   </div>
                   <div class="row">
@@ -84,7 +85,7 @@
                   <div class="row card-footer">
                     <div class="col-md-12 text-center">
                       <div class="btn-group ">
-                        <button type="button" id="Reasignar" data-formulario="formulario" value="Insert" class="btn btn-success" title="Guardar"> 
+                        <button type="button" id="Reasignar" data-formulario="formulario" value="Insert" class="btn btn-success" title="Guardar" disabled> 
                           <i class="fas fa-save"></i> Reasignar
                         </button>
                         <button type="reset" class="btn btn-danger">Limpiar</button>

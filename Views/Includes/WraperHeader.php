@@ -24,7 +24,8 @@
               }
 
               $result2 = $this->Control('TransaccionController')->CatalogoComprobantes('Desactivados');
-              if(isset($result2['data'])){
+              
+              if(isset($result2['data'][0])){
                 ?>
                   <li class="breadcrumb-item">
                     <a href="<?php echo constant('URL')?>Transaccion/Vis_Innactivos" class="btn btn-outline-danger">Comprobantes innactivos</a>
@@ -34,8 +35,8 @@
             }            
             if(strpos($ruta,'Bienes') !== false){
               $incorporado = $this->Control('BienesController')->Incorporados('any');
-                          
-              if(isset($incorporado['data']['bien_cod'])){
+                                        
+              if(isset($incorporado['data'][0])){
               ?>
               <li class="breadcrumb-item">
                   <a href="<?php echo constant('URL')?>Bienes/Vis_Incorporados" class="btn btn-outline-success">Bienes Incorporados</a>
