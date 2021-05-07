@@ -284,8 +284,8 @@ $(document).ready(() => {
       },
       Catalogo: {
         required: true,
-        minlength: 12,
-        maxlength: 12,
+        minlength: 10,
+        maxlength: 20,
         number: true,
       },
       Serial: {
@@ -295,7 +295,7 @@ $(document).ready(() => {
       },
       Depre: {
         required: true,
-        min: 1,
+        min: 0,
         minlength: 1,
         maxlength: 9,
         decimal: true,
@@ -326,7 +326,7 @@ $(document).ready(() => {
       Peso: {
         required: true,
         minlength: 2,
-        maxlength: 6,
+        maxlength: 4,
         min: 1,
         decimal: true,
       },
@@ -369,8 +369,8 @@ $(document).ready(() => {
       },
       Catalogo: {
         required: "Debe de ingresar el catalogo del bien",
-        minlength: "Debe de ingresar 12 caracteres",
-        maxlength: "NO puedes ingresar mas de 12 caracteres",
+        minlength: "Debe de ingresar 10 caracteres minimo",
+        maxlength: "NO puedes ingresar mas de 20 caracteres",
         pattern: "Solo se permiten 12 caracteres numericos",
       },
       Serial: {
@@ -383,7 +383,7 @@ $(document).ready(() => {
         minlength: "Debe de ingresar al menos 1 caracter numerico",
         maxlength: "No ingreses mas de 9 caracteres",
         decimal: "Solo se permiten caracteres decimales",
-        min: "Ingrese una depreciacion mayor a 0",
+        min: "Ingrese una depreciación de almenos de 0",
       },
       Placa: {
         required: "Debe de ingresar la placa del transporte",
@@ -471,8 +471,8 @@ $(document).ready(() => {
       },
       Catalogo: {
         required: true,
-        minlength: 12,
-        maxlength: 12,
+        minlength: 10,
+        maxlength: 20,
       },
       Serial: {
         required: true,
@@ -481,7 +481,7 @@ $(document).ready(() => {
       },
       Depre: {
         required: true,
-        min: 1,
+        min: 0,
         minlength: 1,
         maxlength: 9,
         decimal: true,
@@ -512,7 +512,7 @@ $(document).ready(() => {
       Peso: {
         required: true,
         minlength: 2,
-        maxlength: 6,
+        maxlength: 4,
         min: 1,
         decimal: true,
       },
@@ -569,8 +569,8 @@ $(document).ready(() => {
       },
       Catalogo: {
         required: "Debe de ingresar el catalogo del bien",
-        minlength: "Debe de ingresar 12 caracteres",
-        maxlength: "NO puedes ingresar mas de 12 caracteres",
+        minlength: "Debe de ingresar 10 caracteres minimo",
+        maxlength: "NO puedes ingresar mas de 20 caracteres",
         pattern: "Solo se permiten 12 caracteres numericos",
       },
       Serial: {
@@ -583,7 +583,7 @@ $(document).ready(() => {
         minlength: "Debe de ingresar al menos 1 caracter numerico",
         maxlength: "No ingreses mas de 9 caracteres",
         decimal: "Solo se permiten valores decimales",
-        min: "Ingrese una depreciacion mayor a 0",
+        min: "Ingrese una depreciación de almenos 0",
       },
       Placa: {
         required: "Debe de ingresar la placa del transporte",

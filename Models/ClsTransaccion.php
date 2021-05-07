@@ -409,6 +409,8 @@
 
 				if($tipo == "materiales"){
 					$where = " AND clasificacion.cla_cat_cod = 'MA' ";
+				}elseif($tipo == "semoviente"){
+					$where = " AND clasificacion.cla_cat_cod = 'BS' ";
 				}
 				
 				if($estado == 1){

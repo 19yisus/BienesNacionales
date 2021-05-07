@@ -57,6 +57,9 @@
 
         <table class="w-75 mx-auto text-center">
           <tr class="border border-secondary rounded-lg">
+            <?php
+              if($comprobante['tipo_bienes'] != 'semoviente'){
+            ?>
             <td class="w-50 p-2">              
               <span class="p-3 <?php echo $box_one;?> rounded-circle border border-secondary">O</span>
               <strong>Bienes mueble</strong>
@@ -65,6 +68,16 @@
               <span class="p-3 m-2 <?php echo $box_two;?> rounded-circle border border-secondary">O</span>
               <strong>Materiales</strong>
             </td>
+            <?php
+              }else{
+            ?>
+            <td class="w-50 p-2">
+              <span class="p-3 m-2 bg-dark text-dark rounded-circle border border-secondary">O</span>
+              <strong>Semoviente</strong>
+            </td>
+            <?php
+              }
+            ?>
           </tr>
         </table>
       </div>
@@ -161,7 +174,34 @@
           </thead>
           <tr>
             <td class="p-1 text-center">
-              <span>Codigo: 00</span>
+            <?php
+              switch($comprobante['origen']){
+                case 'Compra':
+                  $codigo = 01;
+                break;
+
+                case 'Donacion':
+                  $codigo = 11;
+                break;
+
+                case 'Deterioro':
+                  $codigo = 21;
+                break;
+
+                case 'Hurto':
+                  $codigo = 31;
+                break;
+
+                case 'Reasignacion':
+                  $codigo = 51;
+                break;
+
+                default:
+                  $codigo = 00;
+                break;
+              }
+            ?>
+              <span>Codigo: <?php echo $codigo;?></span>
             </td>
             <td class="p-1 text-center">
               <span>Concepto: <?php echo $comprobante['origen'];?></span>
@@ -174,7 +214,11 @@
         <thead class="">
           <tr>
             <th scope="col">Cantidad</th>
+            <?php 
+              if($comprobante['tipo_bienes'] != 'semoviente'){
+            ?>
             <th scope="col">Código del catalogo</th>
+            <?php }?>
             <th scope="col">Numero de inventario (solo para bienes)</th>
             <th scope="col">Descripción</th>
             <th scope="col">Valor Unitario</th>
@@ -187,7 +231,11 @@
               ?>
               <tr>
                 <td scope="row"><?php echo $bien['total'];?></td>
+                <?php 
+                  if($comprobante['tipo_bienes'] != 'semoviente'){
+                ?>
                 <td><?php echo $bien['catalogo'];?></td>
+                <?php }?>
                 <td><?php echo $bien['cod_bien'];?></td>
                 <td><?php echo $bien['bien_des'];?></td>
                 <td><?php echo $bien['precio'];?></td>

@@ -20,7 +20,7 @@
 
 <div class="card card-primary card-outline">
   <div class="card-header">
-    <h3 class="card-title">Datos del comprobante</h3>
+    <h1 class="card-title"><strong>Datos del comprobante</strong></h1>
   </div>
   <div class="card-body table-responsive p-0">
     <table class="table table-sm">

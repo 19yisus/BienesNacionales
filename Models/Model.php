@@ -103,8 +103,6 @@
       $cadena = str_ireplace("(","",$cadena);
       $cadena = str_ireplace(")","",$cadena);
       $cadena = str_ireplace("{","",$cadena);
-      $cadena = str_ireplace("_","",$cadena);
-      $cadena = str_ireplace("-","",$cadena);
       $cadena = str_ireplace("}","",$cadena);
       $cadena = str_ireplace("==","",$cadena);
       $cadena = str_ireplace("=","",$cadena);

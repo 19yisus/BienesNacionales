@@ -62,11 +62,11 @@
                     </div>
                   </div>
                   <div class="row">
-                    <div class="card w-100 bg-green">
+                    <div class="card w-100 bg-light">
                       <div class="card-body">
                         <div class="table-responsive mx-auto">
                           <table id="Transaccion_bienes" class="table table-bordered display rowrap table-sm table-hover table-striped rounded-sm catalogo-table" cellspacing="0" style="width: 100%;">
-                            <thead class="thead-light">
+                            <thead class="thead-dark">
                               <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Descripcion</th>

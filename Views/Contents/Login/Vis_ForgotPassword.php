@@ -6,8 +6,8 @@
   require_once './Models/ClsLogin.php';
   $mod = new ClsLogin();
 
-  if(isset($_POST['id-username'])){
-    $res = $mod->ConsultarUser($_POST['id-username']);
+  if(isset($_POST['id'])){
+    $res = $mod->ConsultarUser($_POST['id']);
     $status = $res['valido'];
   }
 
@@ -52,14 +52,14 @@
       <a href="./" class="h1"><b><?php echo constant('App_name')[0];?></b><?php echo constant('App_name')[1];?></a>
     </div>
     <div class="card-body">
-      <p class="login-box-msg">Para recuperar tu usuario: Solo debes de ingresar tu id de usuario seguido de un (-) y su nombre de usuario
+      <p class="login-box-msg">Para recuperar tu usuario: Solo debes ingresar tu cedula de usuario
       </p>
       <form method="post" name="formulario">
         <div class="form-group mb-3">
-          <label for="username">Id y nombre del usuario</label>
+          <label for="username">Cedula del usuario</label>
         
           <div class="input-group">
-            <input type="text" class="form-control" name="id-username" placeholder="27132642-jose" title="Ingrese su id y nombre de usuario separados por un (-) " required>
+            <input type="text" class="form-control" name="id" placeholder="0000000" title="Ingrese su cedula" required>
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-user"></span>

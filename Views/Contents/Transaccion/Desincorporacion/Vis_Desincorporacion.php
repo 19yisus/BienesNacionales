@@ -31,6 +31,7 @@
                         <option value="">Seleccione un valor</option>
                         <option value="muebles">Muebles</option>
                         <option value="materiales">Materiales</option>
+                        <option value="semoviente">Semovientes</option>
                       </select>
                     </div>
                     <div class="form-group col-6">

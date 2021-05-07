@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 29-04-2021 a las 04:03:26
+-- Tiempo de generación: 07-05-2021 a las 02:47:17
 -- Versión del servidor: 5.7.24
 -- Versión de PHP: 7.4.7
 
@@ -44,7 +44,7 @@ CREATE TABLE `bien` (
   `bien_link_bien` char(7) COLLATE utf8_spanish_ci DEFAULT NULL,
   `bien_mod_cod` int(11) DEFAULT NULL,
   `bien_sexo` varchar(1) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `bien_peso` decimal(5,2) DEFAULT NULL,
+  `bien_peso` decimal(6,2) DEFAULT NULL,
   `bien_anio` decimal(4,0) DEFAULT NULL,
   `bien_placa` varchar(6) COLLATE utf8_spanish_ci DEFAULT NULL,
   `bien_terreno` varchar(120) COLLATE utf8_spanish_ci DEFAULT NULL,
@@ -76,13 +76,38 @@ INSERT INTO `bien` (`bien_cod`, `bien_des`, `bien_catalogo`, `bien_fecha_ingreso
 ('2400007', 'COMPUTADOR DE MESA', '465465465465', '2020-10-10', '100000000.00', '100000.00', 1, NULL, 3, '65465DSDS', '24', NULL, 3, NULL, NULL, NULL, NULL, NULL, 0),
 ('2400008', 'COMPUTADOR DE MESA', '465465465465', '2020-10-10', '100000000.00', '100000.00', 1, NULL, 3, '65465DSDS', '24', NULL, 3, NULL, NULL, NULL, NULL, NULL, 0),
 ('2400009', 'COMPUTADOR DE MESA', '465465465465', '2020-10-10', '100000000.00', '100000.00', 1, NULL, 3, '65465DSDS', '24', NULL, 3, NULL, NULL, NULL, NULL, NULL, 0),
+('2400010', 'COMPUTADOR DE MESA', '20-55200-0002000254', '2020-10-10', '1000000.00', '100000000.00', 1, NULL, 7, '1654ASD654654', '24', NULL, 3, NULL, NULL, NULL, NULL, NULL, 0),
+('2400011', 'COMPUTADOR DE MESA', '20-55200-0002000254', '2020-10-10', '1000000.00', '100000000.00', 1, NULL, 7, '1654ASD654654', '24', NULL, 3, NULL, NULL, NULL, NULL, NULL, 0),
+('2400012', 'COMPUTADOR DE MESA', '20-55200-0002000254', '2020-10-10', '1000000.00', '100000000.00', 1, NULL, 7, '1654ASD654654', '24', NULL, 3, NULL, NULL, NULL, NULL, NULL, 0),
+('2400013', 'COMPUTADOR DE MESA', '20-55200-0002000254', '2020-10-10', '1000000.00', '100000000.00', 1, NULL, 7, '1654ASD654654', '24', NULL, 3, NULL, NULL, NULL, NULL, NULL, 0),
+('2400014', 'COMPUTADOR DE MESA', '20-55200-0002000254', '2020-10-10', '1000000.00', '100000000.00', 1, NULL, 7, '1654ASD654654', '24', NULL, 3, NULL, NULL, NULL, NULL, NULL, 0),
 ('2600003', 'DISCO DURO', '465465465465', '2020-10-10', '100000000.00', '100000000.00', 1, NULL, 5, '654ASD564564', '26', NULL, 2, NULL, NULL, NULL, NULL, NULL, 1),
 ('2600004', 'DISCO DURO', '465465465465', '2020-10-10', '100000000.00', '100000000.00', 1, NULL, 5, '654ASD564564', '26', NULL, 2, NULL, NULL, NULL, NULL, NULL, 1),
 ('2600005', 'DISCO DURO', '465465465465', '2020-10-10', '100000000.00', '100000000.00', 1, NULL, 5, '654ASD564564', '26', NULL, 2, NULL, NULL, NULL, NULL, NULL, 1),
 ('2600006', 'DISCO DURO', '465465465465', '2020-10-10', '100000000.00', '100000000.00', 1, NULL, 5, '654ASD564564', '26', NULL, 2, NULL, NULL, NULL, NULL, NULL, 1),
 ('2600007', 'DISCO DURO', '465465465465', '2020-10-10', '100000000.00', '100000000.00', 1, NULL, 5, '654ASD564564', '26', NULL, 2, NULL, NULL, NULL, NULL, NULL, 1),
 ('2600008', 'DISCO DURO', '465465465465', '2020-10-10', '100000000.00', '100000000.00', 1, NULL, 5, '654ASD564564', '26', NULL, 2, NULL, NULL, NULL, NULL, NULL, 1),
-('2600009', 'DISCO DURO', '465465465465', '2020-10-10', '100000000.00', '100000000.00', 1, NULL, 5, '654ASD564564', '26', NULL, 2, NULL, NULL, NULL, NULL, NULL, 1);
+('2600009', 'DISCO DURO', '465465465465', '2020-10-10', '100000000.00', '100000000.00', 1, NULL, 5, '654ASD564564', '26', NULL, 2, NULL, NULL, NULL, NULL, NULL, 1),
+('5600000', 'VACA LECHERA', NULL, '2020-02-01', '100000000.00', NULL, 1, NULL, NULL, NULL, '56', NULL, 5, 'F', '1000.00', NULL, NULL, NULL, 0),
+('5600001', 'VACA LECHERA', NULL, '2020-02-01', '100000000.00', NULL, 1, NULL, NULL, NULL, '56', NULL, 5, 'F', '1000.00', NULL, NULL, NULL, 0),
+('5600002', 'VACA LECHERA', NULL, '2020-02-01', '100000000.00', NULL, 1, NULL, NULL, NULL, '56', NULL, 5, 'F', '1000.00', NULL, NULL, NULL, 0),
+('5600003', 'VACA LECHERA', NULL, '2020-02-01', '100000000.00', NULL, 1, NULL, NULL, NULL, '56', NULL, 5, 'F', '1000.00', NULL, NULL, NULL, 0),
+('5600004', 'VACA LECHERA', NULL, '2020-02-01', '100000000.00', NULL, 1, NULL, NULL, NULL, '56', NULL, 5, 'F', '1000.00', NULL, NULL, NULL, 0),
+('5600005', 'VACA LECHERA', NULL, '2020-02-01', '100000000.00', NULL, 1, NULL, NULL, NULL, '56', NULL, 5, 'F', '1000.00', NULL, NULL, NULL, 0),
+('5600006', 'VACA LECHERA', NULL, '2020-02-01', '100000000.00', NULL, 1, NULL, NULL, NULL, '56', NULL, 5, 'F', '1000.00', NULL, NULL, NULL, 0),
+('5600007', 'VACA LECHERA', NULL, '2020-02-01', '100000000.00', NULL, 1, NULL, NULL, NULL, '56', NULL, 5, 'F', '1000.00', NULL, NULL, NULL, 0),
+('5600008', 'VACA LECHERA', NULL, '2020-02-01', '100000000.00', NULL, 1, NULL, NULL, NULL, '56', NULL, 5, 'F', '1000.00', NULL, NULL, NULL, 0),
+('5600009', 'VACA LECHERA', NULL, '2020-02-01', '100000000.00', NULL, 1, NULL, NULL, NULL, '56', NULL, 5, 'F', '1000.00', NULL, NULL, NULL, 0),
+('5600010', 'VACA LECHERA', NULL, '2020-02-01', '100000000.00', NULL, 1, NULL, NULL, NULL, '56', NULL, 5, 'F', '1000.00', NULL, NULL, NULL, 0),
+('5600011', 'VACA LECHERA', NULL, '2020-02-01', '100000000.00', NULL, 1, NULL, NULL, NULL, '56', NULL, 5, 'F', '1000.00', NULL, NULL, NULL, 0),
+('5600012', 'VACA LECHERA', NULL, '2020-02-01', '100000000.00', NULL, 1, NULL, NULL, NULL, '56', NULL, 5, 'F', '1000.00', NULL, NULL, NULL, 0),
+('5600013', 'VACA LECHERA', NULL, '2020-02-01', '100000000.00', NULL, 1, NULL, NULL, NULL, '56', NULL, 5, 'F', '1000.00', NULL, NULL, NULL, 0),
+('5600014', 'VACA LECHERA', NULL, '2020-02-01', '100000000.00', NULL, 1, NULL, NULL, NULL, '56', NULL, 5, 'F', '1000.00', NULL, NULL, NULL, 0),
+('5600015', 'VACA LECHERA', NULL, '2020-02-01', '100000000.00', NULL, 1, NULL, NULL, NULL, '56', NULL, 5, 'F', '1000.00', NULL, NULL, NULL, 0),
+('5600016', 'VACA LECHERA', NULL, '2020-02-01', '100000000.00', NULL, 1, NULL, NULL, NULL, '56', NULL, 5, 'F', '1000.00', NULL, NULL, NULL, 0),
+('5600017', 'VACA LECHERA', NULL, '2020-02-01', '100000000.00', NULL, 1, NULL, NULL, NULL, '56', NULL, 5, 'F', '1000.00', NULL, NULL, NULL, 0),
+('5600018', 'VACA LECHERA', NULL, '2020-02-01', '100000000.00', NULL, 1, NULL, NULL, NULL, '56', NULL, 5, 'F', '1000.00', NULL, NULL, NULL, 0),
+('5600019', 'VACA LECHERA', NULL, '2020-02-01', '100000000.00', NULL, 1, NULL, NULL, NULL, '56', NULL, 5, 'F', '1000.00', NULL, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -148,6 +173,7 @@ INSERT INTO `clasificacion` (`cla_cod`, `cla_des`, `cla_cat_cod`) VALUES
 ('24', 'COMPUTADOR', 'EL'),
 ('26', 'DISCO DURO', 'EL'),
 ('55', 'TRANSPORTE', 'TP'),
+('56', 'VACA', 'BS'),
 ('60', 'TERRENO', 'IN'),
 ('80', 'SEMOVIENTE', 'BS');
 
@@ -176,8 +202,7 @@ INSERT INTO `colores` (`color_cod`, `color_des`) VALUES
 (7, 'ROSADO'),
 (8, 'GRIS'),
 (9, 'NEGRO'),
-(10, 'BLANCO'),
-(11, 'ANARANJADO');
+(10, 'ANARANJADO');
 
 -- --------------------------------------------------------
 
@@ -188,7 +213,7 @@ INSERT INTO `colores` (`color_cod`, `color_des`) VALUES
 CREATE TABLE `comprobantes` (
   `com_cod` char(10) COLLATE utf8_spanish_ci NOT NULL,
   `com_tipo` varchar(1) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `com_bien_tipos` enum('muebles','materiales') COLLATE utf8_spanish_ci NOT NULL,
+  `com_bien_tipos` enum('muebles','materiales','semoviente') COLLATE utf8_spanish_ci NOT NULL,
   `com_estado` tinyint(1) DEFAULT NULL,
   `com_dep_user` int(11) NOT NULL,
   `com_dep_ant` int(11) DEFAULT NULL,
@@ -201,6 +226,14 @@ CREATE TABLE `comprobantes` (
   `com_info_encargado` varchar(120) COLLATE utf8_spanish_ci NOT NULL,
   `com_info_usuario` varchar(120) COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `comprobantes`
+--
+
+INSERT INTO `comprobantes` (`com_cod`, `com_tipo`, `com_bien_tipos`, `com_estado`, `com_dep_user`, `com_dep_ant`, `com_fecha_comprobante`, `com_num_factura`, `com_justificacion`, `com_observacion`, `com_origen`, `com_destino`, `com_info_encargado`, `com_info_usuario`) VALUES
+('0000000001', 'I', 'muebles', 1, 1, NULL, '2021-05-03 20:36:50', '464564654', '6456465454', 'PRIMERA INCORPORACION', 'COMPRA', NULL, 'V14887885 JOSE  TORRES', '27132642-PROGRAMADOR'),
+('0000000002', 'I', 'semoviente', 1, 3, NULL, '2021-05-03 23:33:06', '4654654564', '5645645645', 'PRIMERA INCORPORACION DE VACAS', 'DONACION', NULL, 'V-20254465 RONALDO REYES', '27132642-PROGRAMADOR');
 
 -- --------------------------------------------------------
 
@@ -293,6 +326,18 @@ CREATE TABLE `movimientos` (
   `mov_com_desincorporacion` char(10) COLLATE utf8_spanish_ci DEFAULT NULL,
   `mov_bien_cod` char(7) COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `movimientos`
+--
+
+INSERT INTO `movimientos` (`mov_com_cod`, `mov_com_desincorporacion`, `mov_bien_cod`) VALUES
+('0000000001', NULL, '2400000'),
+('0000000001', NULL, '2400001'),
+('0000000001', NULL, '2400002'),
+('0000000002', NULL, '5600000'),
+('0000000002', NULL, '5600001'),
+('0000000002', NULL, '5600002');
 
 -- --------------------------------------------------------
 

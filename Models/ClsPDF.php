@@ -17,8 +17,10 @@
           WHERE comprobantes.com_cod = '$codigo' AND comprobantes.com_estado = 1";
         
         // DATOS DE LOS BIENES PARTE 1
-        $sql2 = "SELECT bien.bien_catalogo, bien.bien_cod, bien.bien_des, bien.bien_precio, bien.bien_clasificacion_cod  FROM bien
+        $sql2 = "SELECT clasificacion.cla_cat_cod, bien.bien_peso,bien.bien_catalogo, bien.bien_cod, bien.bien_des, bien.bien_precio, 
+          bien.bien_clasificacion_cod  FROM bien
           INNER JOIN movimientos ON movimientos.mov_bien_cod = bien.bien_cod
+          INNER JOIN clasificacion ON clasificacion.cla_cod = bien.bien_clasificacion_cod
           WHERE movimientos.mov_com_cod = '$codigo' OR movimientos.mov_com_desincorporacion = '$codigo' ";
         
         // DATOS DE LOS BIENES PARTE 2 
@@ -93,24 +95,40 @@
           $bienes = [];
         
           foreach($con2 as $bien){
-            $array = [
-              'catalogo' => $bien['bien_catalogo'],
-              'cod_bien' => $bien['bien_cod'],
-              'bien_des' => $bien['bien_des'],
-              'precio' => $bien['bien_precio'],
-              'cla' => $bien['bien_clasificacion_cod'],
-            ];
+            if($bien['cla_cat_cod'] != 'BS'){
+              $array = [
+                'categoria' => $bien['cla_cat_cod'],
+                'catalogo' => $bien['bien_catalogo'],
+                'cod_bien' => $bien['bien_cod'],
+                'bien_des' => $bien['bien_des'],
+                'precio' => $bien['bien_precio'],
+                'cla' => $bien['bien_clasificacion_cod'],
+              ];
+            }else{
+              $array = [
+                'categoria' => $bien['cla_cat_cod'],
+                'cod_bien' => $bien['bien_cod'],
+                'bien_des' => $bien['bien_des'],
+                'precio' => $bien['bien_precio'],
+                'cla' => $bien['bien_clasificacion_cod'],
+              ];
+            }
+            
 
             if(isset($bienes)){
               
               foreach($bienes as $sub_bien){
                 if($array['cla'] == $sub_bien['cla']){
-                  unset($array['catalogo'],$array['cod_bien'],$array['precio'],$array['cla']);
+                  if($array['categoria'] == 'BS'){
+                    unset($array['cod_bien'],$array['precio'],$array['cla']);
+                  }else{
+                    unset($array['catalogo'],$array['cod_bien'],$array['precio'],$array['cla']);
+                  }
                   break;
                 }
               }              
               
-              if(isset($array['catalogo'])){
+              if(isset($array['cod_bien'])){
                 foreach($con3 as $resum){
                   if($array['cla'] == $resum['bien_clasificacion_cod']){
                     $extra = [

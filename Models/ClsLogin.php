@@ -78,11 +78,8 @@
 
     public function ConsultarUser($user, $verificacion = true){
       if($verificacion){
-        $vars = rtrim($user,'-');
-        $vars = explode('-',$vars);
-        $cedula = $this->Limpiar($vars[0]);
-        $name = $this->Limpiar($vars[1]);
-        $sql = "SELECT user_cedula,user_pregunta1,user_pregunta2 FROM usuarios WHERE user_cedula = '$cedula' AND user_nombre = '$name';";
+        $cedula = $this->Limpiar($user);
+        $sql = "SELECT user_cedula,user_pregunta1,user_pregunta2 FROM usuarios WHERE user_cedula = '$cedula' ;";
       }else{
         $cedula = $this->Limpiar($user);
         $sql = "SELECT user_cedula,user_pregunta1,user_pregunta2 FROM usuarios WHERE user_cedula = '$cedula';";
