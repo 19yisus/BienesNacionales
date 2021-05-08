@@ -32,6 +32,10 @@
                       </tbody>
                     </table>
                   </div>
+                  <div class="card-text">
+                    <strong><p>Cantidad de bienes activos: <span class="text-success">4</span> </p></strong>
+                    <p>Cantidad de bienes innactivos: <span class="text-danger">4</span> </p>
+                  </div>
                 </div>
               </div>
             </div>

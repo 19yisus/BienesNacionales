@@ -24,15 +24,15 @@
                       <label for="">Codigo</label><label for="" id="ob">*</label>
                       <input type="text" name="Cod" id="Cod" class="form-control" minlegth="1" maxlength="11" placeholder="Codigo" readonly>
                     </div>
-                    <div class="form-group col-md-5">
-                      <label for="">Descripcion</label><label for="" id="ob">*</label>
-                      <input type="text" name="Modelo" id="Des" class="form-control" placeholder="Descripcion" minlegth="1" maxlength="30" style="text-transform: uppercase;" required>
-                    </div>
                     <div class="form-group col-md-4">
                       <label for="">Marcas</label><label for="" id="ob">*</label>
                       <select name="Marca" id="Marca" class="form-control select-option-special w-100" required>
                       <?php echo $this->Control('ModelosController')->Select_Marcas(); ?>
                       </select>
+                    </div>
+                    <div class="form-group col-md-5">
+                      <label for="">Descripcion</label><label for="" id="ob">*</label>
+                      <input type="text" name="Modelo" id="Des" class="form-control" placeholder="Descripcion" minlegth="1" maxlength="30" style="text-transform: uppercase;" required>
                     </div>
                   </div>
                   <div class="row card-footer">

@@ -61,7 +61,7 @@
         $fails = $_COOKIE['failPassword'];
         
         if(($fails + 1) < 3){
-          $numero = $fails + 1;
+          // $numero = $fails + 1;
           setcookie("failPassword",$fails+1, time() + 3600);
           $this->view->Redirect("Login?m=4");
         }else{

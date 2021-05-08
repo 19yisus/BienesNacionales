@@ -48,6 +48,7 @@
       // SUPER ADMIN PUEDE ACCEDER A TODAS LAS RUTAS
       'Super Admin' => [
         'NULL',
+        'Home/Vis_Ayuda',
         'Home/Vis_HomePage','Home/Vis_Nosotros',
         'Nucleo/Vis_Index','Nucleo/Vis_Registro',
         'Dependencias/Vis_Index','Dependencias/Vis_Registro',

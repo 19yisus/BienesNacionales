@@ -122,6 +122,7 @@
       break;
 
       case '4':
+        $fail = "";
         if(isset($_COOKIE['failPassword'])){
           $fail = (3 - $_COOKIE['failPassword']);
         }

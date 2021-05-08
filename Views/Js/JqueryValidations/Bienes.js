@@ -266,7 +266,7 @@ $(document).ready(() => {
         required: true,
         min: 1,
         minlength: 1,
-        maxlength: 13,
+        maxlength: 9,
         decimal: true,
       },
       Fecbien: {
@@ -286,7 +286,6 @@ $(document).ready(() => {
         required: true,
         minlength: 10,
         maxlength: 20,
-        number: true,
       },
       Serial: {
         required: true,
@@ -371,7 +370,7 @@ $(document).ready(() => {
         required: "Debe de ingresar el catalogo del bien",
         minlength: "Debe de ingresar 10 caracteres minimo",
         maxlength: "NO puedes ingresar mas de 20 caracteres",
-        pattern: "Solo se permiten 12 caracteres numericos",
+        pattern: "No se permiten letras",
       },
       Serial: {
         required: "Debe de ingresar el serial del bien",

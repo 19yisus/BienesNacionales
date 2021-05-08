@@ -21,6 +21,8 @@
     $status = $res['valido'];
   }
 ?>
+<!-- SweetAlert2 -->
+<script src="<?php echo constant('URL');?>Views/Assets/plugins/sweetalert2/sweetalert2.min.js"></script>
 <body class="hold-transition login-page">
 <div class="login-box">
   <?php 
@@ -149,7 +151,18 @@
       <a href="./" class="h1"><b><?php echo constant('App_name')[0];?></b><?php echo constant('App_name')[1];?></a>
     </div>
     <div class="card-body">
-      <h1 class="text-success text-center"><?php echo $res['h1'];?></h1>
+      <script>
+        Swal.fire({
+          title: "Exito!",
+          text: "Tu clave ha sido modificada con exito",
+          icon: 'success',
+          showCancelButton: false,
+          showConfirmButton: true,
+          confirmButtonText:'Aceptar',
+        }).then( valor =>{
+          window.location.href = "<?php echo constant("URL");?>";
+        });
+      </script>
       <p class="mt-3 mb-1">
         <a href="./">Login</a>
       </p>

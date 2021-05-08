@@ -134,7 +134,7 @@ $(document).ready(() => {
       Des: {
         required: true,
         minlength: 4,
-        maxlength: 30,
+        maxlength: 60,
       },
       Nu: {
         required: true,
@@ -144,7 +144,7 @@ $(document).ready(() => {
       Des: {
         required: "Debe ingresar el nombre de la dependencia",
         minlength: "Debe de ingresar al menos 4 caracteres",
-        maxlength: "No puede ingresar mas de 30 caracteres",
+        maxlength: "No puede ingresar mas de 60 caracteres",
         pattern: "Este campo solo acepta letras",
       },
       Nu: {
@@ -158,7 +158,7 @@ $(document).ready(() => {
       Des: {
         required: true,
         minlength: 4,
-        maxlength: 30,
+        maxlength: 60,
       },
       Nu: {
         required: true,
@@ -168,7 +168,7 @@ $(document).ready(() => {
       Des: {
         required: "Debe ingresar el nombre de la dependencia",
         minlength: "Debe de ingresar al menos 4 caracteres",
-        maxlength: "No puede ingresar mas de 30 caracteres",
+        maxlength: "No puede ingresar mas de 60 caracteres",
         pattern: "Este campo solo acepta letras",
       },
       Nu: {

@@ -78,7 +78,7 @@
                               <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Descripcion</th>
-                                <th scope="col">Fecha de ingreso</th>
+                                <th scope="col">Catalogo</th>
                                 <th scope="col">Dependencia</th>
                                 <th scope="col">Opciones</th>
                               </tr>

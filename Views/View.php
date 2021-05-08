@@ -7,6 +7,8 @@
      * @return file.php
      */
     public function RenderView($ruta){
+      // var_dump($ruta[0]);
+      // die("hola");
       
       if(strpos($ruta[sizeof($ruta) - 1],'Vis') !== false && $ruta[0] != "PDF"){
         $url_route = '';
@@ -28,6 +30,8 @@
           $this->Redirect('');
         }
       }elseif($ruta[0] == 'PDF'){
+
+        // die("hola");
         
         $File = "./Views/Contents/pdf/$ruta[1].php";
 

@@ -4,7 +4,7 @@
   <?php $this->Nav();?>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-  <?php $this->Wraper('','','');?>
+  <?php $this->Wraper('','','Bienvenido a Bienes Nacionales');?>
     <!-- Main content -->
     <div class="content mt-4">
       <div class="container-fluid">
@@ -15,13 +15,24 @@
                 <h5 class="ms-0">Nuestras redes sociales</h5>
               </div>
               <div class="card-body">
-                <p class="card-text">
+                <div class="card-text d-flex flex-column h5">
                   <!-- <?php //var_dump($this->GetDatos('permisos'));?> -->
                   <!-- <div class="mensaje_inicio_sesion">Nuestras redes sociales son: <br>  -->
-                  <a clas="card-link" href="https://www.facebook.com/UPTP-Juan-de-Jesús-Montilla-321794751770801">UPTP Juan de Jesús Montilla (Facebook)</a><br>
-                  <a clas="card-link" href="https://www.instagram.com/uptpjuandejesus">uptpjuandejesus (Instagram)</a><br>
-                  <a clas="card-link" href="https://www.twitter.com/UptpJuandeJesus">UptpJuandeJesus (Twitter)</a>
-                </p>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                      <a clas="card-link" target="__blank" href="https://www.facebook.com/UPTP-Juan-de-Jesús-Montilla-321794751770801">
+                        <i class="fab fa-facebook"></i> UPTP Juan de Jesús Montilla</a>
+                    </li>
+                    <li class="list-group-item">
+                      <a clas="card-link" target="__blank" href="https://www.instagram.com/uptpjuandejesus">
+                        <i class="fab fa-instagram"></i> @uptpjuandejesus</a>
+                    </li>
+                    <li class="list-group-item">
+                      <a clas="card-link" target="__blank" href="https://www.twitter.com/UptpJuandeJesus">
+                        <i class="fab fa-twitter"></i> @UptpJuandeJesus</a>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>

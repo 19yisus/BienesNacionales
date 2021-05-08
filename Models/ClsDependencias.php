@@ -47,7 +47,7 @@
 					$res = $con->execute();
 
 					if($this->dep_ifprincipal == '1'){
-						$sql2 = "INSERT INTO dependencia(dep_des,dep_nucleo_cod,dep_estado,dep_ifprincipal) VALUES('ALMACEN',:nucleo,'1','0');";
+						$sql2 = "INSERT INTO dependencia(dep_des,dep_nucleo_cod,dep_estado,dep_ifprincipal) VALUES('SECCION DE ALMACEN',:nucleo,'1','0');";
 						$con2 = $this->Prepare($sql2);
 						$con2 -> bindParam(":nucleo", $this->nucleo);
 						$con2 -> execute();

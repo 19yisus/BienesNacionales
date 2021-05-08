@@ -27,6 +27,7 @@
 			$this->nom = $this->Limpiar($Nom);
 			$this->ape = $this->Limpiar($Ape);
 			$this->tel = $this->Limpiar($Tel);
+			$this->tel = str_ireplace("-","",$this->tel);
 			$this->cargo = $this->Limpiar($Cargo);
 			$this->email = $this->Limpiar($Email);
 			$this->fecha = $this->Limpiar($Fecha);

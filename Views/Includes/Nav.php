@@ -15,16 +15,14 @@
           class="user-image img-circle elevation-2" alt="User Image">
           <span class="d-none d-md-inline"><?php echo $this->GetDatos('user_name');?></span>
         </a>
-        <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <!-- User image -->
+        <!-- <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <li class="user-header bg-primary">
-            <!-- <img src="<?php //echo constant('URL'). $this->GetDatos('photo');?>" class="img-circle elevation-2" alt="User Image"> -->
+            <img src="<?php //echo constant('URL'). $this->GetDatos('photo');?>" class="img-circle elevation-2" alt="User Image">
             <p>
-
-              <!-- <small><?php //echo $_SESSION['cargo'];?> desde <?php //echo $_SESSION['fecha_cargo'];?></small> -->
+              <small><?php //echo $_SESSION['cargo'];?> desde <?php //echo $_SESSION['fecha_cargo'];?></small>
             </p>
           </li>
-          <!-- <li class="user-body bg-default">
+          <li class="user-body bg-default">
             <p>
               <small><strong>Correo: </strong><?php //echo $_SESSION['correo'];?></small>
 
@@ -32,13 +30,12 @@
             <p>
               <small><strong>Telefono: </strong><?php //echo $_SESSION['telefono'];?></small>
             </p>
-          </li> -->
-          <!-- Menu Footer-->
+          </li>
           <li class="user-footer">
             <a href="#" class="btn btn-default btn-flat">Perfil</a>
-            <a href="<?php echo constant('URL');?>Login/Logout" class="btn btn-default btn-flat float-right">Salir</a>
+            <a href="<?php //echo constant('URL');?>Login/Logout" class="btn btn-default btn-flat float-right">Salir</a>
           </li>
-        </ul>
+        </ul> -->
       </li>
     </ul>
   </nav>
@@ -234,19 +231,25 @@
                     <i class="right fas fa-angle-left"></i>
                   </p>
                 </a>
-                <ul class="nav nav-treeview">
+                <!-- <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="<?php echo constant('URL');?>configuracion/Vis_desactivados" class="nav-link active">
+                    <a href="<?php //echo constant('URL');?>configuracion/Vis_desactivados" class="nav-link active">
                       <i class="far fa-circle nav-icon"></i>
-                      <p>Innactivos</p>
+                      <p>usuarios</p>
                     </a>
                   </li>
-                </ul>
+                </ul> -->
             </li>
             <?php 
                 } 
               }
             ?>
+            <li class="nav-item">
+              <a href="<?php echo constant('URL');?>Home/Vis_Ayuda" class="nav-link active">
+                <i class="fas fa-info-circle"></i>
+                <p class="pl-2">Ayuda ?</p>
+              </a>
+            </li>
             <li class="nav-item">
               <a href="<?php echo constant('URL');?>Login/Logout" class="nav-link active">
                 <i class="nav-icon fas fa-sign-out-alt"></i>

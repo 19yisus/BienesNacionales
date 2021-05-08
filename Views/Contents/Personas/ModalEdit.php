@@ -49,7 +49,7 @@
             </div>
             <div class="form-group col-md-5">
               <label for="">Dependencia</label><label for="" id="ob">*</label>
-              <select name="Dep" id="Dep_edit" class="form-control select-option-special w-100" required>
+              <select name="Dep" id="Dep_edit" class="form-control select-option-special w-50" required>
               <?php $this->Control('PersonasController')->SelectDeps(); ?>
               </select>
             </div>

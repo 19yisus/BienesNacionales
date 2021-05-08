@@ -80,8 +80,7 @@
 				 * @return array si hay datos
 				 * @return boolean si no hay datos
 				 */
-				$confirm = $this->Query("SELECT * FROM nucleo WHERE nuc_des = '$this->des' OR
-				nuc_codigo_postal = '$this->cp' OR nuc_direccion = '$this->dir' AND nuc_tipo_nucleo = '$this->tip' ;")->fetch();
+				$confirm = $this->Query("SELECT * FROM nucleo WHERE nuc_des = '$this->des' AND nuc_cod != '$this->cod' OR nuc_codigo_postal = '$this->cp' AND nuc_cod != '$this->cod' OR nuc_direccion = '$this->dir' AND nuc_cod != '$this->cod' ;")->fetch();
 
 				if(!$confirm){
 

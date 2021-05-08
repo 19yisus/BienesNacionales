@@ -176,35 +176,35 @@
             <td class="p-1 text-center">
             <?php
               switch($comprobante['origen']){
-                case 'Compra':
-                  $codigo = 01;
+                case 'COMPRA':
+                  $codigo = '01';
                 break;
 
-                case 'Donacion':
-                  $codigo = 11;
+                case 'DONACION':
+                  $codigo = '11';
                 break;
 
-                case 'Deterioro':
-                  $codigo = 21;
+                case 'DETERIORO':
+                  $codigo = '21';
                 break;
 
-                case 'Hurto':
-                  $codigo = 31;
+                case 'HURTO':
+                  $codigo = '31';
                 break;
 
-                case 'Reasignacion':
-                  $codigo = 51;
+                case 'REASIGNACION':
+                  $codigo = '51';
                 break;
 
                 default:
-                  $codigo = 00;
+                  $codigo = '00';
                 break;
               }
             ?>
-              <span>Codigo: <?php echo $codigo;?></span>
+              <span><?php echo $codigo;?></span>
             </td>
             <td class="p-1 text-center">
-              <span>Concepto: <?php echo $comprobante['origen'];?></span>
+              <span><?php echo $comprobante['origen'];?></span>
             </td>
           </tr>
         </table>
@@ -234,7 +234,7 @@
                 <?php 
                   if($comprobante['tipo_bienes'] != 'semoviente'){
                 ?>
-                <td><?php echo $bien['catalogo'];?></td>
+                <td><?php echo isset($bien['catalogo']) ? $bien['catalogo'] : '';?></td>
                 <?php }?>
                 <td><?php echo $bien['cod_bien'];?></td>
                 <td><?php echo $bien['bien_des'];?></td>

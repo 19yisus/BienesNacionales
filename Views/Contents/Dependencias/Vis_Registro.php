@@ -26,7 +26,7 @@
                     </div>
                     <div class="form-group col-md-5">
                       <label for="">Descripcion</label><label for="" id="ob">*</label>
-                      <input type="text" name="Des" id="Des" class="form-control" pattern="[A-Za-z ]{4,30}" placeholder="Descripcion" style="text-transform: uppercase;" minlength="4" maxlength="30" autofocus required>
+                      <input type="text" name="Des" id="Des" class="form-control" pattern="[A-Za-z ]{4,60}" placeholder="Descripcion" style="text-transform: uppercase;" minlength="4" maxlength="60" autofocus required>
                     </div>
                     <div class="form-group col-md-4">
                       <label for="">Pertenece a</label><label for="" id="ob">*</label>

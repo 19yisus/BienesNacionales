@@ -27,7 +27,7 @@
                     </div>
                     <div class="form-group col-md-7">
                       <label for="Descripcion del nucleo">Descripcion</label><label for="" id="ob">*</label>
-                      <input type="text" class="form-control" id="Des" name="Des" pattern='[A-Za-z". ]{4,30}' placeholder="Descripcion" style="text-transform: uppercase;" autofocus minlength="4" maxlength="30" required>
+                      <input type="text" class="form-control" id="Des" name="Des" pattern='[A-Za-z". ]{4,60}' placeholder="Descripcion" style="text-transform: uppercase;" autofocus minlength="4" maxlength="60" required>
                     </div>
                     <div class="form-group col-md-2">
                       <label for="CodigoPostal">Codigo Postal</label><label for="" id="ob">*</label>

@@ -405,13 +405,15 @@
 			try{
 				$estado = ($conditions == 'Incorporado' ? 1 : 0);
 				$extraJoin = "INNER JOIN comprobantes ON comprobantes.com_cod = movimientos.mov_com_desincorporacion";
-				$where = " AND clasificacion.cla_cat_cod != 'MA' ";
+				$where = " AND clasificacion.cla_cat_cod != 'MA' AND clasificacion.cla_cat_cod != 'BS' ";
 
 				if($tipo == "materiales"){
 					$where = " AND clasificacion.cla_cat_cod = 'MA' ";
 				}elseif($tipo == "semoviente"){
 					$where = " AND clasificacion.cla_cat_cod = 'BS' ";
 				}
+
+				error_log($tipo);
 				
 				if($estado == 1){
 					$extraJoin = "INNER JOIN comprobantes ON comprobantes.com_cod = movimientos.mov_com_cod";

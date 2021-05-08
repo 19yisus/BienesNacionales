@@ -31,6 +31,9 @@
                       </tbody>
                     </table>
                   </div>
+                  <div class="card-text">
+                    <strong><p>Cantidad de bienes incorporados: <span class="text-success">4</span> </p></strong>
+                  </div>
                 </div>
               </div>
             </div>

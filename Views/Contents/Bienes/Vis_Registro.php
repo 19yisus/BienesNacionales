@@ -42,7 +42,7 @@
                         <div class="input-group-prepend">
                           <span class="input-group-text">Bs</span>
                         </div>
-                        <input type="text" pattern="[0-9.,]{1,9}" name="Valbien" id="Valbien" class="form-control" min="1" minlength="1" maxlength="9" disabled required>
+                        <input type="text" pattern="[0-9.]{1,9}" name="Valbien" id="Valbien" class="form-control" min="1" minlength="1" maxlength="9" disabled required>
                       </div>
 											
                     </div>
@@ -87,7 +87,7 @@
                   </div>
                   <!-- ./Row1 -->
                   <!-- Row2 (Bienes ELectronicos, Materiales, Material de oficina, Transporte) -->
-                  <div class="row EL OF" id="fila" style="display:none;">
+                  <div class="row EL MA OF" id="fila" style="display:none;">
                     <div class="form-group col-md-4">
                       <label for="">Catalogo</label><label for="" id="ob">*</label>
                       <input type="text" name="Catalogo" pattern="[0-9-]{10,20}" id="Catalogo" style="text-transform: uppercase;" pattern="Minimo 10 caracteres, Maximo 20" minlength="10" maxlength="20" class="form-control" placeholder="Catalogo" disabled required>
@@ -151,7 +151,7 @@
                         <div class="input-group-prepend">
                           <span class="input-group-text">Kg</span>
                         </div>
-                        <input type="text" name="Peso" pattern="[0-9.,]{2,4}" id="Peso"  min="1" minlength="2" maxlength="4" class="form-control" disabled required>
+                        <input type="text" name="Peso" pattern="[0-9.]{2,4}" id="Peso"  min="1" minlength="2" maxlength="4" class="form-control" disabled required>
                       </div>
                     </div>
                     <div class="form-group col-md-2">
