@@ -220,6 +220,12 @@
                     <p>Comprobantes</p>
                   </a>
                 </li>
+                <li class="nav-item">
+                  <a href="<?php echo constant('URL');?>PDF/Vis_Inventario" class="nav-link active">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Inventario</p>
+                  </a>
+                </li>
               </ul>
             </li>
           <?php if($this->GetDatos('permisos')['roles_name'] == 'Super Admin' || $this->GetDatos('permisos')['roles_name'] == 'Admin'){?>

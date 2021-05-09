@@ -69,7 +69,7 @@
         'Transaccion/Desincorporacion/Vis_Index',
         'Transaccion/Componentes/Vis_AsignarComponentes',
         'Transaccion/Vis_Innactivos',
-        'PDF/Vis_Comprobante','PDF/Vis_Reportes'
+        'PDF/Vis_Comprobante','PDF/Vis_Reportes','PDF/Vis_Inventario'
       ],
     ];
 
