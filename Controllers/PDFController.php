@@ -12,7 +12,6 @@
       $this->mpdf = new \Mpdf\Mpdf([
         'tempDir' => __DIR__ . '/custom/temp/dir/path',
         'format' => 'Legal',
-        'orientation' => 'P'
       ]);
       $this->mpdf->SetFooter("{PAGENO}");      
     }
@@ -34,7 +33,8 @@
         ?>
         <script>
           alert('No existen registros, intenta con otras fechas diferentes');
-          window.location.href = "<?php echo constant('URL');?>PDF/Vis_Inventario";
+          // window.location.href = "<?php echo constant('URL');?>PDF/Vis_Inventario";
+          window.close();
         </script>
         <?php
       }

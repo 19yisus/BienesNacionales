@@ -181,12 +181,11 @@
 
 		private function changeStatus($cod,$status){
 			if($status == 0){
-				$con = $this->Prepare("UPDATE personas SET per_estado = '$status', 
+				$con = $this->Prepare("UPDATE personas SET per_estado = $status, 
 				per_hasta = NOW(), per_fecha_desactivacion = NOW(), per_fecha_reactivacion = null WHERE per_cedula = :cod;");
 				$con -> bindParam(":cod",   $cod);
-				$con -> bindParam(":fecha", $fecha);
 			}else{
-				$con = $this->Prepare("UPDATE personas SET per_estado = '$status', 
+				$con = $this->Prepare("UPDATE personas SET per_estado = $status, 
 				per_hasta = null, per_fecha_desactivacion = null, per_fecha_reactivacion = NOW() WHERE per_cedula = :cod;");
 				$con -> bindParam(":cod",   $cod);
 			}
@@ -227,7 +226,7 @@
 							return $this->changeStatus($cod,1);
 						}else{
 							$con = $this->Query("SELECT * FROM personas WHERE per_dep_cod = '$depen' AND per_car_cod = '1'
-								AND per_cedula != '$cod' AND per_estado = '1';")->fetch();
+								AND per_cedula != '$cod' AND per_estado = 1;")->fetch();
 
 							if(!$con){
 								return $this->changeStatus($cod,1);
@@ -470,7 +469,7 @@
 			personas.per_correo,
 			personas.per_direccion,
 			personas.per_desde,
-			personas.per_hasta,
+			personas.per_hasta,personas.per_fecha_desactivacion,personas.per_fecha_reactivacion,
 			cargos.car_des,
 			dependencia.dep_des";
 
@@ -481,58 +480,7 @@
         $estado = ($con1['per_estado'] == 1) ? 'Activo' : 'Innactivo';
         $hasta = isset($con1['per_hasta']) ? $con1['per_hasta'] : 'Actualmente';
 
-				$card = '
-									<div class="card">
-										<div class="card-header">
-											<h3 class="card-title">Persona</h3>
-										</div>
-										<div class="card-body table-responsive p-0">
-											<table class="table table-sm">
-												<thead>
-													<tr>
-														<th>ID</th>
-														<th>Nombre</th>
-														<th>Apellido</th>
-														<th>Cargo</th>
-														<th>Fecha del cargo</th>
-														<th>Telefono</th>
-														<th>Estado</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr>
-														<td>'.$con1['per_cedula'].'</td>
-														<td>'.$con1['per_nombre'].'</td>
-														<td>'.$con1['per_apellido'].'</td>
-														<td>'.$con1['car_des'].'</td>
-														<td>'.$con1['per_desde'].' - '.$hasta.'</td>
-														<td>'.$con1['per_telefono'].'</td>
-														<td class="text-'.(($estado == "Activo") ? "success" : "danger").'" >'.$estado.'</td>
-													</tr>
-												</tbody>
-											</table>
-										</div>
-										<div class="card-body p-0">
-											<table class="table table-sm">
-												<thead>
-													<tr>
-														<th>Dependencia</th>
-														<th>Direccion</th>
-														<th>Correo</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr>
-														<td>'.$con1['dep_des'].'</td>
-														<td>'.$con1['per_direccion'].'</td>
-														<td>'.$con1['per_correo'].'</td>
-													</tr>
-												</tbody>
-											</table>
-										</div>
-									</div>';
-
-			  return $card;
+				require_once "Templates/ListarPersonas.php";
 
 			}catch(PDOException $e){
 				error_log("Error en la consulta::models/ClsPersonas->Listar(), ERROR = ".$e->getMessage());

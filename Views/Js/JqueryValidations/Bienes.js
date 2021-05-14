@@ -588,7 +588,8 @@ $(document).ready(() => {
       url: `${host_url}/${controller}/PaginadorController`,
       dataSrc: "data",
     },
-    dom: 'Bftp',
+    dom: 'Bftlp',
+    
     buttons:{
       buttons:[
         {

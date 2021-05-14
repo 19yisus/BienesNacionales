@@ -285,6 +285,7 @@
 					bien.bien_peso,
 					bien.bien_placa,
 					bien.bien_precio,
+					bien.bien_divisa,
 					bien.bien_sexo,
 					bien.bien_terreno,
 					bien.bien_anio
@@ -303,6 +304,7 @@
 						'Cod' => $res['bien_cod'],
 						'Des' => $res['bien_des'],
 						'Pre' => intval($res['bien_precio']),
+						'Divisa' => $res["bien_divisa"],
 						'Fecha' => $res['bien_fecha_ingreso'],
 						'Anio' => $res['bien_anio'],
 						'Terr' => $res['bien_terreno'],

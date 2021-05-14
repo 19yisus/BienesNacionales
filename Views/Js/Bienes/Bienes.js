@@ -64,8 +64,8 @@ const Consulta = async (e)=>{
 				SetValue('Cod_edit',data.Cod);
 				SetValue('Desbien_edit',data.Des);
 				SetValue('Valbien_edit',data.Pre);
-				Selected('divisa',data.divisa);
-				
+				Selected('divisa',data.Divisa);
+								
 				switch(data.Cate){
 					case 'IN':
 						SetValue('Terreno_edit', data.Terr);
@@ -134,6 +134,7 @@ const Consulta = async (e)=>{
 
 const Selected = (id,valor)=>{
 	
+	$(`#${id}_edit`).attr("disabled", false);
 	for(var i = 0; i < $(`#${id}_edit`)[0].options.length; i++){
 		if($(`#${id}_edit`)[0].options[i].value == valor){
 			$(`#${id}_edit`)[0].selectedIndex = i;

@@ -10,7 +10,7 @@
       <form action="#" id="FormEdit" name="FormEdit"  class="needs-validation" novalidate>
         <div class="modal-body">
           <div class="row">
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-2">
               <label for="">Codigo</label><label for="" id="ob">*</label>
               <input type="text" name="Codbien" id="Cod_edit" class="form-control" placeholder="Codigo" readonly disabled requied>
             </div>
@@ -18,15 +18,16 @@
               <label for="">Descripcion</label><label for="" id="ob">*</label>
               <input type="text" pattern="[A-Za-z ]{2,90}" name="Desbien" id="Desbien_edit" class="form-control" minlength="2" maxlength="90" placeholder="Descripcion" disabled style="text-transform: uppercase;" required>
             </div>
-          </div>
-          <div class="row">
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-3">
               <label for="">Precio</label><label for="" id="ob">*</label>
               <div class="input-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text">Bs</span>
-                </div>
                 <input type="text" pattern="[0-9.]{1,9}" name="Valbien" id="Valbien_edit" class="form-control" min="1" minlength="1" maxlength="9" disabled required>
+                <div class="input-group-append">
+                  <select name="divisa" id="divisa_edit" class="custom-select" required disabled>
+                    <option value="Bs">Bs.</option>
+                    <option value="$">$.</option>
+                  </select>
+                </div>
               </div>			
             </div>
           </div>

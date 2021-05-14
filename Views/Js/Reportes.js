@@ -1,5 +1,81 @@
 $(document).ready( ()=>{
     const controller = 'TransaccionController';
+    $.validator.addMethod(
+        "valida_fecha",
+        (value, element) => {
+            if (value >= element.min && value <= element.max) {
+                return true;
+            }
+            return false;
+        },
+        "La fecha ingresada es invalida"
+    );
+
+    $.validator.setDefaults({
+        onsubmit: true,
+        debug: true,
+        errorClass: "invalid-feedback",
+        highlight: function (element) {
+            $(element)
+                .closest(".form-group")
+                .removeClass("has-success")
+                .addClass("has-error");
+        },
+        unhighlight: function (element) {
+            $(element)
+                .closest(".form-group")
+                .removeClass("has-error")
+                .addClass("has-success");
+        },
+        errorPlacement: function (error, element) {
+            if (element.prop("type") === "checkbox") {
+                error.insertAfter(element.parent());
+            } else {
+                // var id = element[0].attributes.id.value;
+                // console.log( $(`#${id}`)[0].attr('aria-invalid'))
+                // $(element).attr('aria-invalid', true);
+                error.insertAfter(element);
+            }
+            if (element.parent().parent().parent().parent()[0].id == "formulario") {
+                $("#formulario").addClass("was-validated");
+            } else {
+                $("#FormEdit").addClass("was-validated");
+            }
+        },
+    });
+
+    $('#inventario').validate({
+        rules: {
+            mov: {
+                required: true,
+            },
+            first_date: {
+                required: true,
+                valida_fecha: true,
+            }, 
+            second_date: {
+                required: true,
+                valida_fecha: true,
+            }
+        },
+        messages: {
+            mov: {
+                required: "Seleccione una opcion",
+            },
+            first_date: {
+                required: "Ingrese la fecha inicial",
+            },
+            second_date: {
+                required: "Ingrese la fecha final",
+            }
+        }
+    });
+
+    $("#enviar").click( ()=>{
+        if($("#inventario").valid()){
+            document.formulario.submit();
+        }
+    })
 
     $('#Catalogo_comprobantes').DataTable({
         responsive: true,

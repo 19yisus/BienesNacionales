@@ -234,31 +234,7 @@
 				return $this->MakeResponse(400, "Error desconocido, Revisar php-error.log");
 			}
 		}
-		/**
-		 * Funcion Pag para retornar el paginador creado a partir del modelo principal
-		 * (Esta funcion solo requiere un array con la informacion para realizar dichas consultas)
-		 * @return string html
-		 */
-		public function Pag($pagina){
 
-			$encabezados = ['Codigo','Descripcion','Especie','Estado','Opciones'];
-		  $columnas = ['mod_cod','mod_estado','mod_des','mar_des'];
-
-		  $arreglo = [
-        'table' => 'modelos',
-        'control' => 'RazasController',
-        'actual' => $pagina,
-        'columns' => $columnas,
-        'cantColumns' => 4,
-        'encabezado' => $encabezados,
-        'btnEdLegend' => 'Este Raza no puede ser modificado',
-        'extraQuery' => "INNER JOIN marcas ON marcas.mar_cod = modelos.mod_marca_cod WHERE marcas.mar_categoria_cod = 'BS' ",
-        'extraSelect' => 'modelos.mod_cod,modelos.mod_des,marcas.mar_des,modelos.mod_estado',
-        'sin' => ['']
-			];
-
-		  return $this->paginador($arreglo);
-		}
 		public function All(){
 
 			try{
@@ -278,7 +254,7 @@
 		 * @return string html
 		 */
 		public function Listar($cod){
-			$SelectModelos = "modelos.mod_cod,modelos.mod_des,marcas.mar_des,modelos.mod_estado";
+			$SelectModelos = "modelos.mod_cod,modelos.mod_des,marcas.mar_des,marcas.mar_categoria_cod,modelos.mod_estado,modelos.mod_fecha_desactivacion,modelos.mod_fecha_reactivacion";
 			$InnerJoinModelos = "INNER JOIN marcas ON marcas.mar_cod = modelos.mod_marca_cod";
 
 			try{
@@ -289,37 +265,8 @@
 				//$con2 = $this->Query("SELECT * FROM dependencia WHERE nucleo_cod = '".$cod."' ;")->fetchAll();
 
 				$estado = ($con1['mod_estado'] == 1) ? 'Activo' : 'Innactivo';
-
-				$card = '
-									<div class="card">
-										<div class="card-header">
-											<h3 class="card-title">Razas</h3>
-										</div>
-										<div class="card-body table-responsive p-0">
-											<table class="table table-sm">
-												<thead>
-													<tr>
-														<th>ID</th>
-														<th>Nombre de la Raza</th>
-														<th>Especie</th>
-														<th>Nº bienes con esta Raza</th>
-														<th>Estado</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr>
-														<td>'.$con1["mod_cod"].'</td>
-														<td>'.$con1["mod_des"].'</td>
-														<td>'.$con1["mar_des"].'</td>
-														<td>'.$con2["total"].'</td>
-														<td class="text-'.(($estado == "Activo") ? "success" : "danger").'" >'.$estado.'</td>
-													</tr>
-												</tbody>
-											</table>
-										</div>
-									</div>';
-
-				return $card;
+				
+				require_once "Templates/ListarModelos_Raza.php";
 			}catch(PDOException $e){
 				error_log("Error en la consulta::models/ClsRazas->Listar(), ERROR = ".$e->getMessage());
 				return $this->MakeResponse(400, "Error desconocido, Revisar php-error.log");

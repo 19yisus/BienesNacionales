@@ -470,19 +470,28 @@
 		public function Listar($codigo){
 			try{
 				$sql1 = "SELECT DISTINCT comprobantes.com_cod, comprobantes.com_tipo, dependencia.dep_des, comprobantes.com_fecha_comprobante, 
-					comprobantes.com_num_factura, comprobantes.com_justificacion, comprobantes.com_observacion, comprobantes.com_origen, comprobantes.com_info_encargado
+					comprobantes.com_num_factura, comprobantes.com_justificacion, comprobantes.com_observacion, comprobantes.com_origen, comprobantes.com_info_encargado,comprobantes.com_info_usuario
 					FROM comprobantes
 					INNER JOIN movimientos ON movimientos.mov_com_cod = comprobantes.com_cod 
 					OR movimientos.mov_com_desincorporacion = comprobantes.com_cod
 					INNER JOIN dependencia ON dependencia.dep_cod = comprobantes.com_dep_user
 					WHERE comprobantes.com_cod = '$codigo'; ";
 
+				$con1 = $this->Query($sql1)->fetch(PDO::FETCH_ASSOC);
+
+				if($con1['com_tipo'] == "D"){
+					$status = 0;
+				}else{
+					$status = 1;
+				}
+
 				$sql2 = "SELECT bien.bien_cod, bien.bien_des, bien.bien_fecha_ingreso, bien.bien_catalogo, bien.bien_precio, bien.ifcomponente,
-					bien.bien_link_bien, bien.bien_estado FROM bien INNER JOIN movimientos ON movimientos.mov_bien_cod = bien.bien_cod 
-					WHERE movimientos.mov_com_cod = '$codigo' OR movimientos.mov_com_desincorporacion = '$codigo';";
+					bien.bien_link_bien, bien.bien_estado, bien.bien_divisa FROM bien INNER JOIN movimientos ON movimientos.mov_bien_cod = bien.bien_cod 
+					WHERE movimientos.mov_com_cod = '$codigo' OR movimientos.mov_com_desincorporacion = '$codigo' AND bien.bien_estado = $status;";
 					
-					$con1 = $this->Query($sql1)->fetch(PDO::FETCH_ASSOC);
-					$con2 = $this->Query($sql2)->fetchAll(PDO::FETCH_ASSOC);
+				$con2 = $this->Query($sql2)->fetchAll(PDO::FETCH_ASSOC);	
+					
+					
 					require_once 'Templates/ListarComprobantes.php';
 				
 			}catch(PDOException $e){

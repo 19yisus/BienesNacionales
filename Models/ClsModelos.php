@@ -279,7 +279,7 @@
 		 * @return string html
 		 */
 		public function Listar($cod){
-			$SelectModelos = "modelos.mod_cod, modelos.mod_des, marcas.mar_des, modelos.mod_estado";
+			$SelectModelos = "modelos.mod_cod, modelos.mod_des, marcas.mar_des,marcas.mar_categoria_cod,modelos.mod_estado,modelos.mod_fecha_desactivacion,modelos.mod_fecha_reactivacion";
 			$InnerJoinModelos = "INNER JOIN marcas ON marcas.mar_cod = modelos.mod_marca_cod";
 
 			try{
@@ -289,37 +289,7 @@
 				//$con2 = $this->Query("SELECT * FROM dependencia WHERE nucleo_cod = '".$cod."' ;")->fetchAll();
 
         $estado = ($con1['mod_estado'] == 1) ? 'Activo' : 'Innactivo';
-
-				$card = '
-									<div class="card">
-										<div class="card-header">
-											<h3 class="card-title">Modelo</h3>
-										</div>
-										<div class="card-body table-responsive p-0">
-											<table class="table table-sm">
-												<thead>
-													<tr>
-														<th>ID</th>
-														<th>Nombre del modelo</th>
-														<th>Marca</th>
-														<th>Nº bienes con este modelo</th>
-														<th>Estado</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr>
-														<td>'.$con1["mod_cod"].'</td>
-														<td>'.$con1["mod_des"].'</td>
-														<td>'.$con1["mar_des"].'</td>
-														<td>'.$con2["total"].'</td>
-														<td class="text-'.(($estado == "Activo") ? "success" : "danger").'" >'.$estado.'</td>
-													</tr>
-												</tbody>
-											</table>
-										</div>
-									</div>';
-				return $card;
-
+				require_once "Templates/ListarModelos_Raza.php";
 
 			}catch(PDOException $e){
 				error_log("Error en la consulta::models/ClsModelos->Listar(), ERROR = ".$e->getMessage());

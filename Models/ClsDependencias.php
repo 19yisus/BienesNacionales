@@ -122,7 +122,7 @@
 		 * Funcion Delete Para "eliminar" (cambiar el estado de activo a innactivo) en los registros
 		 * @return array
 		 */
-		public function Delete($cod, $fecha){
+		public function Delete($cod){
 
 			try{
 
@@ -336,7 +336,7 @@
 		 */
 		public function Listar($cod){
 			
-			$SelectDep = "dependencia.dep_cod,dependencia.dep_des,nucleo.nuc_des,dependencia.dep_estado";
+			$SelectDep = "dependencia.dep_cod,dependencia.dep_des,nucleo.nuc_des,dependencia.dep_estado,dependencia.dep_fecha_desactivacion,dependencia.dep_fecha_reactivacion";
 			$InnerJoinDep = "INNER JOIN nucleo ON nucleo.nuc_cod = dependencia.dep_nucleo_cod";
 			$SelectPer = "
 				personas.per_cedula,
@@ -364,89 +364,7 @@
 				// 	INNER JOIN movimientos ON movimientos.c_incorporacion = comprobantes.cod_comprobante WHERE comprobantes.dependencia_user = '".$cod."' ;")->fetch();
 
 				$estado = ($con1['dep_estado'] == 1) ? 'Activo' : 'Innactivo';
-
-				$card = '
-									<div class="card">
-										<div class="card-header">
-											<h3 class="card-title">Dependencia</h3>
-										</div>
-										<div class="card-body table-responsive p-0">
-											<table class="table table-sm">
-												<thead>
-													<tr>
-														<th>ID</th>
-														<th>Nombre de la dependencia</th>
-														<th>Nucleo</th>
-														<th>Estado</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr>
-														<td>'.$con1["dep_cod"].'</td>
-														<td>'.$con1["dep_des"].'</td>
-														<td>'.$con1["nuc_des"].'</td>
-														<td class="text-'.(($estado == "Activo") ? "success" : "danger").'" >'.$estado.'</td>
-													</tr>
-												</tbody>
-											</table>
-										</div>
-									</div>';
-				if(sizeof($con2) > 0){
-
-					$i = 0;
-
-					$card .= '		<div class="card">
-				 						<div class="card-header">
-				 							<h3 class="card-title">Encargado</h3>
-				 						</div>
-				 						<div class="card-body table-responsive p-0">
-											<table class="table table-sm">
-												<thead>
-													<tr>
-														<th style="width: 10px">ID</th>
-														<th>Nombre</th>
-														<th>Apellido</th>
-														<th>cargo</th>
-														<th>direccion</th>
-														<th>correo</th>
-														<th>telefono</th>
-														<th>fecha del cargo</th>
-														<th>Estado</th>
-													</tr>
-												</thead>
-							        <tbody>';
-					while($i < sizeof($con2)){
-						
-						$estado = ($con2[$i]['per_estado'] == 1) ? 'Activo' : 'Innactivo';
-						$hasta = isset($con[$i]['per_hasta']) ? $con[$i]['per_hasta'] : 'Sigue';
-
-						$card .= '				<tr>
-						                   			<td>'.$con2[$i]["per_cedula"].'</td>
-						                   			<td>'.$con2[$i]["per_nombre"].'</td>
-							                   		<td>'.$con2[$i]["per_apellido"].'</td>
-							                    	<td>'.$con2[$i]["car_des"].'</td>
-								                    <td>'.$con2[$i]["per_direccion"].'</td>
-								                    <td>'.$con2[$i]["per_correo"].'</td>
-								                    <td>'.$con2[$i]["per_telefono"].'</td>
-								                    <td>'.$con2[$i]["per_desde"].' - '.$hasta.' </td>
-								                    <td class="text-'.(($estado == "Activo") ? "success" : "danger").'" >'.$estado.'</td>
-						                   		</tr>';
-
-						
-						$i += 1;
-					}
-					
-					$card .= '</tbody>';
-				}else{
-					$card .= '
-					<div class="card">
-						<div class="card-body p-2">
-							<h4 class="text-center text-danger">Sin encargado asignado</h4>
-						</div>
-					</div>';
-				}
-
-				return $card;
+				require_once "Templates/ListarDependencias.php";
 
 
 			}catch(PDOException $e){

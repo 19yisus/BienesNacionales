@@ -30,7 +30,7 @@
   <div class="container h-100">
     <div class="p1 w-100">
       <img src="<?php echo constant('URL').'Views/Img/';?>logo.jpg" alt="Logo" class="img-fluid w-100">
-      <h4 class="text-center">Inventario de Bienes <?php echo $titulo;?> entre las fechas <?php echo $f->format('d/m/Y')." - ".$s->format('d/m/Y');?></h4>
+      <h6 class="text-center my-2">Inventario de Bienes <?php echo $titulo;?> entre las fechas <?php echo $f->format('d/m/Y')." - ".$s->format('d/m/Y');?></h6>
     </div>
     <table class="w-100 text-center mx-auto table table-bordered">
       <thead class="thead-dark">
@@ -39,7 +39,7 @@
           <th><small class="text-white">Fecha del comprobante</small></th>
           <th><small class="text-white">ubicación</small></th>
           <?php
-            if($mov != 'I'){
+            if($mov == 'R'){
               ?>
           <th><small class="text-white">ubicación anterior</small></th>
               <?php
@@ -68,7 +68,7 @@
                 <small><?php echo $dato['ubicacion'];?></small>
               </td>
               <?php
-                if($mov != 'I'){
+                if($mov == 'R'){
               ?>
               <td style="width:30px;">
                 <small><?php echo $dato['anterior'];?></small>
@@ -90,6 +90,7 @@
                 <small style="float: right;"><?php echo $dato['bien_precio'];?></small>
               </td>
               <td>
+                <small style="float:left;"><?php echo $dato['bien_divisa'];?></small>
                 <small style="float: right;"><?php echo $dato['bien_depreciacion'];?></small>
               </td>
             </tr>

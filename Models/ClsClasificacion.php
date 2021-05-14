@@ -196,49 +196,10 @@
 			try{
 				$con = $this->Query("SELECT * FROM clasificacion INNER JOIN categoria ON categoria.cat_cod = clasificacion.cla_cat_cod  
 				WHERE cla_cod = '$cod' ;")->fetch();
-				
-				if($con){
 
-					$con2 = $this->Query("SELECT COUNT(bien_cod) AS total FROM bien WHERE bien_clasificacion_cod = '$cod' ;")->fetch();
+				$con2 = $this->Query("SELECT COUNT(bien_cod) AS total FROM bien WHERE bien_clasificacion_cod = '$cod' ;")->fetch();
 
-					$card = '
-								<div class="card">
-									<div class="card-header">
-										<h3 class="card-title">Clasificacion</h3>
-									</div>
-									<div class="card-body table-responsive p-0">
-										<table class="table table-sm">
-											<thead>
-												<tr>
-													<th>ID</th>
-													<th>Nombre de la Clasificacion</th>
-													<th>Nº bienes con esta clasificacion</th>
-													<th>Categoria</th>
-													
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>'.$con['cla_cod'].'</td>
-													<td>'.$con['cla_des'].'</td>
-													<td>'.$con2["total"].'</td>
-													<td>'.$con['cat_des'].'</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>';			
-
-				}else{
-
-					$card = '
-					<div class="card">
-						<div class="card-body p-2">
-							<h4 class="text-center text-danger">Sin Clasificaciones Registradas</h4>
-						</div>
-					</div>';
-				}
-				return $card;
+				require_once "Templates/ListarClasificacion.php";
 
 			}catch(PDOException $e){
 				error_log("Error en la consulta::models/ClsClasifiacion->Listar(), ERROR = ".$e->getMessage());

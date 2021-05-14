@@ -256,7 +256,7 @@
 		public function Listar($cod){
 
 			try{
-				$SelectMarcas = "marcas.mar_cod, marcas.mar_des, categoria.cat_des, marcas.".'mar_estado';
+				$SelectMarcas = "marcas.mar_cod, marcas.mar_des, categoria.cat_des, marcas.mar_estado, marcas.mar_fecha_desactivacion, marcas.mar_fecha_reactivacion";
 
 				$InnerJoinBien = "
 				INNER JOIN modelos ON modelos.mod_cod = bien.bien_mod_cod
@@ -267,53 +267,13 @@
 
 				$con2 = $this->Query("SELECT COUNT(bien_cod) AS total FROM bien $InnerJoinBien
 				WHERE marcas.mar_cod = '$cod';")->fetch(PDO::FETCH_ASSOC);
-
-				if(sizeof($con) > 0){
-
-          $estado = ($con['mar_estado'] == 1) ? 'Activo' : 'Innactivo';
-					$card = '
-								<div class="card">
-									<div class="card-header">
-										<h3 class="card-title">Marcas</h3>
-									</div>
-									<div class="card-body table-responsive p-0">
-										<table class="table table-sm">
-											<thead>
-												<tr>
-													<th>ID</th>
-													<th>Nombre de la marca</th>
-													<th>Nº bienes de esta Marca</th>
-													<th>Categoria</th>
-													<th>Estado</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>'.$con['mar_cod'].'</td>
-													<td>'.$con['mar_des'].'</td>
-													<td>'.$con2["total"].'</td>
-													<td>'.$con['cat_des'].'</td>
-													<td class="text-'.(($estado == "Activo") ? "success" : "danger").'" >'.$estado.'</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>';
-
-				}else{
-
-					$card .= '
-					<div class="card">
-						<div class="card-body p-2">
-							<h4 class="text-center text-danger">Sin Marcas Registradas</h4>
-						</div>
-					</div>';
-				}
-				return $card;
+				$estado = ($con['mar_estado'] == 1) ? 'Activo' : 'Innactivo';
+				
+				require_once "Templates/ListarMarcas_Especie.php";
 
 			}catch(PDOException $e){
 				error_log("Error en la consulta::models/ClsMarcas->Listar(), ERROR = ".$e->getMessage());
-				return $this->MakeResponse(400, "Error desconocido, Revisar php-error.log");
+				print_r("Error desconocido, Revisar php-error.log");
 			}
 		}
 

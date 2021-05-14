@@ -139,21 +139,29 @@
 
     public function MakeInventario($m,$f,$s){
       try{
+        
+        if($m == "D"){
+          $estado = 0;
+        }else{
+          $estado = 1;
+        }
+
         $sql = "SELECT comprobantes.com_cod, comprobantes.com_fecha_comprobante, comprobantes.com_dep_user,
         comprobantes.com_dep_ant, comprobantes.com_origen, bien.bien_cod,bien.bien_des,bien.bien_estado,bien.bien_precio,bien.bien_divisa,
         bien.bien_depreciacion
         FROM bien INNER JOIN movimientos ON movimientos.mov_bien_cod = bien.bien_cod
         INNER JOIN comprobantes ON comprobantes.com_cod = movimientos.mov_com_cod OR comprobantes.com_cod = movimientos.mov_com_desincorporacion
         WHERE comprobantes.com_tipo = '$m' AND  comprobantes.com_fecha_comprobante >= '$f' 
-        AND comprobantes.com_fecha_comprobante <= '$s';";
+        AND comprobantes.com_fecha_comprobante <= '$s' AND bien.bien_estado = $estado;";
         
         $sql2 = "SELECT CONCAT( nucleo.nuc_des,' ', dependencia.dep_des) AS ubicacion FROM dependencia 
         INNER JOIN nucleo ON nucleo.nuc_cod = dependencia.dep_nucleo_cod WHERE dependencia.dep_cod = :dep ;";
         
         $con = $this->Query($sql)->fetchAll();
-
+        $resultado = [];
+        
         if(isset($con[0])){
-          $resultado = [];
+          
           
           foreach($con AS $res){
             //DEPENDENCIA USUARIA

@@ -249,54 +249,14 @@
 				$InnerJoinBien = "INNER JOIN modelos ON modelos.mod_cod = bien.bien_mod_cod
 				INNER JOIN marcas ON marcas.mar_cod = modelos.mod_marca_cod";
 
-				$con = $this->Query("SELECT * FROM marcas WHERE mar_cod = '$cod';")->fetch(PDO::FETCH_ASSOC);
+				$con = $this->Query("SELECT * FROM marcas INNER JOIN categoria ON categoria.cat_cod = marcas.mar_categoria_cod WHERE mar_cod = '$cod';")->fetch(PDO::FETCH_ASSOC);
 
 				$con2 = $this->Query("SELECT COUNT(bien_cod) AS total FROM bien $InnerJoinBien WHERE marcas.mar_cod = '$cod' ;")
 					->fetch(PDO::FETCH_ASSOC);
 				$con3 = $this->Query("SELECT COUNT(mod_marca_cod) AS total FROM modelos WHERE modelos.mod_marca_cod = '$cod';")->fetch(PDO::FETCH_ASSOC);
+				$estado = ($con['mar_estado'] == 1) ? 'Activo' : 'Innactivo';
 
-				if(sizeof($con) > 0){
-					$estado = ($con['mar_estado'] == 1) ? 'Activo' : 'Innactivo';
-					$card = '
-								<div class="card">
-									<div class="card-header">
-										<h3 class="card-title">Marcas</h3>
-									</div>
-									<div class="card-body table-responsive p-0">
-										<table class="table table-sm">
-											<thead>
-												<tr>
-													<th>ID</th>
-													<th>Nombre de la Especie</th>
-													<th>Nº bienes de esta Especie</th>
-													<th>Nº Razas de esta Especie</th>
-													<th>Estado</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>'.$con["mar_cod"].'</td>
-													<td>'.$con["mar_des"].'</td>
-													<td>'.$con2["total"].'</td>
-													<td>'.$con3["total"].'</td>
-													<td class="text-'.(($estado == "Activo") ? "success" : "danger").'" >'.$estado.'</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>';
-
-				}else{
-
-					$card .= '
-					<div class="card">
-						<div class="card-body p-2">
-							<h4 class="text-center text-danger">Sin Especies Registradas</h4>
-						</div>
-					</div>';
-				}
-				return $card;
-
+				require_once "Templates/ListarMarcas_Especie.php";
 
 			}catch(PDOException $e){
 				error_log("Error en la consulta::models/ClsEspecie->Listar(), ERROR = ".$e->getMessage());

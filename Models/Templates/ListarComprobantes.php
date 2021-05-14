@@ -14,6 +14,9 @@
       $tipo_comprobante = "Reasignación";
     break;
   }
+  
+
+  $date = new DateTime($con1['com_fecha_comprobante']);
 
   // var_dump($con1);
 ?>
@@ -41,7 +44,7 @@
         <tr>
           <td><?php echo $con1['com_cod'];?></td>
           <td><?php echo $tipo_comprobante;?></td>
-          <td><?php echo $con1['com_fecha_comprobante'];?></td>
+          <td><?php echo $date->format("d/m/Y h:m A");?></td>
           <td><?php echo $con1['dep_des'];?></td>
           <?php if($tipo != 'D'){?>
           <td><?php echo $con1['com_num_factura'];?></td>
@@ -53,6 +56,7 @@
     </table>
     <div class="card-footer">
       <p><strong>Observación: </strong><?php echo $con1['com_observacion'];?></p>
+      <p><strong>Datos del usuario que realizo la operacion: </strong><?php echo $con1['com_info_usuario'];?></p>
     </div>
   </div>
 </div>
@@ -77,13 +81,14 @@
   $n = 0;
   foreach($con2 as $bien){
     $estado = $bien['bien_estado'] == 1 ? "Activo" : "Innactivo";
+    $date = new DateTime($bien['bien_fecha_ingreso']);
     ?>
         <tr>
           <td><?php echo $bien['bien_cod'];?></td>
           <td><?php echo $bien['bien_des'];?></td>
-          <td><?php echo $bien['bien_fecha_ingreso'];?></td>
+          <td><?php echo $date->format("d/m/Y");?></td>
           <td><?php echo $bien['bien_catalogo'];?></td>
-          <td><?php echo $bien['bien_precio'];?></td>
+          <td><?php echo $bien['bien_precio'].' '.$bien["bien_divisa"];?></td>
           <td class="text-<?php echo ($estado == "Activo") ? "success" : "danger";?>"><?php echo $estado;?></td>
         </tr>
     <?php

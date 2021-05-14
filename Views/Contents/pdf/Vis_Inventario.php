@@ -13,18 +13,15 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-lg-12">
-            <?php 
-              // if(!isset($_POST['mov'])){
-            ?>
             <div class="card card-primary">
               <div class="card-header">
                 <h3 class="card-title">Consulta el inventario de bienes</h3>
               </div>
               <div class="card-body">
-                <form method="post" name="formulario" action="<?php echo constant('URL');?>PDFController/Inventario">
+                <form method="post" name="formulario" id="inventario" target="_blank" action="<?php echo constant('URL');?>PDFController/Inventario" class="needs-validation" novalidate>
                   <div class="row">
                     <div class="col form-group">
-                      <label for="">Movimiento</label>
+                      <label for="">Movimiento</label><label for="" id="ob">*</label>
                       <select name="mov" id="" class="custom-select" required>
                         <option value="">Seleccione una opcion</option>
                         <option value="I">Incorporados</option>
@@ -33,15 +30,15 @@
                       </select>
                     </div>
                     <div class="col form-group">
-                      <label for="">Rango de fechas</label>
+                      <label for="">Rango de fechas</label><label for="" id="ob">*</label>
                       <div class="input-group">
-                        <input type="date" aria-label="First name" name="first_date" class="form-control" required>
-                        <input type="date" aria-label="Last name" name="second_date" class="form-control" required>
+                        <input type="date" aria-label="First name" name="first_date" class="form-control" max="<?php echo $this->Control('PersonasController')->FechaActual(); ?>" min="2000-12-31" title="Ingrese una fecha valida" data-inputmask-alias="datetime" data-inputmask-inputformat="mm/dd/yyyy" required>
+                        <input type="date" aria-label="Last name" name="second_date" class="form-control" max="<?php echo $this->Control('PersonasController')->FechaActual(); ?>" min="2000-12-31" title="Ingrese una fecha valida" data-inputmask-alias="datetime" data-inputmask-inputformat="mm/dd/yyyy" required>
                       </div>
                     </div>
                     <div class="col-3 form-group">
                       <label for="">Acción</label>
-                      <button type="submit" class="btn btn-block btn-success">Consultar</button>
+                      <input type="submit" id="enviar" class="btn btn-block btn-success" value="Consultar">
                     </div>
                   </div>
                 </form>
