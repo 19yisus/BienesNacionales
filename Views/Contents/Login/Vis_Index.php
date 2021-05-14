@@ -81,7 +81,7 @@
         toast: true,
         position: 'top-end',
         showConfirmButton: false,
-        timer: 3000
+        timer: 5000
       });
 </script>
 <?php
@@ -123,8 +123,8 @@
 
       case '4':
         $fail = "";
-        if(isset($_COOKIE['failPassword'])){
-          $fail = (3 - $_COOKIE['failPassword']);
+        if(isset($_COOKIE['Fail_Password'])){
+          $fail = (3 - $_COOKIE['Fail_Password']);
         }
         ?>
         <script>

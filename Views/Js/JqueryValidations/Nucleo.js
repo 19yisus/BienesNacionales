@@ -1,5 +1,37 @@
 $(document).ready(() => {
-
+  $.validator.setDefaults({
+    onsubmit: true,
+    debug: true,
+    errorClass: "invalid-feedback",
+    highlight: function (element) {
+      $(element)
+        .closest(".form-group")
+        .removeClass("has-success")
+        .addClass("has-error");
+    },
+    unhighlight: function (element) {
+      $(element)
+        .closest(".form-group")
+        .removeClass("has-error")
+        .addClass("has-success");
+    },
+    errorPlacement: function (error, element) {
+      if (element.prop("type") === "checkbox") {
+        error.insertAfter(element.parent());
+      } else {
+        // var id = element[0].attributes.id.value;
+        // console.log( $(`#${id}`)[0].attr('aria-invalid'))
+        // $(element).attr('aria-invalid', true);
+        error.insertAfter(element);
+      }
+      if (element.parent().parent().parent().parent()[0].id == "formulario") {
+        $("#formulario").addClass("was-validated");
+      } else {
+        $("#FormEdit").addClass("was-validated");
+      }
+    },
+  });
+  
   $(`.catalogo-table`).DataTable({
     responsive: true,
     lengthChange: true,
@@ -22,6 +54,48 @@ $(document).ready(() => {
           text: '<i class="fas fa-file-pdf"></i>',
           titleAttr: 'Exportar a PDF',
           className: 'btn btn-danger',
+          filename: 'Reporte_Nucleos',
+          header: 'Views/Assets/Img/logo.jpg',
+          messageTop: 'Reporte de nucleos registrados',
+          exportOptions:{
+            columns:[0,1,2,3,4]
+          },
+          customize: async function(doc){
+
+            await doc.content.splice( 1, 0, {
+              margin: [0,0,0,12],
+              aligment: 'center',
+              image: `${host_url}/Views/Img/logo.jpg`,
+            });
+
+            console.log(doc)
+
+            doc.pageMargins = [ 10, 10, 10, 10 ]
+
+            let columns = doc.content[3].table.body.length;
+            // let rowCount = 1;[icolumns - 2].aligment = 'center';
+            for(i = 0; i < columns; i++){
+              let rows = doc.content[3].table.body[i].length;
+              for(x = 0; x < rows; x++){
+                console.log(doc.content[3].table.body[i][x]);
+                doc.content[3].table.body[i][x].aligment = 'center';
+              }
+            }
+
+            doc.footer = ( page, pages) =>{
+              return {
+                columns:[ 
+                  aligment => 'right',
+                  text => [
+                    { text: page.toString(), italics: true},'de',{ text: pages.toString(), italics: true}
+                  ]
+                ],
+                margin: [40,0]
+              }
+            }
+
+            console.log(doc);
+          }
         },
       ],
     },
@@ -101,8 +175,16 @@ $(document).ready(() => {
       url: `${host_url}/Views/Js/DataTables.config.json`,
     },
   });
-
   let table = $(`.catalogo-table`).DataTable();
+
+  // let data = table.buttons.exportData({
+  //   format: {
+  //     header: function(data, columnIdx){
+  //       return 'hola mundo';
+  //     }
+  //   }
+  // });
+
   table.on("processing", async () => {
     let res = await permisosUser();
     if (res.eliminar == 0) $(".b-destroy").remove();
@@ -129,39 +211,6 @@ $(document).ready(() => {
     },
     "El codigo postal ingresado no esta disponible"
   );
-
-  $.validator.setDefaults({
-    onsubmit: true,
-    debug: true,
-    errorClass: "invalid-feedback",
-    highlight: function (element) {
-      $(element)
-        .closest(".form-group")
-        .removeClass("has-success")
-        .addClass("has-error");
-    },
-    unhighlight: function (element) {
-      $(element)
-        .closest(".form-group")
-        .removeClass("has-error")
-        .addClass("has-success");
-    },
-    errorPlacement: function (error, element) {
-      if (element.prop("type") === "checkbox") {
-        error.insertAfter(element.parent());
-      } else {
-        // var id = element[0].attributes.id.value;
-        // console.log( $(`#${id}`)[0].attr('aria-invalid'))
-        // $(element).attr('aria-invalid', true);
-        error.insertAfter(element);
-      }
-      if (element.parent().parent().parent().parent()[0].id == "formulario") {
-        $("#formulario").addClass("was-validated");
-      } else {
-        $("#FormEdit").addClass("was-validated");
-      }
-    },
-  });
 
   $("#FormEdit").validate({
     rules: {

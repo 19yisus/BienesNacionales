@@ -10,31 +10,42 @@
   $encargado = $datos[4];
   $ubicacion = $datos[5];
 
+  if(!isset($almacen['cedula'])){
+    exit(
+      '<script>
+        alert("No hay encargado en almacen!");
+        window.close();
+      </script>'
+    );
+  }
+
   switch($comprobante['tipo']){
     case 'I':
-      $title = "de incorporación";
+      $title = "incorporación";
     break;
 
     case 'D':
-      $title = "de Desincorporación";
+      $title = "Desincorporación";
     break;
 
     case 'R':
-      $title = "de Reasignación";
+      $title = "Reasignación";
     break;
   }
 
   $box_one = ($comprobante['tipo_bienes'] == 'muebles') ? 'bg-dark text-dark' :'bg-light text-light';
   $box_two = ($comprobante['tipo_bienes'] == 'materiales') ? 'bg-dark text-dark' :'bg-light text-light';
+  for($x = 0; $x < $datos[6]; $x++){
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
+
   <meta charset="UTF-8">
 </head>
 <body>
   
-  <div class="container">
+  <div class="container h-100">
     <img src="<?php echo constant('URL').'Views/Img/';?>logo.jpg" alt="Logo" class="img-fluid w-100">
     <div class="border rounded border-secondary">
       <div class="p-1 w-100">
@@ -49,7 +60,7 @@
 
       <div class="">
         <h5 class="text-center p-1 ">
-          <strong>Acta <?php echo $title; ?></strong>
+          <strong>Acta de <?php echo $title; ?></strong>
         </h5>
       </div>
 
@@ -227,19 +238,26 @@
         </thead>
         <tbody>
           <?php
-            foreach($bienes as $bien){
+            for($b = 0; $b < sizeof($bienes[$x]); $b++){
+            
+              if(isset($bienes[$x])){
+                $info_bien = $bienes[$x][$b];
+              }else{
+                $info_bien = $bienes[$b];
+              }
               ?>
               <tr>
-                <td scope="row"><?php echo $bien['total'];?></td>
+              
+                <td><?php echo 1;?></td>
                 <?php 
                   if($comprobante['tipo_bienes'] != 'semoviente'){
                 ?>
-                <td><?php echo isset($bien['catalogo']) ? $bien['catalogo'] : '';?></td>
+                <td><?php echo isset($info_bien['catalogo']) ? $info_bien['catalogo'] : '';?></td>
                 <?php }?>
-                <td><?php echo $bien['cod_bien'];?></td>
-                <td><?php echo $bien['bien_des'];?></td>
-                <td><?php echo $bien['precio'];?></td>
-                <td><?php echo $bien['precio_total'];?></td>
+                <td><?php echo $info_bien['cod_bien'];?></td>
+                <td><?php echo $info_bien['bien_des'];?></td>
+                <td><?php echo $info_bien['precio'];?></td>
+                <td><?php echo $info_bien['precio'];?></td>
               </tr>
               <?php
             }
@@ -408,20 +426,16 @@
       </div>
       <?php 
         }
-
         if($comprobante['tipo'] == 'D'){
           ?>
       <div class="border border-secondary w-100">
         <p class=" p-1">
           Observación del destino: <?php echo $comprobante['com_destino'];?>
         </p>
-        
       </div>
           <?php
         }
-      
       ?>
-
       <div class="pt-1 text-center">
         <p class="pt-4"><?php echo $bienes_nacionales['nombre'].' '.$bienes_nacionales['apellido'].' '.$bienes_nacionales['dep_name']; ?></p>
       </div>
@@ -430,5 +444,7 @@
 </body>
 </html>
 <?php
-  $this->Control('PDFController')->PrintPDF();
+  }
+  $filename = "Acta_$title-".$comprobante['cod'].".pdf";
+  $this->Control('PDFController')->PrintPDF($filename,'I');
 ?>

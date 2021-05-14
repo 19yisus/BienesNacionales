@@ -102,6 +102,10 @@
 			return $this->PJSON($this->modelo->Consulta($id[0]));
 		}
 
+		public function Con($sql){
+			return $this->modelo->Con($sql);
+		}
+
 		/**
 		 * Function Listar 
 		 * Lista los datos traidos desde el modelo de forma grafica 
@@ -126,6 +130,14 @@
 				return $this->PJSON($this->modelo->All('Incorporados'));
 			}
 			return $this->modelo->All('Incorporados');
+		}
+
+		public function Desincorporados($any = ''){
+
+			if(is_array($any)){
+				return $this->PJSON($this->modelo->All('Desincorporados'));
+			}
+			return $this->modelo->All('Desincorporados');
 		}
 		/**
 		 * Function codificador

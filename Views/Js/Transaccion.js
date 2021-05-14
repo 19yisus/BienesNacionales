@@ -1,5 +1,13 @@
 let BienesEnTransaccion = [];
 $(document).ready( ()=>{
+  $.validator.addMethod(
+    "validarBienes",
+    (value) => {
+      if($("#formulario input[type='hidden']").length == 0) return false; else return true;
+    },
+    "NO hay ningun bien en esta transaccion"
+  );
+  
   print_info();
   $.fn.dataTable.ext.errMode = 'none';
   $('#aceptar').on('click', ()=>{

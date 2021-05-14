@@ -20,48 +20,38 @@
               <form role="form" name="formulario" id="formulario" method="POST" action="#" autocomplete="off"  class="needs-validation" novalidate>
                 <div class="card-body">
                   <div class="row">
-                    <div class="form-group col-md-5">
+                    <div class="form-group col-6">
                       <label for="">Clasificacion</label><label for="" id="ob">*</label>
                       <select name="Clbien" id="Clbien" class="form-control select-option-special w-100" required>
                         <?php $this->Control('BienesController')->ConsultaClasificacion(); ?>
                       </select>
                     </div>
-                    <div class="form-group col-md-3">
+                    <div class="form-group col">
                       <label for="">Codigo</label><label for="" id="ob">*</label>
                       <input type="text" name="Codbien" id="Cod" class="form-control" placeholder="Codigo" readonly disabled requied>
                     </div>
-                    <div class="form-group col-md-4">
-                      <label for="">Descripcion</label><label for="" id="ob">*</label>
-                      <input type="text" pattern="[A-Za-z ]{2,90}" name="Desbien" id="Desbien" class="form-control" minlength="2" maxlength="90" placeholder="Descripcion" disabled style="text-transform: uppercase;" required>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="form-group col-md-4">
-                      <label for="">Precio</label><label for="" id="ob">*</label>
-                      <div class="input-group">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text">Bs</span>
-                        </div>
-                        <input type="text" pattern="[0-9.]{1,9}" name="Valbien" id="Valbien" class="form-control" min="1" minlength="1" maxlength="9" disabled required>
-                      </div>
-											
-                    </div>
-                    <div class="form-group col-md-4">
-                      <label for="">Fecha de ingreso</label><label for="" id="ob">*</label>
-                      <div class="form-group">
-                        <div class="input-group">
-                          <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
-                          </div>
-                          <input type="date" class="form-control" name="Fecbien" id="Fecbien" max="<?php echo $this->Control('BienesController')->fecha();?>" min="2000-12-31" data-inputmask-alias="datetime" data-inputmask-inputformat="mm/dd/yyyy" disabled required>
-                        </div>
-                        <!-- /.input group -->
-                      </div>
-                    </div>
-                    <div class="form-group col-md-4">
+                    <div class="form-group col">
                       <label for="">Cantidad</label><label for="" id="ob">*</label>
                       <input type="number" pattern="[0-9]{1,3}" name="Cantbien" id="Cantbien" minlength="1" maxlength="3" min="1" max="100" class="form-control" placeholder="Cantidad" disabled required>
                     </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group col-7">
+                      <label for="">Descripcion</label><label for="" id="ob">*</label>
+                      <input type="text" pattern="[A-Za-z ]{2,90}" name="Desbien" id="Desbien" class="form-control" minlength="2" maxlength="90" placeholder="Descripcion" disabled style="text-transform: uppercase;" required>
+                    </div>
+                    <div class="form-group col-3">
+                      <label for="">Precio</label><label for="" id="ob">*</label>
+                      <div class="input-group">
+                        <input type="text" pattern="[0-9.]{1,9}" name="Valbien" id="Valbien" class="form-control" min="1" minlength="1" maxlength="9" disabled required>
+                        <div class="input-group-append">
+                          <select name="divisa" id="divisa" class="custom-select" disabled>
+                            <option value="Bs">Bs.</option>
+                            <option value="$">$.</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>                    
                   </div>
                   <!-- Row1 (Bienes ELectronicos, Materiales, Material de oficina, Transporte) -->
                   <div class="row EL MA OF TP" id="fila" style="display:none;">
@@ -195,6 +185,7 @@
 </div>
 <?php $this->Footer('Bienes'); ?>
 <script src="<?php echo constant('URL');?>Views/Js/GLOBAL.js"></script>
+<script src="<?php echo constant('URL');?>Views/Js/Bienes/FormDinamic.js"></script>
 </body>
 </html>
 

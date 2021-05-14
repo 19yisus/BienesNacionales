@@ -39,7 +39,7 @@
                 'photo' => $con['user_photo']
               ];
 
-              setcookie("failPassword", '', time() - 3600);
+              setcookie("Fail_Password", '', time() - 3600);
 
               if($this->session->SetDatos($datos)){ $this->view->Redirect('Home/Vis_HomePage'); }
             }else{
@@ -57,21 +57,21 @@
     }
 
     private function validaFailsPassword(){
-      if(isset($_COOKIE["failPassword"])){
-        $fails = $_COOKIE['failPassword'];
+      if(isset($_COOKIE["Fail_Password"])){
+        $fails = $_COOKIE['Fail_Password'];
         
         if(($fails + 1) < 3){
           // $numero = $fails + 1;
-          setcookie("failPassword",$fails+1, time() + 3600);
+          setcookie("Fail_Password",$fails+1, time() + 3600);
           $this->view->Redirect("Login?m=4");
         }else{
-          setcookie("failPassword",'', time() - 3600);
+          setcookie("Fail_Password",'', time() - 3600);
           $this->Query("UPDATE usuarios SET user_estado = false where user_cedula = $this->user_cedula ;");
           /*AND user_role_id != 4*/
           $this->view->Redirect("Login?m=5");
         }
       }else{ 
-        setcookie("failPassword",1, time() + 3600);
+        setcookie("Fail_Password",1, time() + 3600);
         $this->view->Redirect("Login?m=4");
       }
     }

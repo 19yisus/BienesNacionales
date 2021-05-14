@@ -154,8 +154,7 @@
 					
 						if($var3["nuc_estado"] == 1){
 							
-              $con3 = $this->Prepare("UPDATE dependencia SET dep_estado = '0', 
-			  dep_fecha_desactivacion = '$fecha' WHERE dep_cod = :cod");
+              $con3 = $this->Prepare("UPDATE dependencia SET dep_estado = '0', dep_fecha_desactivacion = NOW(), dep_fecha_reactivacion = null WHERE dep_cod = :cod");
 
 							$con3 -> bindParam(":cod",   $cod);
 							$con3 -> execute();
@@ -172,8 +171,7 @@
 					}else if($con2['dep_estado'] == 0){
 						
 						if($var3['nuc_estado'] == 1){
-              $con3 = $this->Prepare("UPDATE dependencia SET dep_estado = '1',
-			  dep_fecha_desactivacion = null WHERE dep_cod = :cod;");
+              $con3 = $this->Prepare("UPDATE dependencia SET dep_estado = '1',dep_fecha_desactivacion = null, dep_fecha_reactivacion = NOW() WHERE dep_cod = :cod;");
 							$con3 -> bindParam(":cod",   $cod);
 							$con3 -> execute();
 

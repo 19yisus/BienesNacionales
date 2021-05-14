@@ -1,220 +1,4 @@
 $(document).ready(() => {
-  // $("#Valbien").inputmask();
-
-  $(`.catalogo-table`).DataTable({
-    responsive: true,
-    lengthChange: true,
-    autoWidth: true,
-    ajax: {
-      url: `${host_url}/${controller}/PaginadorController`,
-      dataSrc: "data",
-    },
-    dom: 'Bftp',
-    buttons:{
-      buttons:[
-        {
-          extend: 'excelHtml5',
-          text: '<i class="fas fa-file-excel"></i>',
-          titleAttr: 'Exportar a Excel',
-          className: 'btn btn-success',
-        },
-        {
-          extend: 'pdfHtml5',
-          text: '<i class="fas fa-file-pdf"></i>',
-          titleAttr: 'Exportar a PDF',
-          className: 'btn btn-danger',
-        },
-      ],
-    },
-    columns: [
-      { data: "bien_cod" },
-      { data: "bien_des" },
-      { data: "cat_des" },
-      { data: "bien_fecha_ingreso" },
-      { data: "bien_precio" },
-      {
-        data: "bien_estado",
-        render: function (data) {
-          return data == 1 ? "Activo" : "Innactivo";
-        },
-      },
-      {
-        defaultContent: "",
-        render: function (data, type, row, meta) {
-          let estado = row.bien_estado == 0 ? "disabled" : "";
-          let title_edit =
-            row.bien_estado == 0
-              ? "Este Bien no puede ser modificado"
-              : "Modificar";
-          let title_desac = row.bien_estado == 0 ? "Activar" : "Desactivar";
-          let clase = row.bien_estado == 0 ? "danger" : "success";
-          let btnDestroy = "";
-
-          if (row.bien_estado == 0) {
-            btnDestroy = `
-					<button class="btn btn-sm btn-warning b-destroy" onclick="bDelet(this);" data-function="Destroy" id="bDestroy"
-					data-form="form-del-${row.bien_cod}"
-						data-dismiss="modal" title="Eliminar regitro">
-							<i class="fas fa-trash"></i>
-						</button>`;
-          }
-
-          let btn = `
-          <form name="form-del-${row.bien_cod}" id="form-del-${row.bien_cod}">
-            <input type="hidden" name="Cod" value="${row.bien_cod}">
-          </form>
-          <div class='btn-group'>
-            <button class="btn btn-sm btn-info" id="btn-edit" onclick="Consulta(this)" data-codigo="${row.bien_cod}"
-              data-toggle="modal" data-target="#ModalEdit" ${estado} title="${title_edit}">
-              <i class="fas fa-edit"></i>
-            </button>
-            <button class="btn btn-sm btn-${clase}" onclick="bDelet(this);" data-function="Delete" id="bDelete" data-form="form-del-${row.bien_cod}"
-            data-dismiss="modal" title="${title_desac}">
-              <i class="fas fa-power-off"></i>
-            </button>
-            <button class="btn btn-sm btn-default" data-control="${controller}" onclick="bConsul(this);" data-codigo="${row.bien_cod}"
-              data-toggle="modal" data-target="#ModalConsultar" data-dismiss="modal"  title="Consultar">
-              <i class="fas fa-list"></i>
-            </button>
-						${btnDestroy}
-           </div>`;
-          return btn;
-        },
-      },
-    ],
-    language: {
-      url: `${host_url}/Views/Js/DataTables.config.json`,
-    },
-  });
-
-  $(`#catalogo_table_incorporados`).DataTable({
-    responsive: true,
-    lengthChange: true,
-    autoWidth: true,
-    ajax: {
-      url: `${host_url}/${controller}/Incorporados/1`,
-      dataSrc: "data",
-    },
-    dom: 'Bftp',
-    buttons:{
-      buttons:[
-        {
-          extend: 'excelHtml5',
-          text: '<i class="fas fa-file-excel"></i>',
-          titleAttr: 'Exportar a Excel',
-          className: 'btn btn-success',
-        },
-        {
-          extend: 'pdfHtml5',
-          text: '<i class="fas fa-file-pdf"></i>',
-          titleAttr: 'Exportar a PDF',
-          className: 'btn btn-danger',
-        },
-      ],
-    },
-    columns: [
-      { data: "bien_cod" },
-      { data: "bien_des" },
-      { data: "cat_des" },
-      { data: "ubicacion" },
-      {
-        data: "bien_estado",
-        render: function (data) {
-          return data == 1 ? "Activo" : "Innactivo";
-        },
-      },
-      {
-        defaultContent: "",
-        render: function (data, type, row, meta) {
-          let estado = row.bien_estado == 0 ? "disabled" : "";
-          let title_edit =
-            row.bien_estado == 0
-              ? "Este Bien no puede ser modificado"
-              : "Modificar";
-          let title_desac = row.bien_estado == 0 ? "Activar" : "Desactivar";
-          let clase = row.bien_estado == 0 ? "danger" : "success";
-          let btnDestroy = "";
-
-          if (row.bien_estado == 0) {
-            btnDestroy = `
-					<button class="btn btn-sm btn-warning b-destroy" onclick="bDelet(this);" data-function="Destroy" id="bDestroy"
-					data-form="form-del-${row.bien_cod}"
-						data-dismiss="modal" title="Eliminar regitro">
-							<i class="fas fa-trash"></i>
-						</button>`;
-          }
-
-          let btn = `
-          <form name="form-del-${row.bien_cod}" id="form-del-${row.bien_cod}">
-            <input type="hidden" name="Cod" value="${row.bien_cod}">
-          </form>
-          <div class='btn-group'>
-            <button class="btn btn-sm btn-info" id="btn-edit" onclick="Consulta(this)" data-codigo="${row.bien_cod}"
-              data-toggle="modal" data-target="#ModalEdit" ${estado} title="${title_edit}">
-              <i class="fas fa-edit"></i>
-            </button>
-            <button class="btn btn-sm btn-${clase}" onclick="bDelet(this);" data-function="Delete" id="bDelete" data-form="form-del-${row.bien_cod}"
-            data-dismiss="modal" title="${title_desac}">
-              <i class="fas fa-power-off"></i>
-            </button>
-            <button class="btn btn-sm btn-default" data-control="${controller}" onclick="bConsul(this);" data-codigo="${row.bien_cod}"
-              data-toggle="modal" data-target="#ModalConsultar" data-dismiss="modal"  title="Consultar">
-              <i class="fas fa-list"></i>
-            </button>
-						${btnDestroy}
-           </div>`;
-          return btn;
-        },
-      },
-    ],
-    language: {
-      url: `${host_url}/Views/Js/DataTables.config.json`,
-    },
-  });
-
-  let table = $(`.catalogo-table #catalogo_table_incorporados`).DataTable();
-  table.page.len(5).draw();
-  table.on("processing", async () => {
-    let res = await permisosUser();
-    if (res.eliminar == 0) $(".b-destroy").remove();
-    if (res.modificar == 0) {
-      $(".b-editar").remove();
-      $(".b-desactivar").remove();
-    }
-    if (res.consultar == 0) $(".b-consultar").remove();
-  });
-
-  $("input[name='Fecbien']").each((index, element) => {
-    $(`#${element.id}`).attr(
-      "title",
-      `Ingrese una fecha valida (${$("input[name='Fecbien']").attr(
-        "min"
-      )} - ${$("input[name='Fecbien']").attr("max")})`
-    );
-  });
-
-  $.validator.addMethod(
-    "valida_fecha",
-    (value, element) => {
-      if (value >= element.min && value <= element.max) {
-        return true;
-      }
-      return false;
-    },
-    "La fecha ingresada es invalida"
-  );
-
-  $.validator.addMethod(
-    "decimal",
-    function (value, element) {
-      return (
-        this.optional(element) ||
-        /^((\d+(\\.\d{0,2})?)|((\d*(\.\d{1,2}))))$/.test(value)
-      );
-    },
-    "Please enter a correct number, format 0.00"
-  );
-
   $.validator.setDefaults({
     onsubmit: true,
     debug: true,
@@ -240,7 +24,6 @@ $(document).ready(() => {
         // $(element).attr('aria-invalid', true);
         error.insertAfter(element);
       }
-
       if (element.parent().parent().parent().parent()[0].id == "formulario") {
         $("#formulario").addClass("was-validated");
       } else {
@@ -248,6 +31,17 @@ $(document).ready(() => {
       }
     },
   });
+  
+  $.validator.addMethod(
+    "decimal",
+    function (value, element) {
+      return (
+        this.optional(element) ||
+        /^((\d+(\\.\d{0,2})?)|((\d*(\.\d{1,2}))))$/.test(value)
+      );
+    },
+    "Please enter a correct number, format 0.00"
+  );
 
   $("#FormEdit").validate({
     rules: {
@@ -268,10 +62,6 @@ $(document).ready(() => {
         minlength: 1,
         maxlength: 9,
         decimal: true,
-      },
-      Fecbien: {
-        required: true,
-        valida_fecha: true,
       },
       Marca: {
         required: true,
@@ -352,10 +142,6 @@ $(document).ready(() => {
         maxlength: "NO puedes ingresar mas de 9 caracteres",
         min: "Ingrese una precio mayor a 0",
         number: "Solo se permiten caracteres decimales",
-      },
-      Fecbien: {
-        required: "Ingrese la fecha de registro",
-        valida_fecha: "La fecha es invalida",
       },
       Marca: {
         required: "Seleccione la marca del bien",
@@ -446,10 +232,6 @@ $(document).ready(() => {
         maxlength: 9,
         min: 1,
         number: true,
-      },
-      Fecbien: {
-        required: true,
-        valida_fecha: true,
       },
       Cantbien: {
         required: true,
@@ -544,10 +326,6 @@ $(document).ready(() => {
         maxlength: "NO puedes ingresar mas de 9 caracteres",
         min: "Ingrese una precio mayor a 0",
         number: "Solo se permiten valores decimales",
-      },
-      Fecbien: {
-        required: "Ingrese la fecha de registro",
-        valida_fecha: "La fecha es invalida",
       },
       Cantbien: {
         required: "Debe de ingresar la cantidad de bienes",
@@ -660,160 +438,245 @@ $(document).ready(() => {
     }
   });
   let categoria = null;
+  $(`#catalogo_table_incorporados`).DataTable({
+    responsive: true,
+    lengthChange: true,
+    autoWidth: true,
+    ajax: {
+      url: `${host_url}/${controller}/Incorporados/1`,
+      dataSrc: "data",
+    },
+    dom: 'Bftp',
+    buttons:{
+      buttons:[
+        {
+          extend: 'excelHtml5',
+          text: '<i class="fas fa-file-excel"></i>',
+          titleAttr: 'Exportar a Excel',
+          className: 'btn btn-success',
+        },
+        {
+          extend: 'pdfHtml5',
+          text: '<i class="fas fa-file-pdf"></i>',
+          titleAttr: 'Exportar a PDF',
+          className: 'btn btn-danger',
+        },
+      ],
+    },
+    columns: [
+      { data: "bien_cod" },
+      { data: "bien_des" },
+      { data: "cat_des" },
+      { data: "ubicacion" },
+      {
+        data: "bien_estado",
+        render: function (data) {
+          return data == 1 ? "Activo" : "Innactivo";
+        },
+      },
+      {
+        defaultContent: "",
+        render: function (data, type, row, meta) {
+          let estado = row.bien_estado == 0 ? "disabled" : "";
+          let title_edit =
+            row.bien_estado == 0
+              ? "Este Bien no puede ser modificado"
+              : "Modificar";
+          let title_desac = row.bien_estado == 0 ? "Activar" : "Desactivar";
+          let clase = row.bien_estado == 0 ? "danger" : "success";
+          let btnDestroy = "";
 
-  $("#Clbien").change((e) => {
+          // if (row.bien_estado == 0) {
+          //   btnDestroy = `
+					// <button class="btn btn-sm btn-warning b-destroy" onclick="bDelet(this);" data-function="Destroy" id="bDestroy"
+					// data-form="form-del-${row.bien_cod}"
+					// 	data-dismiss="modal" title="Eliminar regitro">
+					// 		<i class="fas fa-trash"></i>
+          // <button class="btn btn-sm btn-${clase}" onclick="bDelet(this);" data-function="Delete" id="bDelete" data-form="form-del-${row.bien_cod}"
+          //   data-dismiss="modal" title="${title_desac}">
+          //     <i class="fas fa-power-off"></i>
+          //   </button>
+					// 	</button>`;
+          // }
 
-    rebootForm();
-    
-    if(e.target.value != ""){
-      $('#Clbien option').each( (index,element)=>{
-        if(element.dataset.categoria != undefined && element.value == e.target.value && e.target.value != ""){
-          categoria = element.dataset.categoria;
-          FormDinamic(categoria);
+          let btn = `
+          <form name="form-del-${row.bien_cod}" id="form-del-${row.bien_cod}">
+            <input type="hidden" name="Cod" value="${row.bien_cod}">
+          </form>
+          <div class='btn-group'>
+            <button class="btn btn-sm btn-info" id="btn-edit" onclick="Consulta(this)" data-codigo="${row.bien_cod}"
+              data-toggle="modal" data-target="#ModalEdit" ${estado} title="${title_edit}">
+              <i class="fas fa-edit"></i>
+            </button>
+            
+            <button class="btn btn-sm btn-default" data-control="${controller}" onclick="bConsul(this);" data-codigo="${row.bien_cod}"
+              data-toggle="modal" data-target="#ModalConsultar" data-dismiss="modal"  title="Consultar">
+              <i class="fas fa-list"></i>
+            </button>
+           </div>`;
+          return btn;
+        },
+      },
+    ],
+    language: {
+      url: `${host_url}/Views/Js/DataTables.config.json`,
+    },
+  });
+
+  $(`#catalogo_table_desincorporados`).DataTable({
+    responsive: true,
+    lengthChange: true,
+    autoWidth: true,
+    ajax: {
+      url: `${host_url}/${controller}/Desincorporados/0`,
+      dataSrc: "data",
+    },
+    dom: 'Bftp',
+    buttons:{
+      buttons:[
+        {
+          extend: 'excelHtml5',
+          text: '<i class="fas fa-file-excel"></i>',
+          titleAttr: 'Exportar a Excel',
+          className: 'btn btn-success',
+        },
+        {
+          extend: 'pdfHtml5',
+          text: '<i class="fas fa-file-pdf"></i>',
+          titleAttr: 'Exportar a PDF',
+          className: 'btn btn-danger',
+        },
+      ],
+    },
+    columns: [
+      { data: "bien_cod" },
+      { data: "bien_des" },
+      { data: "cat_des" },
+      { data: "ubicacion" },
+      { data: "com_destino" },
+      {
+        data: "bien_estado",
+        render: function (data) {
+          return data == 1 ? "Activo" : "Innactivo";
+        },
+      },
+      {
+        defaultContent: "",
+        render: function (data, type, row, meta) {
+                              
+          let btn = `
+          <div class='btn-group'>            
+            <button class="btn btn-sm btn-default" data-control="${controller}" onclick="bConsul(this);" data-codigo="${row.bien_cod}"
+              data-toggle="modal" data-target="#ModalConsultar" data-dismiss="modal"  title="Consultar">
+              <i class="fas fa-list"></i>
+            </button>
+           </div>`;
+          return btn;
+        },
+      },
+    ],
+    language: {
+      url: `${host_url}/Views/Js/DataTables.config.json`,
+    },
+  });
+   
+  $(`.catalogo-table`).DataTable({
+    responsive: true,
+    lengthChange: true,
+    autoWidth: true,
+    ajax: {
+      url: `${host_url}/${controller}/PaginadorController`,
+      dataSrc: "data",
+    },
+    dom: 'Bftp',
+    buttons:{
+      buttons:[
+        {
+          extend: 'excelHtml5',
+          text: '<i class="fas fa-file-excel"></i>',
+          titleAttr: 'Exportar a Excel',
+          className: 'btn btn-success',
+        },
+        {
+          extend: 'pdfHtml5',
+          text: '<i class="fas fa-file-pdf"></i>',
+          titleAttr: 'Exportar a PDF',
+          className: 'btn btn-danger',
+        },
+      ],
+    },
+    columns: [
+      { data: "bien_cod" },
+      { data: "bien_des" },
+      { data: "cat_des" },
+      { data: "bien_fecha_ingreso" },
+      { data: "bien_precio",
+        render: function(data, type, row){
+          return `${data} ${row.bien_divisa}`
         }
-      });
+      },
+      {
+        data: "bien_estado",
+        render: function (data) {
+          return data == 1 ? "Activo" : "Innactivo";
+        },
+      },
+      {
+        defaultContent: "",
+        render: function (data, type, row, meta) {
+          let estado = row.bien_estado == 0 ? "disabled" : "";
+          let title_edit =
+            row.bien_estado == 0
+              ? "Este Bien no puede ser modificado"
+              : "Modificar";
+          let title_desac = row.bien_estado == 0 ? "Activar" : "Desactivar";
+          let clase = row.bien_estado == 0 ? "danger" : "success";
 
-      if ($("#Clbien").valid()) CodificacionBien(e.target.value);
-      else $("#Cod").attr("disabled", true);
-      $("#Cod").val("");
+          if (row.bien_estado == 0) {
+            btnDestroy = `
+					<button class="btn btn-sm btn-warning b-destroy" onclick="bDelet(this);" data-function="Destroy" id="bDestroy"
+					data-form="form-del-${row.bien_cod}"
+						data-dismiss="modal" title="Eliminar regitro">
+							<i class="fas fa-trash"></i>
+						</button>`;
+          // <button class="btn btn-sm btn-${clase}" onclick="bDelet(this);" data-function="Delete" id="bDelete" data-form="form-del-${row.bien_cod}"
+          //      data-dismiss="modal" title="${title_desac}">
+          //     <i class="fas fa-power-off"></i>
+          // </button>
+          }
 
-      $("#Desbien").attr("disabled", true);
-      $("#Desbien").val("");
-    }else{
-      FormDinamic("");
+          let btn = `
+          <form name="form-del-${row.bien_cod}" id="form-del-${row.bien_cod}">
+            <input type="hidden" name="Cod" value="${row.bien_cod}">
+          </form>
+          <div class='btn-group'>
+            <button class="btn btn-sm btn-info" id="btn-edit" onclick="Consulta(this)" data-codigo="${row.bien_cod}"
+              data-toggle="modal" data-target="#ModalEdit" ${estado} title="${title_edit}">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="btn btn-sm btn-default" data-control="${controller}" onclick="bConsul(this);" data-codigo="${row.bien_cod}"
+              data-toggle="modal" data-target="#ModalConsultar" data-dismiss="modal"  title="Consultar">
+              <i class="fas fa-list"></i>
+            </button>
+           </div>`;
+          return btn;
+        },
+      },
+    ],
+    language: {
+      url: `${host_url}/Views/Js/DataTables.config.json`,
+    },
+  });
+
+  let table = $(`.catalogo-table #catalogo_table_incorporados`).DataTable();
+  table.page.len(5).draw();
+  table.on("processing", async () => {
+    let res = await permisosUser();
+    if (res.eliminar == 0) $(".b-destroy").remove();
+    if (res.modificar == 0) {
+      $(".b-editar").remove();
+      $(".b-desactivar").remove();
     }
-  });
-
-  $("#Desbien").on("keyup", () => {
-    if ($("#Desbien").valid()) {
-      $("#Valbien").attr("disabled", false);
-    } else {
-      $("#Valbien").attr("disabled", true);
-    }
-  });
-
-  $("#Valbien").on("keyup", () => {
-    if ($("#Valbien").valid()) {
-      $("#Fecbien").attr("disabled", false);
-    } else {
-      $("#Fecbien").attr("disabled", true);
-    }
-  });
-
-  $("#Fecbien").on("keyup", () => {
-    if ($("#Fecbien").valid()) {
-      $("#Cantbien").attr("disabled", false);
-    } else {
-      $("#Cantbien").attr("disabled", true);
-    }
-  });
-
-  $("#Cantbien").on("keyup", () => {
-    if ($("#Cantbien").valid()) {
-      
-      switch (categoria) {
-        case "IN":
-          $("#Terreno").attr("disabled", false);
-          break;
-
-        default:
-          $("#Terreno").attr("disabled", true);
-          FullSelect1(categoria).then((res) => {
-            if (categoria == "BS") {
-              $("#Esp").attr("disabled", false);
-              $("#Esp").html(res);
-            } else $("#Marca").attr("disabled", false);
-            $("#Marca").html(res);
-          });
-          break;
-      }
-    }
-  });
-
-  $("#Marca").change((e) => {
-    if ($("#Marca").valid()) {
-      FullSelect2(e.target.value).then((res) => {
-        $("#Raza").attr("disabled", true);
-        $("#Modelo").attr("disabled", false);
-        $("#Modelo").html(res);
-      });
-    } else $("#Modelo").attr("disabled", true);
-  });
-
-  $("#Marca_edit").change((e) => {
-    if ($("#Marca_edit").valid()) {
-      FullSelect2(e.target.value).then((res) => {
-        $("#Raza_edit").attr("disabled", true);
-        $("#Modelo_edit").attr("disabled", false);
-        $("#Modelo_edit").html(res);
-      });
-    } else $("#Modelo_edit").attr("disabled", true);
-  });
-
-  $("#Esp").change((e) => {
-    if ($("#Esp").valid()) {
-      FullSelect2(e.target.value).then((res) => {
-        $("#Modelo").attr("disabled", true);
-        $("#Raza").attr("disabled", false);
-        $("#Raza").html(res);
-      });
-    } else $("#Raza").attr("disabled", true);
-  });
-
-  $("#Esp_edit").change((e) => {
-    if ($("#Esp_edit").valid()) {
-      FullSelect2(e.target.value).then((res) => {
-        $("#Modelo_edit").attr("disabled", true);
-        $("#Raza_edit").attr("disabled", false);
-        $("#Raza_edit").html(res);
-      });
-    } else $("#Raza_edit").attr("disabled", true);
-  });
-
-  $("#Raza").change((e) => {
-    if ($("#Raza").valid()) $("#Peso").attr("disabled", false);
-    else $("#Peso").attr("disabled", true);
-  });
-
-  $("#Modelo").change((e) => {
-    if ($("#Modelo").valid()) $("#Color").attr("disabled", false);
-    else $("#Color").attr("disabled", true);
-  });
-
-  $("#Color").change((e) => {
-    if ($("#Color").valid())
-      if ($("#Tbien").val() != "TP") $("#Catalogo").attr("disabled", false);
-      else $("#Placa").attr("disabled", false);
-    else $("#Catalogo").attr("disabled", true);
-  });
-
-  $("#Catalogo").on("keyup", () => {
-    if ($("#Catalogo").valid()) $("#Serial").attr("disabled", false);
-    else $("#Serial").attr("disabled", true);
-  });
-
-  $("#Serial").on("keyup", () => {
-    if ($("#Serial").valid()) $("#Depre").attr("disabled", false);
-    else $("#Depre").attr("disabled", true);
-  });
-
-  $("#Depre").on("keyup", () => {
-    if ($("#Depre").valid()) $("#if_componente").attr("disabled", false);
-  });
-
-  $("#Peso").on("keyup", () => {
-    if ($("#Peso").valid()) $("#S1, #S2").attr("disabled", false);
-    else $("#S1, #S2").attr("disabled", true);
-  });
-
-  $("#Depre").on("keyup", () => {
-    if ($("#Tbien").val() == "TP" && $("#Depre").valid())
-      $("#Placa").attr("disabled", false);
-    else $("#Placa").attr("disabled", true);
-  });
-
-  $("#Placa").on("keyup", () => {
-    if ($("#Placa").valid()) $("#Anio").attr("disabled", false);
-    else $("#Anio").attr("disabled", true);
+    if (res.consultar == 0) $(".b-consultar").remove();
   });
 });

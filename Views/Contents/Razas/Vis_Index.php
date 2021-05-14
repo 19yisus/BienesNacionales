@@ -23,7 +23,7 @@
                         <th scope="col">Descripcion</th>
                         <th scope="col">Especie</th>
                         <th scope="col">Estado</th>
-                        <th scope="col">Optiones</th>
+                        <th scope="col">Opciones</th>
                       </tr>
                     </thead>
                     <tbody>

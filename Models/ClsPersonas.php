@@ -179,15 +179,15 @@
 			}
 		}
 
-		private function changeStatus($cod,$status,$fecha){
+		private function changeStatus($cod,$status){
 			if($status == 0){
 				$con = $this->Prepare("UPDATE personas SET per_estado = '$status', 
-				per_hasta = :fecha, per_fecha_desactivacion = '$fecha' WHERE per_cedula = :cod;");
+				per_hasta = NOW(), per_fecha_desactivacion = NOW(), per_fecha_reactivacion = null WHERE per_cedula = :cod;");
 				$con -> bindParam(":cod",   $cod);
 				$con -> bindParam(":fecha", $fecha);
 			}else{
 				$con = $this->Prepare("UPDATE personas SET per_estado = '$status', 
-				per_hasta = null, per_fecha_desactivacion = null WHERE per_cedula = :cod;");
+				per_hasta = null, per_fecha_desactivacion = null, per_fecha_reactivacion = NOW() WHERE per_cedula = :cod;");
 				$con -> bindParam(":cod",   $cod);
 			}
 
@@ -203,7 +203,7 @@
 		 * Funcion Delete Para "eliminar" (cambiar el estado de activo a innactivo) en los registros
 		 * @return array
 		 */
-		public function Delete($cod,$fecha){
+		public function Delete($cod){
 
 			try{
 				/**
@@ -219,18 +219,18 @@
 					$cargo = $con1['per_car_cod'];
 
 					if($con1['per_estado'] == 1){
-						return $this->changeStatus($cod,0,$fecha);
+						return $this->changeStatus($cod,0);
 
 					}else{
 
 						if($cargo == 2){
-							return $this->changeStatus($cod,1,null);
+							return $this->changeStatus($cod,1);
 						}else{
 							$con = $this->Query("SELECT * FROM personas WHERE per_dep_cod = '$depen' AND per_car_cod = '1'
 								AND per_cedula != '$cod' AND per_estado = '1';")->fetch();
 
 							if(!$con){
-								return $this->changeStatus($cod,1,null);
+								return $this->changeStatus($cod,1);
 							}else{
 								return $this->MakeResponse(400, "Operacion Fallida!","Ya hay un encargado activo en la dependencia");
 							}

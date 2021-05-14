@@ -14,14 +14,14 @@
         <div class="row">
           <div class="col-lg-12">
             <?php 
-              if(!isset($_POST['mov'])){
+              // if(!isset($_POST['mov'])){
             ?>
             <div class="card card-primary">
               <div class="card-header">
                 <h3 class="card-title">Consulta el inventario de bienes</h3>
               </div>
               <div class="card-body">
-                <form method="post" name="formulario">
+                <form method="post" name="formulario" action="<?php echo constant('URL');?>PDFController/Inventario">
                   <div class="row">
                     <div class="col form-group">
                       <label for="">Movimiento</label>
@@ -47,15 +47,6 @@
                 </form>
               </div>
             </div>
-            <?php
-              }else{
-                ?>
-            <div class="embed-responsive embed-responsive-16by9">
-              <iframe class="embed-responsive-item" src="<?php echo constant('URL')?>Views/Contents/pdf/Vis_InventarioBienes.php" allowfullscreen></iframe>
-            </div>
-                <?php
-              }
-            ?>
           </div>
         </div>
       </div>

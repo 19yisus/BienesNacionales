@@ -41,4 +41,25 @@ $(document).ready( ()=>{
             url: `${host_url}/Views/Js/DataTables.config.json`,
         },
     });
+
+    // $(document.formulario).on('submit', (e)=>{
+    //     e.preventDefault();
+        
+    //     let data = new FormData(e.target);
+
+    //     fetch(`${host_url}/PDFController/Inventario`, {
+    //         body: data,
+    //         method: 'POST'
+    //     }).then( response => response.text() ).then( res => {
+            
+    //         // let win = window.open(`${host_url}/Views/Contents/pdf/Vis_InventarioBienes.php`);
+    //         // // win.document.body.innerHTML = "<h1>hola mundo</h1>";
+    //         // win.document.write("<h1>hola mundo</h1>")
+    //         let docDefinition = {
+    //             content: res
+    //         };
+
+    //         pdfMake.createPdf(docDefinition).open();
+    //     }).catch(Error => console.error(Error));
+    // });
 });

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost
--- Tiempo de generación: 09-05-2021 a las 05:39:14
--- Versión del servidor: 10.4.17-MariaDB
--- Versión de PHP: 7.4.13
+-- Servidor: localhost:3306
+-- Tiempo de generación: 14-05-2021 a las 02:44:10
+-- Versión del servidor: 5.7.24
+-- Versión de PHP: 7.4.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -35,9 +35,11 @@ CREATE TABLE `bien` (
   `bien_catalogo` varchar(20) COLLATE utf8_spanish_ci DEFAULT NULL,
   `bien_fecha_ingreso` date DEFAULT NULL,
   `bien_precio` decimal(12,2) DEFAULT NULL,
+  `bien_divisa` varchar(2) COLLATE utf8_spanish_ci DEFAULT NULL,
   `bien_depreciacion` decimal(12,2) DEFAULT NULL,
   `bien_estado` tinyint(1) DEFAULT NULL,
   `bien_fecha_desactivacion` date DEFAULT NULL,
+  `bien_fecha_reactivacion` date DEFAULT NULL,
   `bien_color_cod` int(11) DEFAULT NULL,
   `bien_serial` varchar(20) COLLATE utf8_spanish_ci DEFAULT NULL,
   `bien_clasificacion_cod` char(2) COLLATE utf8_spanish_ci NOT NULL,
@@ -50,37 +52,6 @@ CREATE TABLE `bien` (
   `bien_terreno` varchar(120) COLLATE utf8_spanish_ci DEFAULT NULL,
   `ifcomponente` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
---
--- Volcado de datos para la tabla `bien`
---
-
-INSERT INTO `bien` (`bien_cod`, `bien_des`, `bien_catalogo`, `bien_fecha_ingreso`, `bien_precio`, `bien_depreciacion`, `bien_estado`, `bien_fecha_desactivacion`, `bien_color_cod`, `bien_serial`, `bien_clasificacion_cod`, `bien_link_bien`, `bien_mod_cod`, `bien_sexo`, `bien_peso`, `bien_anio`, `bien_placa`, `bien_terreno`, `ifcomponente`) VALUES
-('0100000', 'VACA PINTADA', NULL, '2021-05-08', '5000.00', NULL, 1, NULL, NULL, NULL, '01', NULL, 5, 'F', '400.00', NULL, NULL, NULL, 0),
-('0100001', 'VACA PINTADA', NULL, '2021-05-08', '5000.00', NULL, 1, NULL, NULL, NULL, '01', NULL, 5, 'F', '400.00', NULL, NULL, NULL, 0),
-('0100002', 'VACA PINTADA', NULL, '2021-05-08', '5000.00', NULL, 1, NULL, NULL, NULL, '01', NULL, 5, 'F', '400.00', NULL, NULL, NULL, 0),
-('0100003', 'VACA PINTADA', NULL, '2021-05-08', '5000.00', NULL, 1, NULL, NULL, NULL, '01', NULL, 5, 'F', '400.00', NULL, NULL, NULL, 0),
-('0100004', 'VACA PINTADA', NULL, '2021-05-08', '5000.00', NULL, 1, NULL, NULL, NULL, '01', NULL, 5, 'F', '400.00', NULL, NULL, NULL, 0),
-('0100005', 'VACA PINTADA', NULL, '2021-05-08', '5000.00', NULL, 1, NULL, NULL, NULL, '01', NULL, 5, 'F', '400.00', NULL, NULL, NULL, 0),
-('0100006', 'VACA PINTADA', NULL, '2021-05-08', '5000.00', NULL, 1, NULL, NULL, NULL, '01', NULL, 5, 'F', '400.00', NULL, NULL, NULL, 0),
-('0100007', 'VACA PINTADA', NULL, '2021-05-08', '5000.00', NULL, 1, NULL, NULL, NULL, '01', NULL, 5, 'F', '400.00', NULL, NULL, NULL, 0),
-('0100008', 'VACA PINTADA', NULL, '2021-05-08', '5000.00', NULL, 1, NULL, NULL, NULL, '01', NULL, 5, 'F', '400.00', NULL, NULL, NULL, 0),
-('0100009', 'VACA PINTADA', NULL, '2021-05-08', '5000.00', NULL, 1, NULL, NULL, NULL, '01', NULL, 5, 'F', '400.00', NULL, NULL, NULL, 0),
-('0200000', 'LAPTOP LENOVO', '01-0010-00', '2021-05-08', '2000.00', '2000.00', 1, NULL, 9, '3001', '02', NULL, 1, NULL, NULL, NULL, NULL, NULL, 0),
-('0200001', 'LAPTOP LENOVO', '01-0010-00', '2021-05-08', '2000.00', '2000.00', 0, NULL, 9, '3001', '02', NULL, 1, NULL, NULL, NULL, NULL, NULL, 0),
-('0200002', 'LAPTOP LENOVO', '01-0010-00', '2021-05-08', '2000.00', '2000.00', 0, NULL, 9, '3001', '02', NULL, 1, NULL, NULL, NULL, NULL, NULL, 0),
-('0200003', 'LAPTOP LENOVO', '01-0010-00', '2021-05-08', '2000.00', '2000.00', 0, '2021-05-08', 9, '3001', '02', NULL, 1, NULL, NULL, NULL, NULL, NULL, 0),
-('0200004', 'LAPTOP LENOVO', '01-0010-00', '2021-05-08', '2000.00', '2000.00', 1, NULL, 9, '3001', '02', NULL, 1, NULL, NULL, NULL, NULL, NULL, 0),
-('2200000', 'DISCO DURO', '10-522-52000', '2020-01-10', '1000.00', '1000.00', 0, NULL, 9, '52201', '22', '0200002', 3, NULL, NULL, NULL, NULL, NULL, 1),
-('2200001', 'DISCO DURO', '10-522-52000', '2020-01-10', '1000.00', '1000.00', 1, NULL, 9, '52201', '22', NULL, 3, NULL, NULL, NULL, NULL, NULL, 1),
-('2200002', 'DISCO DURO', '10-522-52000', '2020-01-10', '1000.00', '1000.00', 1, NULL, 9, '52201', '22', NULL, 3, NULL, NULL, NULL, NULL, NULL, 1),
-('2200003', 'DISCO DURO', '10-522-52000', '2020-01-10', '1000.00', '1000.00', 1, NULL, 9, '52201', '22', NULL, 3, NULL, NULL, NULL, NULL, NULL, 1),
-('2200004', 'DISCO DURO', '10-522-52000', '2020-01-10', '1000.00', '1000.00', 1, NULL, 9, '52201', '22', NULL, 3, NULL, NULL, NULL, NULL, NULL, 1),
-('2200005', 'DISCO DURO', '10-522-52000', '2020-01-10', '1000.00', '1000.00', 1, NULL, 9, '52201', '22', NULL, 3, NULL, NULL, NULL, NULL, NULL, 1),
-('2200006', 'DISCO DURO', '10-522-52000', '2020-01-10', '1000.00', '1000.00', 1, NULL, 9, '52201', '22', NULL, 3, NULL, NULL, NULL, NULL, NULL, 1),
-('2200007', 'DISCO DURO', '10-522-52000', '2020-01-10', '1000.00', '1000.00', 1, NULL, 9, '52201', '22', NULL, 3, NULL, NULL, NULL, NULL, NULL, 1),
-('2200008', 'DISCO DURO', '10-522-52000', '2020-01-10', '1000.00', '1000.00', 1, NULL, 9, '52201', '22', NULL, 3, NULL, NULL, NULL, NULL, NULL, 1),
-('2200009', 'DISCO DURO', '10-522-52000', '2020-01-10', '1000.00', '1000.00', 1, NULL, 9, '52201', '22', NULL, 3, NULL, NULL, NULL, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -195,18 +166,6 @@ CREATE TABLE `comprobantes` (
   `com_info_usuario` varchar(120) COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
---
--- Volcado de datos para la tabla `comprobantes`
---
-
-INSERT INTO `comprobantes` (`com_cod`, `com_tipo`, `com_bien_tipos`, `com_estado`, `com_dep_user`, `com_dep_ant`, `com_fecha_comprobante`, `com_num_factura`, `com_justificacion`, `com_observacion`, `com_origen`, `com_destino`, `com_info_encargado`, `com_info_usuario`) VALUES
-('0000000001', 'I', 'muebles', 1, 1, NULL, '2021-05-08 13:01:44', '25510', '1020100252', 'PRIMERA INCORPORACION', 'COMPRA', NULL, 'V-9840981 RAFAEL SILVA', '27132642-ADMINISTRADOR'),
-('0000000002', 'D', 'muebles', 1, 1, NULL, '2021-05-08 13:17:41', NULL, '12222458', 'PRIMERA DESINCORPORACION', 'DETERIORO', 'ESTOS BIENES VAN A ALMACEN', 'V-9840981 RAFAEL SILVA', '27132642-ADMINISTRADOR'),
-('0000000003', 'R', 'muebles', 1, 3, 1, '2021-05-08 13:39:49', NULL, '545222264', 'PRIMERA REASIGNACION', 'REASIGNACION', NULL, '', '27132642-ADMINISTRADOR'),
-('0000000004', 'I', 'muebles', 1, 1, NULL, '2021-05-08 13:46:29', '552222', '255566222', 'SEGUNDA INCORPORACION', 'COMPRA', NULL, 'V-9840981 RAFAEL SILVA', '27132642-ADMINISTRADOR'),
-('0000000005', 'I', 'muebles', 1, 1, NULL, '2021-05-08 13:48:57', '46546544', '645646544', 'OTRA INCORPORACION', 'DONACION', NULL, 'V-9840981 RAFAEL SILVA', '27132642-ADMINISTRADOR'),
-('0000000006', 'D', 'muebles', 1, 1, NULL, '2021-05-08 13:51:48', NULL, '4465454654', 'OTRA DESINCORPORACION', 'HURTO', 'FUE ROBADO', 'V-9840981 RAFAEL SILVA', '27132642-ADMINISTRADOR');
-
 -- --------------------------------------------------------
 
 --
@@ -219,17 +178,18 @@ CREATE TABLE `dependencia` (
   `dep_nucleo_cod` int(11) NOT NULL,
   `dep_estado` tinyint(1) NOT NULL,
   `dep_ifprincipal` tinyint(1) NOT NULL,
-  `dep_fecha_desactivacion` date DEFAULT NULL
+  `dep_fecha_desactivacion` date DEFAULT NULL,
+  `dep_fecha_reactivacion` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `dependencia`
 --
 
-INSERT INTO `dependencia` (`dep_cod`, `dep_des`, `dep_nucleo_cod`, `dep_estado`, `dep_ifprincipal`, `dep_fecha_desactivacion`) VALUES
-(1, 'DEPARTAMENTO DE BIENES NACIONALES', 1, 1, 1, NULL),
-(2, 'SECCION DE ALMACEN', 1, 1, 0, NULL),
-(3, 'DEPARTAMENTO DE ADMINISTRACION', 1, 1, 0, NULL);
+INSERT INTO `dependencia` (`dep_cod`, `dep_des`, `dep_nucleo_cod`, `dep_estado`, `dep_ifprincipal`, `dep_fecha_desactivacion`, `dep_fecha_reactivacion`) VALUES
+(1, 'DEPARTAMENTO DE BIENES NACIONALES', 1, 1, 1, NULL, NULL),
+(2, 'SECCION DE ALMACEN', 1, 1, 0, NULL, NULL),
+(3, 'DEPARTAMENTO DE ADMINISTRACION', 1, 1, 0, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -242,19 +202,20 @@ CREATE TABLE `marcas` (
   `mar_des` varchar(30) COLLATE utf8_spanish_ci DEFAULT NULL,
   `mar_categoria_cod` char(2) COLLATE utf8_spanish_ci DEFAULT NULL,
   `mar_estado` tinyint(1) DEFAULT NULL,
-  `mar_fecha_desactivacion` date DEFAULT NULL
+  `mar_fecha_desactivacion` date DEFAULT NULL,
+  `mar_fecha_reactivacion` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `marcas`
 --
 
-INSERT INTO `marcas` (`mar_cod`, `mar_des`, `mar_categoria_cod`, `mar_estado`, `mar_fecha_desactivacion`) VALUES
-(1, 'LENOVO', 'EL', 1, NULL),
-(2, 'SAMSUNG', 'EL', 1, NULL),
-(3, 'VACA', 'BS', 1, NULL),
-(4, 'NOVILLA', 'BS', 1, NULL),
-(5, 'BECERRO', 'BS', 1, NULL);
+INSERT INTO `marcas` (`mar_cod`, `mar_des`, `mar_categoria_cod`, `mar_estado`, `mar_fecha_desactivacion`, `mar_fecha_reactivacion`) VALUES
+(1, 'LENOVO', 'EL', 1, NULL, NULL),
+(2, 'SAMSUNG', 'EL', 1, NULL, NULL),
+(3, 'VACA', 'BS', 1, NULL, NULL),
+(4, 'NOVILLA', 'BS', 1, NULL, NULL),
+(5, 'BECERRO', 'BS', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -267,19 +228,20 @@ CREATE TABLE `modelos` (
   `mod_des` varchar(30) COLLATE utf8_spanish_ci DEFAULT NULL,
   `mod_marca_cod` int(11) DEFAULT NULL,
   `mod_estado` tinyint(1) DEFAULT NULL,
-  `mod_fecha_desactivacion` date DEFAULT NULL
+  `mod_fecha_desactivacion` date DEFAULT NULL,
+  `mod_fecha_reactivacion` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `modelos`
 --
 
-INSERT INTO `modelos` (`mod_cod`, `mod_des`, `mod_marca_cod`, `mod_estado`, `mod_fecha_desactivacion`) VALUES
-(1, 'LAPTOP', 1, 1, NULL),
-(2, 'COMPUTADOR', 1, 1, NULL),
-(3, 'DISCO DURO', 2, 1, NULL),
-(4, 'CARORA', 3, 1, NULL),
-(5, 'CEBUA', 4, 1, NULL);
+INSERT INTO `modelos` (`mod_cod`, `mod_des`, `mod_marca_cod`, `mod_estado`, `mod_fecha_desactivacion`, `mod_fecha_reactivacion`) VALUES
+(1, 'LAPTOP', 1, 1, NULL, NULL),
+(2, 'COMPUTADOR', 1, 1, NULL, NULL),
+(3, 'DISCO DURO', 2, 1, NULL, NULL),
+(4, 'CARORA', 3, 1, NULL, NULL),
+(5, 'CEBUA', 4, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -292,19 +254,6 @@ CREATE TABLE `movimientos` (
   `mov_com_desincorporacion` char(10) COLLATE utf8_spanish_ci DEFAULT NULL,
   `mov_bien_cod` char(7) COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
---
--- Volcado de datos para la tabla `movimientos`
---
-
-INSERT INTO `movimientos` (`mov_com_cod`, `mov_com_desincorporacion`, `mov_bien_cod`) VALUES
-('0000000003', '0000000002', '0200000'),
-('0000000001', '0000000002', '0200001'),
-('0000000004', '0000000006', '2200000'),
-('0000000004', NULL, '2200001'),
-('0000000004', NULL, '2200002'),
-('0000000005', '0000000006', '0200002'),
-('0000000005', NULL, '0200004');
 
 -- --------------------------------------------------------
 
@@ -320,15 +269,16 @@ CREATE TABLE `nucleo` (
   `nuc_estado` tinyint(1) NOT NULL,
   `nuc_tipo_nucleo` varchar(2) COLLATE utf8_spanish_ci NOT NULL,
   `nuc_nucleo_principal` int(11) DEFAULT NULL,
-  `nuc_fecha_desactivacion` date DEFAULT NULL
+  `nuc_fecha_desactivacion` date DEFAULT NULL,
+  `nuc_fecha_reactivacion` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `nucleo`
 --
 
-INSERT INTO `nucleo` (`nuc_cod`, `nuc_des`, `nuc_direccion`, `nuc_codigo_postal`, `nuc_estado`, `nuc_tipo_nucleo`, `nuc_nucleo_principal`, `nuc_fecha_desactivacion`) VALUES
-(1, '\"UPTP JJ MONTILLA\" ACARIGUA', 'CIRCUNVALACION SUR DIAGONAL A LA CRUZ ROJA', '3301', 1, 'SP', 1, NULL);
+INSERT INTO `nucleo` (`nuc_cod`, `nuc_des`, `nuc_direccion`, `nuc_codigo_postal`, `nuc_estado`, `nuc_tipo_nucleo`, `nuc_nucleo_principal`, `nuc_fecha_desactivacion`, `nuc_fecha_reactivacion`) VALUES
+(1, '\"UPTP JJ MONTILLA\" ACARIGUA', 'CIRCUNVALACION SUR DIAGONAL A LA CRUZ ROJA', '3301', 1, 'SP', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -349,16 +299,18 @@ CREATE TABLE `personas` (
   `per_desde` date NOT NULL,
   `per_hasta` date DEFAULT NULL,
   `per_user_id` int(11) DEFAULT NULL,
-  `per_fecha_desactivacion` date DEFAULT NULL
+  `per_fecha_desactivacion` date DEFAULT NULL,
+  `per_fecha_reactivacion` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `personas`
 --
 
-INSERT INTO `personas` (`per_cedula`, `per_nombre`, `per_apellido`, `per_estado`, `per_car_cod`, `per_dep_cod`, `per_telefono`, `per_correo`, `per_direccion`, `per_desde`, `per_hasta`, `per_user_id`, `per_fecha_desactivacion`) VALUES
-('9840981', 'RAFAEL', 'SILVA', 1, 1, 1, '04164581435', 'RSILVA744@GMAIL.COM', 'URBANIZACION ALTO DE CAMORUCO LOTE 4, #8', '2012-05-02', NULL, NULL, NULL),
-('98409818', 'JOSE', 'TORRES', 1, 1, 3, '04245522665', 'JOSE@GMAIL.COM', 'DIRECCION DE MI CASA', '2015-01-10', NULL, NULL, NULL);
+INSERT INTO `personas` (`per_cedula`, `per_nombre`, `per_apellido`, `per_estado`, `per_car_cod`, `per_dep_cod`, `per_telefono`, `per_correo`, `per_direccion`, `per_desde`, `per_hasta`, `per_user_id`, `per_fecha_desactivacion`, `per_fecha_reactivacion`) VALUES
+('46546544', 'ALFONSO', 'GUERRERO', 1, 1, 2, '04142000255', 'ALNFOSO@GMAIL.COM', 'FASDFASDFASDFAS', '2020-10-10', NULL, NULL, NULL, NULL),
+('9840981', 'RAFAEL', 'SILVA', 1, 1, 1, '04164581435', 'RSILVA744@GMAIL.COM', 'URBANIZACION ALTO DE CAMORUCO LOTE 4, #8', '2012-05-02', NULL, NULL, NULL, NULL),
+('98409818', 'JOSE', 'TORRES', 1, 1, 3, '04245522665', 'JOSE@GMAIL.COM', 'DIRECCION DE MI CASA', '2015-01-10', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -535,7 +487,7 @@ ALTER TABLE `cargos`
 -- AUTO_INCREMENT de la tabla `colores`
 --
 ALTER TABLE `colores`
-  MODIFY `color_cod` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `color_cod` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `dependencia`

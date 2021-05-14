@@ -37,7 +37,7 @@
 ?>
 <div class="card card-primary card-outline">
     <div class="card-header">
-        <h3 class="card-title">Catalogo de bienes</h3>
+        <h3 class="card-title">Datos generales del bien</h3>
     </div>
     <div class="card-body table-responsive p-0">
         <table class="table table-sm">
@@ -57,7 +57,7 @@
                     <td><?php echo $con["bien_cod"]; ?></td>
                     <td><?php echo $con["bien_des"]; ?></td>
                     <td><?php echo $con["bien_fecha_ingreso"]; ?></td>
-                    <td><?php echo $con["bien_precio"]; ?></td>
+                    <td><?php echo $con["bien_precio"] . $con["bien_divisa"]; ?></td>
                     <td><?php echo $con["cat_des"]; ?></td>
                     <td class="text-<?php echo (($movimientos == "No incorporado" ) ? "danger" : "success"); ?>" ><?php echo $movimientos; ?></td>
                     <td class="text-<?php echo (($estado == "Activo") ? "success" : "danger"); ?>" ><?php echo $estado; ?></td>
@@ -102,7 +102,7 @@
         ?>
                 <div class="card card-primary card-outline">
                     <div class="card-header">
-                        <h3 class="card-title">Datos del bien</h3>
+                        <h3 class="card-title">Datos especificos del bien</h3>
                     </div>
                     <div class="card-body table-responsive p-0">
                         <table class="table table-sm">
@@ -116,6 +116,16 @@
                                     <?php if($con['ifcomponente'] == 0){?>
                                     <th>Componentes</th>
                                     <?php }?>
+                                    <?php 
+                                        if($con['bien_fecha_desactivacion'] != ''){
+                                    ?>
+                                    <th>Desactivacion</th>
+                                    <?php
+                                        }
+                                        if($con['bien_fecha_reactivacion'] != ''){
+                                    ?>
+                                    <th>Reactivacion</th>
+                                    <?php }?>
                                 </tr>
                             </thead>
                             <tbody>
@@ -128,6 +138,16 @@
                                     <?php if($con['ifcomponente'] == 0){?>
                                     <td><?php echo $con4["cantidad"]; ?></td>
                                     <?php }?>
+                                    <?php 
+                                        if($con['bien_fecha_desactivacion'] != ''){
+                                    ?>
+                                    <td><?php echo $con["bien_fecha_desactivacion"]; ?></td>
+                                    <?php
+                                        }
+                                        if($con['bien_fecha_reactivacion'] != ''){
+                                    ?>
+                                    <td><?php echo $con["bien_fecha_reactivacion"]; ?></td>
+                                    <?php } ?>
                                 </tr>
                             </tbody>
                         </table>
@@ -317,7 +337,7 @@
                 $dep_ant_con->execute();
                 $dep_ant = $dep_ant_con->fetch();
             }else{
-                $dep_ant = ['ubicacion' => ''];
+                $dep_ant['ubicacion'] = '';
             }
             
             $date = new DateTime($movimientos_res[0]['com_fecha_comprobante']);
@@ -331,14 +351,32 @@
                         <thead>
                             <tr>
                                 <th>Dependencia usuaria</th>
+                                <?php 
+                                    if($dep_ant['ubicacion'] != ''){
+                                ?>
                                 <th>Dependencia anterior</th>
+                                <?php 
+                                    }
+                                    if($movimientos_res[0]['com_destino'] != ''){
+                                ?>
+                                <th>Detalle de ubicación</th>
+                                <?php }?>
                                 <th>ultimo movimiento</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td><?php echo $dep_user['ubicacion']; ?></td>
+                                <?php 
+                                    if($dep_ant['ubicacion'] != ''){
+                                ?>
                                 <td><?php echo $dep_ant['ubicacion']; ?></td>
+                                <?php 
+                                    }
+                                    if($movimientos_res[0]['com_destino'] != ''){
+                                ?>
+                                <td><?php echo $movimientos_res[0]['com_destino'];?></td>
+                                <?php }?>
                                 <td><?php echo $date->format('d/m/Y');?></td>
                             </tr>
                         </tbody>
@@ -347,8 +385,5 @@
             </div>
 <?php
         }
-
-
-
     }
 ?>

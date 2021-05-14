@@ -116,7 +116,7 @@
 		 * Funcion Delete Para "eliminar" (cambiar el estado de activo a innactivo) en los registros
 		 * @return array
 		 */
-		public function Delete($cod,$fecha){
+		public function Delete($cod){
 
 			try{
 				/**
@@ -134,10 +134,10 @@
 					$con = $this->Query("SELECT nuc_estado FROM nucleo WHERE nuc_cod = '$cod' ;")->fetch();
 
 					if($con['nuc_estado'] == 1){
-						$con2 = $this->Prepare("UPDATE nucleo SET nuc_estado = '0', nuc_fecha_desactivacion = '$fecha'
+						$con2 = $this->Prepare("UPDATE nucleo SET nuc_estado = '0', nuc_fecha_desactivacion = NOW(), nuc_fecha_reactivacion = null
 							WHERE nuc_cod = :cod;");
 					}else{
-						$con2 = $this->Prepare("UPDATE nucleo SET nuc_estado = '1', nuc_fecha_desactivacion = null
+						$con2 = $this->Prepare("UPDATE nucleo SET nuc_estado = '1', nuc_fecha_desactivacion = null, nuc_fecha_reactivacion = NOW()
 							WHERE nuc_cod = :cod;");
 					}
 

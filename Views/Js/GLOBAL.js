@@ -11,7 +11,7 @@ const Toast = Swal.mixin({
 	toast: true,
 	position: 'top-end',
 	showConfirmButton: false,
-	timer: 3000
+	timer: 4000
 });
 
 //FUNCION PARA DETECTAR EL BOTON DE CONSULTA EN EL PAGINADOR
@@ -123,14 +123,5 @@ function alerta(texto){
 	Toast.fire({
 		icon: 'warning',
 		title: texto
-	});
-}
-
-const pb = () =>{
-	Swal.fire({
-		text: 'probando',
-		html: '<a href="algunsitio" >Link</a>',
-		title: 'titulo',
-		icon: 'success'
 	});
 }

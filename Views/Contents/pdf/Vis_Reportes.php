@@ -6,7 +6,7 @@
   <div class="content-wrapper">
   <?php $this->Wraper('','','Catalogo de reportes');?>
     <!-- Main content -->
-    <div class="content mt-4">
+    <div class="content mt-2">
       <div class="container-fluid">
         <div class="row">
           <div class="col-lg-12">

@@ -16,7 +16,7 @@
             </div>
             <div class="form-group col-md-6">
               <label for="">Descripcion</label><label for="" id="ob">*</label>
-              <input type="text" pattern="[A-Z ]{2,90}" name="Desbien" id="Desbien_edit" class="form-control" minlength="2" maxlength="90" placeholder="Descripcion" disabled style="text-transform: uppercase;" required>
+              <input type="text" pattern="[A-Za-z ]{2,90}" name="Desbien" id="Desbien_edit" class="form-control" minlength="2" maxlength="90" placeholder="Descripcion" disabled style="text-transform: uppercase;" required>
             </div>
           </div>
           <div class="row">
@@ -27,22 +27,7 @@
                   <span class="input-group-text">Bs</span>
                 </div>
                 <input type="text" pattern="[0-9.]{1,9}" name="Valbien" id="Valbien_edit" class="form-control" min="1" minlength="1" maxlength="9" disabled required>
-                <!-- <div class="input-group-append">
-                  <span class="input-group-text">.00</span>
-                </div> -->
               </div>			
-            </div>
-            <div class="form-group col-md-6">
-              <label for="">Fecha de ingreso</label><label for="" id="ob">*</label>
-              <div class="form-group">
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
-                  </div>
-                  <input type="date" class="form-control" name="Fecbien" id="Fecbien_edit" max="<?php echo $this->Control('BienesController')->fecha();?>" min="2000-12-31" data-inputmask-alias="datetime" data-inputmask-inputformat="mm/dd/yyyy" disabled required>
-                </div>
-                <!-- /.input group -->
-              </div>
             </div>
           </div>
           <!-- Row1 (Bienes ELectronicos, Materiales, Material de oficina, Transporte) -->
@@ -135,9 +120,6 @@
                   <span class="input-group-text">Kg</span>
                 </div>
                 <input type="text" name="Peso" id="Peso_edit" min="1" pattern="[0-9.]{2,4}" minlength="2" maxlength="4" class="form-control" disabled required>
-                <!-- <div class="input-group-append">
-                  <span class="input-group-text">.00</span>
-                </div> -->
               </div>
             </div>
             <div class="form-group col-md-5">

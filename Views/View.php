@@ -86,9 +86,10 @@
           require_once $url;
         }
       }
+      
+      require_once 'Views/Includes/Modal.php';
+      require_once 'Views/Includes/Footer.php';
       $this->Scripts($nameController);
-      require_once './Views/Includes/Modal.php';
-      require_once './Views/Includes/Footer.php';
     }
     /**
      * Exit

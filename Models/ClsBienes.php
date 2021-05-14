@@ -1,7 +1,7 @@
 <?php
 	class clsBienes extends Model{
-		private $cod_bien,$descrip,$tbien,$clasificacion,$valor,$fecha,$cantidad,$depreciacion;
-		private $placa,$anio,$modelo,$peso,$sexo,$color,$terreno,$catalogo,$serail;
+		private $cod_bien,$descrip,$tbien,$clasificacion,$valor,$cantidad,$depreciacion;
+		private $placa,$anio,$modelo,$peso,$sexo,$color,$terreno,$catalogo,$serail,$divisa;
 		/**
 		 * Construct
 		 * Inicializa las variables privadas del modelo en null
@@ -12,11 +12,11 @@
 			$this->descrip = null;
 			$this->clasificacion = null;
 			$this->valor = null;
-			$this->fecha = null;
 			$this->cantidad = null;
 			$this->catalogo = null;
 			$this->serial = null;
 			$this->depreciacion = null;
+			$this->divisa = null;
 			$this->placa = null;
 			$this->anio = null;
 			$this->modelo = null;
@@ -36,7 +36,6 @@
 			$this->descrip = isset($datos['Desbien']) ? $this->Limpiar($datos['Desbien']) : null;
 			$this->clasificacion = isset($datos['Clbien']) ? $this->Limpiar($datos['Clbien']) : null;
 			$this->valor = isset($datos['Valbien']) ? $this->Limpiar($datos['Valbien']) : null;
-			$this->fecha = isset($datos['Fecbien']) ? $this->Limpiar($datos['Fecbien']) : null;
 			$this->cantidad = isset($datos['Cantbien']) ? $this->Limpiar($datos['Cantbien']) : null;
 			$this->catalogo = isset($datos['Catalogo']) ? $this->Limpiar($datos['Catalogo']) : null;
 			$this->serial = isset($datos['Serial']) ? $this->Limpiar($datos['Serial']) : null;
@@ -49,6 +48,7 @@
 			$this->color = isset($datos['Color']) ? $this->Limpiar($datos['Color']) : null;
 			$this->terreno = isset($datos['Terreno']) ? $this->Limpiar($datos['Terreno']) : null;
 			$this->ifComponente = isset($datos['componente']) ? 1 : 0;
+			$this->divisa = isset($datos['divisa']) ? $this->Limpiar($datos['divisa']) : null;
 
 			if(isset($datos['Raza'])){
 				$this->modelo = $this->Limpiar($datos['Raza']);
@@ -75,6 +75,7 @@
 						bien_catalogo,
 						bien_fecha_ingreso,
 						bien_precio,
+						bien_divisa,
 						bien_depreciacion,
 						bien_estado,
 						bien_color_cod,
@@ -88,7 +89,7 @@
 						bien_placa,
 						bien_terreno,
 						ifcomponente)
-						VALUES(:codigo,:den,:catalogo,:fecha,:precio,:depre,'1',:color,:c_serial,:clasificacion,
+						VALUES(:codigo,:den,:catalogo,NOW(),:precio,:divisa,:depre,'1',:color,:c_serial,:clasificacion,
 						null,:modelo,:sexo,:peso,:anio,:placa,:terreno,:ifcomponente);");
 
 					$codigo = $this->AsingnacionCodigo($this->clasificacion);
@@ -96,8 +97,8 @@
 					$con -> bindParam(":codigo",$codigo);
 					$con -> bindParam(":den",$this->descrip);
 					$con -> bindParam(":catalogo",$this->catalogo);
-					$con -> bindParam(":fecha",$this->fecha);
 					$con -> bindParam(":precio",$this->valor);
+					$con -> bindParam(":divisa", $this->divisa);
 					$con -> bindParam(":depre",$this->depreciacion);
 					$con -> bindParam(":color",$this->color);
 					$con -> bindParam(":c_serial",$this->serial);
@@ -145,6 +146,7 @@
 					bien_catalogo = :catalogo,
 					bien_fecha_ingreso = :fecha,
 					bien_precio = :precio,
+					bien_divisa = :divisa,
 					bien_depreciacion = :depre,
 					bien_color_cod = :color,
 					bien_serial = :c_serial,
@@ -160,6 +162,7 @@
 				$con -> bindParam(":catalogo",$this->catalogo);
 				$con -> bindParam(":fecha",$this->fecha);
 				$con -> bindParam(":precio",$this->valor);
+				$con -> bindParam(":divisa", $this->divisa);
 				$con -> bindParam(":depre",$this->depreciacion);
 				$con -> bindParam(":color",$this->color);
 				$con -> bindParam(":c_serial",$this->serial);
@@ -205,9 +208,9 @@
 						$con = $this->Query("SELECT bien_estado FROM bien WHERE bien_cod = '$cod' ;")->fetch();
 
 						if($con['bien_estado'] == 1){
-							$con2 = $this->Prepare("UPDATE bien SET bien_estado = '0', bien_fecha_desactivacion = '$fecha' WHERE bien_cod = :cod;");
+							$con2 = $this->Prepare("UPDATE bien SET bien_estado = '0', bien_fecha_desactivacion = NOW(), bien_fecha_desactivacion = null WHERE bien_cod = :cod;");
 						}else{
-							$con2 = $this->Prepare("UPDATE bien SET bien_estado = '1', bien_fecha_desactivacion = null WHERE bien_cod = :cod;");
+							$con2 = $this->Prepare("UPDATE bien SET bien_estado = '1', bien_fecha_desactivacion = null, bien_fecha_desactivacion = NOW() WHERE bien_cod = :cod;");
 						}
 
 						$con2 -> bindParam(":cod",   $cod);
@@ -523,6 +526,9 @@
 				return $this->MakeResponse(400, "Error desconocido, Revisar php-error.log");
 			}
 		}
+		public function Con($sql){
+			return $this->Query($sql)->fetchAll();
+		}
 		public function All($condition = ''){
 
 			try{
@@ -530,19 +536,28 @@
 					$select = "";
 					$where = "WHERE bien_cod NOT IN(SELECT mov_bien_cod FROM movimientos)";
 				}else{
+					$estado = ($condition == 'Incorporados') ? 1 : 0;
 					$select = 	"CONCAT(dependencia.dep_des,' - ',nucleo.nuc_des) AS ubicacion,";
 
-					$where = "INNER JOIN movimientos ON movimientos.mov_bien_cod = bien.bien_cod
-						INNER JOIN comprobantes ON comprobantes.com_cod = movimientos.mov_com_cod OR comprobantes.com_cod = movimientos.mov_com_desincorporacion
+					if($condition == 'Desincorporados'){
+						$select .= "comprobantes.com_destino,";
+
+						$where = "INNER JOIN movimientos ON movimientos.mov_bien_cod = bien.bien_cod
+							INNER JOIN comprobantes ON comprobantes.com_cod = movimientos.mov_com_desincorporacion ";
+					}else{
+						$where = "INNER JOIN movimientos ON movimientos.mov_bien_cod = bien.bien_cod
+						INNER JOIN comprobantes ON comprobantes.com_cod = movimientos.mov_com_cod ";
+					}
+
+					$where .= "
 						INNER JOIN dependencia ON dependencia.dep_cod = comprobantes.com_dep_user
 						INNER JOIN nucleo ON nucleo.nuc_cod = dependencia.dep_nucleo_cod
-						WHERE bien_cod IN(SELECT mov_bien_cod FROM movimientos)";
+						WHERE bien_cod IN(SELECT mov_bien_cod FROM movimientos) AND bien.bien_estado = $estado ";
 				}
+				$sql = "SELECT DISTINCT $select bien.bien_cod,bien.bien_des,bien.bien_precio,bien.bien_divisa,bien.bien_fecha_ingreso,categoria.cat_des, bien.bien_estado FROM bien
+				INNER JOIN clasificacion ON bien.bien_clasificacion_cod = clasificacion.cla_cod INNER JOIN categoria ON clasificacion.cla_cat_cod = categoria.cat_cod $where;";
 
-				$data = $this->Query("SELECT DISTINCT $select bien.bien_cod,bien.bien_des,bien.bien_precio,bien.bien_fecha_ingreso,categoria.cat_des,
-					bien.bien_estado FROM bien
-				INNER JOIN clasificacion ON bien.bien_clasificacion_cod = clasificacion.cla_cod
-				INNER JOIN categoria ON clasificacion.cla_cat_cod = categoria.cat_cod $where;")->fetchAll(PDO::FETCH_ASSOC);
+				$data = $this->Query($sql)->fetchAll(PDO::FETCH_ASSOC);
 
 				if(isset($data)){
 					return ['data' => $data];
@@ -560,6 +575,7 @@
 		 */
 		public function Listar($cod){
 			$cod = $this->Limpiar($cod);
+			
 
 			try{
 
@@ -574,6 +590,9 @@
 					bien.bien_des,
 					bien.bien_fecha_ingreso,
 					bien.bien_precio,
+					bien.bien_divisa,
+					bien.bien_fecha_desactivacion,
+					bien.bien_fecha_reactivacion,
 					categoria.cat_des,
 					categoria.cat_cod,
 					bien.bien_sexo,
@@ -609,12 +628,13 @@
 				$con2 -> execute();
 				$con2 = $con2 -> fetch(PDO::FETCH_ASSOC);
 				// ./EXECUCION DE LA SEGUNDA CONSULTA
+				$status = $con['bien_estado'];
 
-				$movimiento_sql = "SELECT comprobantes.com_dep_user, comprobantes.com_dep_ant, comprobantes.com_fecha_comprobante 
+				$movimiento_sql = "SELECT comprobantes.com_dep_user, comprobantes.com_dep_ant, comprobantes.com_fecha_comprobante, comprobantes.com_destino 
 					FROM bien INNER JOIN movimientos ON movimientos.mov_bien_cod = bien.bien_cod
 					INNER JOIN comprobantes ON comprobantes.com_cod = movimientos.mov_com_cod OR comprobantes.com_cod = movimientos.mov_com_desincorporacion
 					INNER JOIN dependencia ON dependencia.dep_cod = comprobantes.com_dep_user WHERE
-    				bien.bien_cod = '$cod' ORDER BY comprobantes.com_fecha_comprobante DESC";
+    				bien.bien_cod = '$cod' AND bien.bien_estado = $status ORDER BY comprobantes.com_fecha_comprobante DESC";
 				
 				require "Templates/ListarBienes.php";
 

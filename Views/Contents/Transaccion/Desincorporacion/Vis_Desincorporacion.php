@@ -151,5 +151,6 @@
 <?php $this->Footer('Desincorporacion'); ?>
 <script src="<?php echo constant('URL');?>Views/Js/GLOBAL.js"></script>
 <script src="<?php echo constant('URL');?>Views/Js/Transaccion.js"></script>
+
 </body>
 </html>

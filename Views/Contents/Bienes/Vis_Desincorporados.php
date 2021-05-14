@@ -4,7 +4,7 @@
     <?php $this->Nav();?>
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-      <?php $this->Wraper('Regresar al catalogo','Bienes/Vis_Index','Catalogo de Bienes Incorporados');?>
+      <?php $this->Wraper('Regresar al catalogo','Bienes/Vis_Index','Catalogo de Bienes Desincorporados');?>
       <!-- Main content -->
       <div class="content">
         <div class="container-fluid">
@@ -16,13 +16,14 @@
                 </div>
                 <div class="card-body">
                   <div class="table-responsive mx-auto">
-                    <table id="catalogo_table_incorporados" class="table table-bordered display rowrap table-sm table-hover table-striped rounded-sm" cellspacing="0" style="width: 100%;">
+                    <table id="catalogo_table_desincorporados" class="table table-bordered display rowrap table-sm table-hover table-striped rounded-sm" cellspacing="0" style="width: 100%;">
                       <thead class="thead-dark">
                         <tr>
                           <th scope="col">#</th>
                           <th scope="col">Descripcion</th>
                           <th scope="col">Categoria</th>
                           <th scope="col">Ubicación</th>
+                          <th scope="col">Detalle</th>
                           <th scope="col">Estado</th>
                           <th scope="col">Opciones</th>
                         </tr>
@@ -33,9 +34,9 @@
                   </div>
                   <div class="card-text">
                     <?php 
-                      $res = $this->Control('BienesController')->Con("SELECT COUNT(*) AS total FROM bien WHERE bien.bien_estado = 1 AND bien.bien_cod IN (SELECT mov_bien_cod FROM movimientos);");
+                      $res = $this->Control('BienesController')->Con("SELECT COUNT(*) AS total FROM bien WHERE bien.bien_estado = 0 AND bien.bien_cod IN (SELECT mov_bien_cod FROM movimientos);");
                     ?>
-                    <strong><p>Cantidad de bienes incorporados: <span class="text-success"><?php echo $res[0]['total'];?></span> </p></strong>
+                    <strong><p>Cantidad de bienes Desincorporados: <span class="text-danger"><?php echo $res[0]['total'];?></span> </p></strong>
                   </div>
                 </div>
               </div>

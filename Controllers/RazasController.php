@@ -77,7 +77,7 @@
 				 * @return boolean 
 				 */
 				if($this->Post(['Cod'])){
-					return $this->PJSON($this->modelo->Delete($this->GetPost('Cod'),$this->fecha()));
+					return $this->PJSON($this->modelo->Delete($this->GetPost('Cod')));
 				}else{
 					return $this->PJSON($this->modelo->MakeResponse(400, 'No hay Post'));
 				}

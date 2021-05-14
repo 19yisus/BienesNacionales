@@ -1,5 +1,37 @@
 $(document).ready( ()=>{
-
+  $.validator.setDefaults({
+    onsubmit: true,
+    debug: true,
+    errorClass: "invalid-feedback",
+    highlight: function (element) {
+      $(element)
+        .closest(".form-group")
+        .removeClass("has-success")
+        .addClass("has-error");
+    },
+    unhighlight: function (element) {
+      $(element)
+        .closest(".form-group")
+        .removeClass("has-error")
+        .addClass("has-success");
+    },
+    errorPlacement: function (error, element) {
+      if (element.prop("type") === "checkbox") {
+        error.insertAfter(element.parent());
+      } else {
+        // var id = element[0].attributes.id.value;
+        // console.log( $(`#${id}`)[0].attr('aria-invalid'))
+        // $(element).attr('aria-invalid', true);
+        error.insertAfter(element);
+      }
+      if (element.parent().parent().parent().parent()[0].id == "formulario") {
+        $("#formulario").addClass("was-validated");
+      } else {
+        $("#FormEdit").addClass("was-validated");
+      }
+    },
+  });
+  
   $('#Catalogo_comprobantes_Innactivos').DataTable({
     responsive: true,
       lengthChange: true,
@@ -93,47 +125,6 @@ $(document).ready( ()=>{
 	    },
 	});
 
-	$.validator.setDefaults({
-    onsubmit: true,
-    debug: true,
-    errorClass: "invalid-feedback",
-    highlight: function (element) {
-      $(element)
-        .closest(".form-group")
-        .removeClass("has-success")
-        .addClass("has-error");
-    },
-    unhighlight: function (element) {
-      $(element)
-        .closest(".form-group")
-        .removeClass("has-error")
-        .addClass("has-success");
-    },
-    errorPlacement: function (error, element) {
-      if (element.prop("type") === "checkbox") {
-        error.insertAfter(element.parent());
-      } else {
-        // var id = element[0].attributes.id.value;
-        // console.log( $(`#${id}`)[0].attr('aria-invalid'))
-        // $(element).attr('aria-invalid', true);
-        error.insertAfter(element);
-      }
-      if (element.parent().parent().parent().parent()[0].id == "formulario") {
-        $("#formulario").addClass("was-validated");
-      } else {
-        $("#FormEdit").addClass("was-validated");
-      }
-    },
-  });
-
-	$.validator.addMethod(
-    "validarBienes",
-    (value) => {
-      if($("#formulario input[type='hidden']").length == 0) return false; else return true;
-    },
-    "NO hay ningun bien en esta transaccion"
-  );
-
   $("#formulario").validate({
     rules: {
       origen:{
@@ -210,11 +201,5 @@ $(document).ready( ()=>{
       });
     }
   });
-  $('#Dep').on('change', ()=>{
-		if($('#Dep').valid()){
-			ConsultaEncargado($('#Dep').val());
-		}else{
-      $('#Encargado').val("");
-    }
-	});
+  
 });

@@ -1,19 +1,5 @@
 const controller = 'BienesController';
 $("#formulario").on("reset", ()=> FormDinamic("") );
-// const ConsultaClasificacion = (valor) =>{
-//   fetch(`${host_url}/${controller}/ConsultaClasificacion/${valor}`)
-//     .then( response =>{ return response.text(); })
-//     .then( res =>{
-// 			$('#Clbien').html('');
-// 			$('#Clbien').attr('disabled',false);
-// 			$('#Clbien').html(res);
-
-// 			$('#Cod').attr('disabled',true);
-//       $('#Cod').val('');
-//       $('#Desbien').attr('disabled',true);	
-//     })
-//     .catch( Error =>{ console.log(Error); })
-// }
 
 const CodificacionBien = (valor) =>{
 
@@ -22,7 +8,7 @@ const CodificacionBien = (valor) =>{
     .then( res =>{
       $('#Cod').attr('disabled',false);
       $('#Cod').val(res);
-			$('#Desbien').attr('disabled',false);			
+			$('#Cantbien').attr('disabled',false);			
     })
     .catch( Error =>{ console.log(Error); })
 }
@@ -78,8 +64,8 @@ const Consulta = async (e)=>{
 				SetValue('Cod_edit',data.Cod);
 				SetValue('Desbien_edit',data.Des);
 				SetValue('Valbien_edit',data.Pre);
-				SetValue('Fecbien_edit',data.Fecha);
-
+				Selected('divisa',data.divisa);
+				
 				switch(data.Cate){
 					case 'IN':
 						SetValue('Terreno_edit', data.Terr);
@@ -159,9 +145,9 @@ const Selected = (id,valor)=>{
 const rebootForm = () => {
 	
 	$('#formulario input, #formulario select, #FormEdit input, #FormEdit select').each( (index,element) => {	
-		if(element.type == 'select-one' && element.name != 'Clbien' && element.name != 'Color') $(element).html('');
+		if(element.type == 'select-one' && element.name != 'Clbien' && element.name != 'Color' && element.name != 'divisa') $(element).html('');
 		if(element.type == 'radio') $(element).attr('checked', false);
 		if(element.type == 'text' || element.type == 'date' || element.type == 'number') $(element).val('');
-		if(element.name != 'Clbien' ) $(element).attr('disabled',true);
+		if(element.name != 'Clbien') $(element).attr('disabled',true);
 	});
 }

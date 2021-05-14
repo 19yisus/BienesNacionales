@@ -53,6 +53,7 @@
     private function RequestController($request){
       
       if(strpos($request[0],'Controller') !== false || $request[0] == 'PDF'){
+        ob_end_flush();
         
         $nameController = ($request[0] == 'PDF') ? 'PDFController' : $request[0];
 

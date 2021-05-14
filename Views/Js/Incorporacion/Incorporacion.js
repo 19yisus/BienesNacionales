@@ -22,5 +22,13 @@ $("#tipos").on("change", (e)=>{
   }
 });
 
+$('#Dep').on('change', ()=>{
+  if($('#Dep').valid()){
+    ConsultaEncargado($('#Dep').val());
+  }else{
+    $('#Encargado').val("");
+  }
+});
+
 
 

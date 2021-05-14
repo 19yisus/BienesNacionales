@@ -1,4 +1,37 @@
 $(document).ready( ()=>{
+  $.validator.setDefaults({
+    onsubmit: true,
+    debug: true,
+    errorClass: "invalid-feedback",
+    highlight: function (element) {
+      $(element)
+        .closest(".form-group")
+        .removeClass("has-success")
+        .addClass("has-error");
+    },
+    unhighlight: function (element) {
+      $(element)
+        .closest(".form-group")
+        .removeClass("has-error")
+        .addClass("has-success");
+    },
+    errorPlacement: function (error, element) {
+      if (element.prop("type") === "checkbox") {
+        error.insertAfter(element.parent());
+      } else {
+        // var id = element[0].attributes.id.value;
+        // console.log( $(`#${id}`)[0].attr('aria-invalid'))
+        // $(element).attr('aria-invalid', true);
+        error.insertAfter(element);
+      }
+      if (element.parent().parent().parent().parent()[0].id == "formulario") {
+        $("#formulario").addClass("was-validated");
+      } else {
+        $("#FormEdit").addClass("was-validated");
+      }
+    },
+  });
+  
   $('#Catalogo_comprobantes_Reasignacion').DataTable({
     responsive: true,
       lengthChange: true,
@@ -55,92 +88,6 @@ $(document).ready( ()=>{
       url: `${host_url}/Views/Js/DataTables.config.json`,
     },
   });
-
-  $('#Dep_origen').on('change', (e)=>{
-    if(e.target.value != ''){
-      $('#Dep_destino').attr('disabled', false);
-
-      if($('#Dep_destino').val() != e.target.value){
-        $('#listar').attr('disabled',false);
-        cleanBienes();
-        let tipo_bienes = $('#tipos').val();
-        let catalogo = $('#CatalogoBienes').DataTable();
-        catalogo.ajax.url(`${host_url}/TransaccionController/BienesDesincorporados/${e.target.value}/${tipo_bienes}`).load();
-      }
-
-      validarSelects();
-    }else{
-      // $('#tabla').hide('slow');
-      $('#orden').attr('disabled',true);
-      $('#Obser').attr('readonly',true);
-      $('#Dep_destino').attr('disabled', true);
-      $('#Reasignar').attr('disabled', true);
-    }
-  });
-
-  const validarSelects = ()=>{
-    if($('#Dep_origen').val() == $('#Dep_destino').val()){
-      $('#Dep_destino').val('');
-      $('#Dep_destino').trigger('change');
-      
-      alerta("La dependencia destino no puede ser la misma dependencia de origen");
-      return false;
-    }
-    return true;
-  }
-
-  $('#Dep_destino').on('change', (e) =>{
-    if(validarSelects()){
-      $('#orden').attr('disabled',false);
-      $('#Obser').attr('readonly',false);
-      $('#Reasignar').attr('disabled', false);
-    }else{
-      $('#orden').attr('disabled',true);
-      $('#Obser').attr('readonly',true);
-      $('#Reasignar').attr('disabled', true);
-    }
-  });
-
-  $.validator.setDefaults({
-    onsubmit: true,
-    debug: true,
-    errorClass: "invalid-feedback",
-    highlight: function (element) {
-      $(element)
-        .closest(".form-group")
-        .removeClass("has-success")
-        .addClass("has-error");
-    },
-    unhighlight: function (element) {
-      $(element)
-        .closest(".form-group")
-        .removeClass("has-error")
-        .addClass("has-success");
-    },
-    errorPlacement: function (error, element) {
-      if (element.prop("type") === "checkbox") {
-        error.insertAfter(element.parent());
-      } else {
-        // var id = element[0].attributes.id.value;
-        // console.log( $(`#${id}`)[0].attr('aria-invalid'))
-        // $(element).attr('aria-invalid', true);
-        error.insertAfter(element);
-      }
-      if (element.parent().parent().parent().parent()[0].id == "formulario") {
-        $("#formulario").addClass("was-validated");
-      } else {
-        $("#FormEdit").addClass("was-validated");
-      }
-    },
-  });
-
-	$.validator.addMethod(
-    "validarBienes",
-    (value) => {
-      if($("#formulario input[type='hidden']").length == 0) return false; else return true;
-    },
-    "NO hay ningun bien en esta transaccion"
-  );
 
   $("#formulario").validate({
     rules: {
@@ -217,11 +164,5 @@ $(document).ready( ()=>{
         }
       });
     }
-  });
-
-  $('#Dep_destino').on('change', ()=>{
-		if($('#Dep_destino').valid()){
-			ConsultaEncargado($('#Dep_destino').val());
-		}
-	});  
+  });    
 });

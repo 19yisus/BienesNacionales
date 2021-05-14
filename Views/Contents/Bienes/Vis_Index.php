@@ -33,8 +33,12 @@
                     </table>
                   </div>
                   <div class="card-text">
-                    <strong><p>Cantidad de bienes activos: <span class="text-success">4</span> </p></strong>
-                    <p>Cantidad de bienes innactivos: <span class="text-danger">4</span> </p>
+                    <?php 
+                      $res = $this->Control('BienesController')->Con("SELECT COUNT(*) AS total FROM bien WHERE bien.bien_estado = 1;");
+                      $res2 = $this->Control('BienesController')->Con("SELECT COUNT(*) AS total FROM bien WHERE bien.bien_estado = 0;");
+                    ?>
+                    <strong><p>Cantidad de bienes activos: <span class="text-success"><?php echo $res[0]['total'];?></span> </p></strong>
+                    <p>Cantidad de bienes innactivos: <span class="text-danger"><?php echo $res2[0]['total'];?></span> </p>
                   </div>
                 </div>
               </div>
@@ -47,5 +51,7 @@
   
 <?php $this->Footer('Bienes'); ?>
 <script src="<?php echo constant('URL');?>Views/Js/GLOBAL.js"></script>
+<script src="<?php echo constant('URL');?>Views/Js/Bienes/catalogos.js"></script>
+<script src="<?php echo constant('URL');?>Views/Js/Bienes/FormDinamic.js"></script>
 </body>
 </html>

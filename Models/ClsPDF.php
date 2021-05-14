@@ -32,7 +32,7 @@
         // ENCARGADO DE ALMACEN Y BIENES NACIONALES
         $sql4 = "SELECT dependencia.dep_cod, dependencia.dep_des, personas.per_cedula, personas.per_nombre, personas.per_apellido
           FROM dependencia INNER JOIN personas ON personas.per_dep_cod = dependencia.dep_cod WHERE dependencia.dep_cod = '2' 
-          OR dependencia.dep_cod = '1' ";
+          OR dependencia.dep_cod = '1' ORDER BY dependencia.dep_cod ASC";
         $con1 = $this->Query($sql1)->fetch(PDO::FETCH_ASSOC);
 
         if($con1){
@@ -93,7 +93,8 @@
           ];
           
           $bienes = [];
-        
+          $n = 1;
+                    
           foreach($con2 as $bien){
             if($bien['cla_cat_cod'] != 'BS'){
               $array = [
@@ -112,49 +113,87 @@
                 'precio' => $bien['bien_precio'],
                 'cla' => $bien['bien_clasificacion_cod'],
               ];
-            }
-            
-
-            if(isset($bienes)){
-              
-              foreach($bienes as $sub_bien){
-                if($array['cla'] == $sub_bien['cla']){
-                  if($array['categoria'] == 'BS'){
-                    unset($array['cod_bien'],$array['precio'],$array['cla']);
-                  }else{
-                    unset($array['catalogo'],$array['cod_bien'],$array['precio'],$array['cla']);
-                  }
-                  break;
-                }
-              }              
-              
-              if(isset($array['cod_bien'])){
-                foreach($con3 as $resum){
-                  if($array['cla'] == $resum['bien_clasificacion_cod']){
-                    $extra = [
-                      'total' => $resum['total'],
-                      'precio_total' => $resum['precio_total'],
-                    ];
-
-                    $array = array_merge($array, $extra);
-                  }
-                }
-                array_push($bienes, $array);
-              }
-
-            }else{
-              array_push($bienes, $array);
-            }   
+            }            
+            array_push($bienes,$array);
           }
         }
 
-        return [ $comprobante, $bienes_nacionales, $bienes, $almacen, $encargado_dep, $ubicacion ];
+        $limid = 3;
+        if($comprobante['tipo'] == 'I'){
+          $limid = 5;
+        }
+
+        if(sizeof($bienes) > $limid){
+          $bienes = array_chunk($bienes, $limid);
+          $n = sizeof($bienes);
+        }
+
+        return [ $comprobante, $bienes_nacionales, $bienes, $almacen, $encargado_dep, $ubicacion, $n ];
           
       }catch(PDOException $e){
         error_log("Error en la consulta::models/ClsMarcas->Insert(), ERROR = ".$e->getMessage());
 				return print_r($e->getMessage());
       }
 
+    }
+
+    public function MakeInventario($m,$f,$s){
+      try{
+        $sql = "SELECT comprobantes.com_cod, comprobantes.com_fecha_comprobante, comprobantes.com_dep_user,
+        comprobantes.com_dep_ant, comprobantes.com_origen, bien.bien_cod,bien.bien_des,bien.bien_estado,bien.bien_precio,bien.bien_divisa,
+        bien.bien_depreciacion
+        FROM bien INNER JOIN movimientos ON movimientos.mov_bien_cod = bien.bien_cod
+        INNER JOIN comprobantes ON comprobantes.com_cod = movimientos.mov_com_cod OR comprobantes.com_cod = movimientos.mov_com_desincorporacion
+        WHERE comprobantes.com_tipo = '$m' AND  comprobantes.com_fecha_comprobante >= '$f' 
+        AND comprobantes.com_fecha_comprobante <= '$s';";
+        
+        $sql2 = "SELECT CONCAT( nucleo.nuc_des,' ', dependencia.dep_des) AS ubicacion FROM dependencia 
+        INNER JOIN nucleo ON nucleo.nuc_cod = dependencia.dep_nucleo_cod WHERE dependencia.dep_cod = :dep ;";
+        
+        $con = $this->Query($sql)->fetchAll();
+
+        if(isset($con[0])){
+          $resultado = [];
+          
+          foreach($con AS $res){
+            //DEPENDENCIA USUARIA
+            $con2 = $this->Prepare($sql2);
+            $con2->bindParam(":dep", $res['com_dep_user']);
+            $con2->execute();
+            $dep_user = $con2->fetch();
+
+            if($m != 'I'){
+              //DEPENDENCIA ANTERIOR
+              $con3 = $this->Prepare($sql2);
+              $con3->bindParam(":dep", $res['com_dep_ant']);
+              $con3->execute();
+              $dep_ant = $con3->fetch();
+            }else{
+              $dep_ant['ubicacion'] = '';
+            }            
+
+            $arreglo = [
+              'com_cod' => $res['com_cod'],
+              'com_fecha_comprobante' => $res['com_fecha_comprobante'],
+              'ubicacion' => $dep_user['ubicacion'],
+              'anterior' => $dep_ant['ubicacion'],
+              'com_origen' => $res['com_origen'],
+              'bien_cod' => $res['bien_cod'],
+              'bien_des' => $res['bien_des'],
+              'bien_precio' => $res['bien_precio'],
+              'bien_divisa' => $res['bien_divisa'],
+              'bien_depreciacion' => $res['bien_depreciacion'],
+            ];
+
+            array_push($resultado, $arreglo);
+          }
+        }
+
+        return $resultado;
+
+      }catch(PDOException $e){
+        print_r("SQL Error => ".$e->getMessage());
+      }
     }
   }
 ?>

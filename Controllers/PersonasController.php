@@ -90,8 +90,7 @@
 				 */
 				if($this->Post(['Cod'])){
 					$cod = $this->GetPost('Cod');
-					$fecha = $this->fecha();
-					return $this->PJSON($this->modelo->Delete($cod,$fecha));
+					return $this->PJSON($this->modelo->Delete($cod));
 				}else{
 					return $this->PJSON($this->modelo->MakeResponse(400, 'No hay Post'));
 				}
