@@ -19,7 +19,7 @@
                     <table id="catalogo_table_desincorporados" class="table table-bordered display rowrap table-sm table-hover table-striped rounded-sm" cellspacing="0" style="width: 100%;">
                       <thead class="thead-dark">
                         <tr>
-                          <th scope="col">#</th>
+                          <th scope="col">Código</th>
                           <th scope="col">Descripcion</th>
                           <th scope="col">Categoria</th>
                           <th scope="col">Ubicación</th>

@@ -16,24 +16,21 @@
           INNER JOIN nucleo ON nucleo.nuc_cod = dependencia.dep_nucleo_cod
           WHERE comprobantes.com_cod = '$codigo' AND comprobantes.com_estado = 1";
         
+        $con1 = $this->Query($sql1)->fetch(PDO::FETCH_ASSOC);
+        $status = ($con1['com_tipo'] == "D") ? 0 : 1;
+        
         // DATOS DE LOS BIENES PARTE 1
         $sql2 = "SELECT clasificacion.cla_cat_cod, bien.bien_peso,bien.bien_catalogo, bien.bien_cod, bien.bien_des, bien.bien_precio, 
           bien.bien_clasificacion_cod  FROM bien
           INNER JOIN movimientos ON movimientos.mov_bien_cod = bien.bien_cod
           INNER JOIN clasificacion ON clasificacion.cla_cod = bien.bien_clasificacion_cod
-          WHERE movimientos.mov_com_cod = '$codigo' OR movimientos.mov_com_desincorporacion = '$codigo' ";
-        
-        // DATOS DE LOS BIENES PARTE 2 
-        $sql3 = "SELECT bien.bien_clasificacion_cod, COUNT(*) AS total, SUM(bien.bien_precio) AS precio_total FROM bien
-          INNER JOIN movimientos ON movimientos.mov_bien_cod = bien.bien_cod
-          WHERE movimientos.mov_com_cod = '$codigo' OR movimientos.mov_com_desincorporacion = '$codigo'
-          GROUP BY bien.bien_clasificacion_cod;";
+          WHERE movimientos.mov_com_cod = '$codigo' AND bien.bien_estado = $status OR movimientos.mov_com_desincorporacion = '$codigo' AND bien.bien_estado = $status ;";
         
         // ENCARGADO DE ALMACEN Y BIENES NACIONALES
         $sql4 = "SELECT dependencia.dep_cod, dependencia.dep_des, personas.per_cedula, personas.per_nombre, personas.per_apellido
           FROM dependencia INNER JOIN personas ON personas.per_dep_cod = dependencia.dep_cod WHERE dependencia.dep_cod = '2' 
-          OR dependencia.dep_cod = '1' ORDER BY dependencia.dep_cod ASC";
-        $con1 = $this->Query($sql1)->fetch(PDO::FETCH_ASSOC);
+          OR dependencia.dep_cod = '1' AND personas.per_car_cod = 1 ORDER BY dependencia.dep_cod ASC";
+        
 
         if($con1){
           $dep = $con1['com_dep_user'];
@@ -41,7 +38,6 @@
           $sql6 = "SELECT nucleo.nuc_des,nucleo.nuc_direccion,nucleo.nuc_codigo_postal FROM nucleo INNER JOIN dependencia ON dependencia.dep_nucleo_cod = nucleo.nuc_cod WHERE dependencia.dep_cod = $dep";
 
           $con2 = $this->Query($sql2)->fetchAll();
-          $con3 = $this->Query($sql3)->fetchAll();
           $con4 = $this->Query($sql4)->fetchAll();
           $con5 = $this->Query($sql5)->fetch(PDO::FETCH_ASSOC);
           $con6 = $this->Query($sql6)->fetch(PDO::FETCH_ASSOC);
@@ -118,15 +114,15 @@
           }
         }
 
-        $limid = 3;
-        if($comprobante['tipo'] == 'I'){
-          $limid = 5;
-        }
+        // $limid = 3;
+        // if($comprobante['tipo'] == 'I'){
+        //   $limid = 5;
+        // }
 
-        if(sizeof($bienes) > $limid){
-          $bienes = array_chunk($bienes, $limid);
-          $n = sizeof($bienes);
-        }
+        // if(sizeof($bienes) > $limid){
+        //   $bienes = array_chunk($bienes, $limid);
+        //   $n = sizeof($bienes);
+        // }
 
         return [ $comprobante, $bienes_nacionales, $bienes, $almacen, $encargado_dep, $ubicacion, $n ];
           

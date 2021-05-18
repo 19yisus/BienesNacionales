@@ -19,7 +19,7 @@
                   <table id="Catalogo_comprobantes_Incorporacion" class="table table-bordered display rowrap table-sm table-hover table-striped rounded-sm catalogo-table" cellspacing="0" style="width: 100%;">
                     <thead class="thead-dark">
                       <tr>
-                        <th scope="col">#</th>
+                        <th scope="col">Código</th>
                         <th scope="col">Origen</th>
                         <th scope="col">Dependencia</th>
                         <th scope="col">Fecha</th>

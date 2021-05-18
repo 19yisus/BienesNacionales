@@ -24,15 +24,15 @@
                       <label for="">Codigo</label><label for="" id="ob">*</label>
                       <input type="text" name="Cod" id="Cod" pattern="[0-9]{2}" class="form-control" placeholder="Codigo" maxlength="2" minlength="2" autofocus required>
                     </div>
-                    <div class="form-group col-md-5">
-                      <label for="">Descripcion</label><label for="" id="ob">*</label>
-                      <input type="text" name="Des" id="Des" pattern="[A-Za-z ]{4,20}" class="form-control" placeholder="Descripcion" minlength="4" maxlength="20" style="text-transform: uppercase;" required>
-                    </div>
                     <div class="form-group col-md-4">
                       <label for="">Categoria</label><label for="" id="ob">*</label>
                       <select name="Tip" id="Tip" class="custom-select" required>
                         <?php echo $this->Control('ClasificacionController')->SelectCategoria();?>
                       </select>
+                    </div>
+                    <div class="form-group col-md-5">
+                      <label for="">Descripcion</label><label for="" id="ob">*</label>
+                      <input type="text" name="Des" id="Des" pattern="[A-Za-z ]{4,20}" class="form-control" placeholder="Descripcion" minlength="4" maxlength="20" style="text-transform: uppercase;" required>
                     </div>
                   </div>
                   <div class="row card-footer">

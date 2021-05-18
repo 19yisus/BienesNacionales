@@ -20,13 +20,13 @@
               <form role="form" name="formulario" id="formulario" method="POST" action="#" autocomplete="off" class="needs-validation" novalidate>
                 <div class="card-body">
                   <div class="row">
-										<div class="form-group col-md-4">
-                      <label for="">Descripcion</label><label for="" id="ob">*</label>
-                      <input type="text" pattern="[A-Za-z ]{2,30}" name="Marca" id="Des" class="form-control" placeholder="Descripcion" minlength="2" maxlength="30" style="text-transform: uppercase;" required autofocus>
-                    </div>
                     <div class="form-group col-md-4">
                       <label for="">Codigo</label><label for="" id="ob">*</label>
                       <input type="text" name="Cod" id="Cod" class="form-control" placeholder="Codigo" minlength="1" maxlength="2" readonly>
+                    </div>
+										<div class="form-group col-md-4">
+                      <label for="">Descripcion</label><label for="" id="ob">*</label>
+                      <input type="text" pattern="[A-Za-z ]{2,30}" name="Marca" id="Des" class="form-control" placeholder="Descripcion" minlength="2" maxlength="30" style="text-transform: uppercase;" required autofocus>
                     </div>
                     <div class="form-group col-md-4">
                       <label for="">Categoria</label><label for="" id="ob">*</label>

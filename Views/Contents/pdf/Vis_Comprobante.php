@@ -238,9 +238,16 @@
         </thead>
         <tbody>
           <?php
-            for($b = 0; $b < sizeof($bienes[$x]); $b++){
             
-              if(isset($bienes[$x])){
+
+            // if(sizeof($bienes) >= 2 && sizeof($bienes[$x]) >= 3){
+            //   var_dump($bienes);
+            //   echo sizeof($bienes);
+            // }
+
+            for($b = 0; $b < sizeof($bienes); $b++){
+            
+              if(isset($bienes[$x][$b])){
                 $info_bien = $bienes[$x][$b];
               }else{
                 $info_bien = $bienes[$b];

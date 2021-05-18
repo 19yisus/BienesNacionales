@@ -308,31 +308,49 @@
 
 			try{
 				$select_inner = ",dependencia.dep_des FROM comprobantes INNER JOIN dependencia ON dependencia.dep_cod = comprobantes.com_dep_user
-						INNER JOIN movimientos ON movimientos.mov_com_cod = comprobantes.com_cod OR  movimientos.mov_com_desincorporacion = comprobantes.com_cod";
+						INNER JOIN movimientos ON movimientos.mov_com_cod = comprobantes.com_cod OR  movimientos.mov_com_desincorporacion = comprobantes.com_cod
+						INNER JOIN bien ON bien.bien_cod = movimientos.mov_bien_cod";
 
-				$where = "";
+				$where = "WHERE comprobantes.com_estado = 1 ";
 				
 				if($tipo != "A"){
 					if($tipo == "I"){
-						$where = " WHERE com_tipo != 'D' ";
+						$where = " WHERE com_tipo != 'D' AND bien.bien_estado = 1";
 					}elseif($tipo == "Desactivados"){
 						$select_inner = " FROM comprobantes ";
-						$where = " WHERE comprobantes.com_estado = 0 ";
+						$where = " WHERE comprobantes.com_estado = 0  AND bien.bien_estado = 0";
 					}else{
-						$where = " WHERE com_tipo = '$tipo' ";
+						$where = " WHERE com_tipo = '$tipo'  AND bien.bien_estado = 1";
 					}
 				}
+				$sql = "SELECT comprobantes.com_cod,comprobantes.com_origen,comprobantes.com_tipo,comprobantes.com_fecha_comprobante $select_inner $where GROUP BY comprobantes.com_cod ORDER BY comprobantes.com_cod ASC;";
+				$comprobante = $this->Query($sql)->fetchAll(PDO::FETCH_ASSOC);
+				
+				$comp = [];
 
-				$comprobante = $this->Query("SELECT comprobantes.com_cod,COUNT(comprobantes.com_cod) AS total_bienes,comprobantes.com_origen,
-					comprobantes.com_tipo,comprobantes.com_fecha_comprobante $select_inner $where GROUP BY comprobantes.com_cod;")->fetchAll(PDO::FETCH_ASSOC);
-
-				$n = sizeof($comprobante);
-				for($i = 0; $i < $n; $i++){
+				for($i = 0; $i < sizeof($comprobante); $i++){
 					$date = new DateTIme($comprobante[$i]['com_fecha_comprobante']);
-					$comprobante[$i]['com_fecha_comprobante'] = $date->format('d/m/Y');
-				}
+					$codigo = $comprobante[$i]["com_cod"];
 
-				return ['data' => $comprobante];
+					$status = ($comprobante[$i]["com_tipo"] == "D") ? 0 : 1;
+					$sql2 = "SELECT COUNT(bien.bien_cod) AS total FROM movimientos INNER JOIN bien ON bien.bien_cod = movimientos.mov_bien_cod
+					WHERE movimientos.mov_com_cod = '$codigo' AND bien.bien_estado = $status OR movimientos.mov_com_desincorporacion = '$codigo' AND bien.bien_estado = $status;";
+					
+					$con = $this->Query($sql2)->fetch();
+										
+					$arreglo = [
+						"dep_des" => $comprobante[$i]["dep_des"],
+						"com_cod" => $comprobante[$i]["com_cod"],
+						"total_bienes" => $con["total"],
+						"com_origen" => $comprobante[$i]["com_origen"],
+						"com_tipo" => $comprobante[$i]["com_tipo"],
+						"com_fecha_comprobante" => $date->format('d/m/Y'),
+						"com_cod" => $comprobante[$i]["com_cod"],
+					];
+
+					array_push($comp, $arreglo);
+				}
+				return ['data' => $comp];
 
 			}catch(PDOException $e){
 				error_log("Error en la consulta::models/ClsTransaccion->CatalogoComprobantes(), ERROR = ".$e->getMessage());
@@ -413,8 +431,7 @@
 					$where = " AND clasificacion.cla_cat_cod = 'BS' ";
 				}
 
-				error_log($tipo);
-				
+								
 				if($estado == 1){
 					$extraJoin = "INNER JOIN comprobantes ON comprobantes.com_cod = movimientos.mov_com_cod";
 				}
@@ -480,19 +497,19 @@
 				$con1 = $this->Query($sql1)->fetch(PDO::FETCH_ASSOC);
 
 				if($con1['com_tipo'] == "D"){
-					$status = 0;
+					$where = "movimientos.mov_com_desincorporacion = '$codigo' AND bien.bien_estado = 0 ;";
 				}else{
-					$status = 1;
+					$where = "movimientos.mov_com_cod = '$codigo' AND bien.bien_estado = 1 ;";					
 				}
 
 				$sql2 = "SELECT bien.bien_cod, bien.bien_des, bien.bien_fecha_ingreso, bien.bien_catalogo, bien.bien_precio, bien.ifcomponente,
 					bien.bien_link_bien, bien.bien_estado, bien.bien_divisa FROM bien INNER JOIN movimientos ON movimientos.mov_bien_cod = bien.bien_cod 
-					WHERE movimientos.mov_com_cod = '$codigo' OR movimientos.mov_com_desincorporacion = '$codigo' AND bien.bien_estado = $status;";
+					WHERE $where";
 					
 				$con2 = $this->Query($sql2)->fetchAll(PDO::FETCH_ASSOC);	
 					
 					
-					require_once 'Templates/ListarComprobantes.php';
+				require_once 'Templates/ListarComprobantes.php';
 				
 			}catch(PDOException $e){
 				error_log("Error en la consulta::models/ClsTransaccion->Listar(), ERROR = ".$e->getMessage());
