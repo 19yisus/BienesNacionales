@@ -1,5 +1,5 @@
 //ZONA DE DECLARACION DE VARIABLES
-const host_url = "http://localhost:80/proyectos/proyecto3/Bienes";
+const host_url = "http://localhost:80/proyectos/BienesNacionales";
 $('.select-option-special').select2();
 
 $('#formulario').on('reset', ()=>{

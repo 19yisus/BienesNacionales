@@ -12,7 +12,7 @@
   ini_set('log_errors',TRUE);
   ini_set("error_log","./php-error.log");
   // error_log("Inicio de la aplicacion");
-  
+    
   class App extends Model{
     
     public function __construct(){

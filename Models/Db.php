@@ -16,7 +16,7 @@
         if(constant('DBHOST') == 'mysql'){
           $conexion = "mysql:host=$this->host;dbname=$this->dbname;charset=$this->charset";
         }else if(constant('DBHOST') == 'pgsql'){
-          $conexion = "mysql:host=$this->host;dbname=$this->dbname";
+          $conexion = "pgsql:host=$this->host;dbname=$this->dbname";
         }
         
         $option = [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_EMULATE_PREPARES => false];
