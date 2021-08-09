@@ -12,8 +12,7 @@
     }
   }
 
-  define('URL',"http://$host_string:$port_string$string_url");
-echo constant('URL');
+  define('URL',"http://$host_string$string_url");
 
   define('App_name',['Bienes','Nacionales']);
   
