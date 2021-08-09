@@ -13,6 +13,8 @@
   }
 
   define('URL',"http://$host_string:$port_string$string_url");
+echo constant('URL');
+
   define('App_name',['Bienes','Nacionales']);
   
   define('DBHOST','pgsql');
