@@ -16,7 +16,7 @@
   define('App_name',['Bienes','Nacionales']);
   
   define('DBHOST','pgsql');
-  define('HOST','localhost');
+  define('HOST',$_SERVER['HTTP_HOST']);
   define('DBNAME', 'BienesNacionales');
   define('CHARSET','utf8mb4');
   define('USER','postgres');

@@ -8,12 +8,20 @@
       
       $this->codigo_comprobante = null;
       
-      require_once './vendor/autoload.php';
-      $this->mpdf = new \Mpdf\Mpdf([
-        'tempDir' => __DIR__ . '/custom/temp/dir/path',
-        'format' => 'Legal',
-      ]);
-      $this->mpdf->SetFooter("{PAGENO}");      
+      $vendor = "./vendor/autoload.php";
+      if(file_exists($vendor)){
+        require_once($vendor);
+
+        $this->mpdf = new \Mpdf\Mpdf([
+          'tempDir' => __DIR__ . '/custom/temp/dir/path',
+          'format' => 'Legal',
+        ]);
+        $this->mpdf->SetFooter("{PAGENO}");      
+      }else{
+        error_log("Autoload.php file it's not exists!, please run the comand 'composer install' ");
+        header('Location: '. constant('URL') );
+        
+      }
     }
 
     public function Comprobante($cod){

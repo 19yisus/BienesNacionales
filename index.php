@@ -11,8 +11,7 @@
   ini_set('display_errors',FALSE);
   ini_set('log_errors',TRUE);
   ini_set("error_log","./php-error.log");
-  // error_log("Inicio de la aplicacion");
-    
+      
   class App extends Model{
     
     public function __construct(){
@@ -61,22 +60,25 @@
         
         if(file_exists($Controller)){  
           require_once $Controller;
-          $control = new $nameController();
           
-          if(method_exists($control, $request[1])){
+          if(class_exists($nameController)){
             
-            if(isset($request[2])){
-              
-              $param = [];
-              for ($i = 2; $i < sizeof($request); $i++){
-                array_push($param, $request[$i]);
+            $control = new $nameController();
+            if(method_exists($control, $request[1])){
+            
+              if(isset($request[2])){
+                
+                $param = [];
+                for ($i = 2; $i < sizeof($request); $i++){
+                  array_push($param, $request[$i]);
+                }
+  
+                $control->{$request[1]}($param);
+              }else{
+                $control->{$request[1]}();
               }
-
-              $control->{$request[1]}($param);
-            }else{
-              $control->{$request[1]}();
             }
-          }
+          }                    
         }
       }  
     }
