@@ -12,7 +12,8 @@
     }
   }
 
-  define('URL',"http://$host_string:$port_string$string_url");
+  define('URL',"https://$host_string$string_url");
+
   define('App_name',['Bienes','Nacionales']);
   
   define('DBHOST','pgsql');
